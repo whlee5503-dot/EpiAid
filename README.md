@@ -8,6 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-purple?style=flat-square)](https://web.dev/progressive-web-apps/)
 [![Cloudflare Pages](https://img.shields.io/badge/Deployed-Cloudflare%20Pages-orange?style=flat-square)](https://epiaid.pages.dev)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20436469.svg)](https://doi.org/10.5281/zenodo.20436469)
 
 **[Live App →](https://epiaid.pages.dev)**
 

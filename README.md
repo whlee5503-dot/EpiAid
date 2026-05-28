@@ -38,7 +38,7 @@ Designed for **missionaries, NGO field medical workers, and Community Health Wor
 | 📏 **Nutrition Assessment** | MUAC tape screening + Z-score calculation (SAM/MAM/Normal) |
 | 🩺 **Diagnostic Check** | Symptom checklists for Dehydration, Pneumonia, Malaria, and Newborn danger signs (WHO IMCI protocol) |
 
-### Phase 2 — Roadmap
+### Phase 2 — Available Now
 
 | Feature | Description |
 |---------|-------------|
@@ -129,6 +129,6 @@ Built for those who serve where no one else goes.
 
 ## License
 
-[MIT License](LICENSE) © 2025 Won Ho Lee
+[MIT License](LICENSE) © 2026 Won Ho Lee
 
 Free to use, modify, and distribute. Attribution appreciated.

@@ -1,4 +1,45 @@
 @import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --brand: #1a6b4a;
+  --brand-hover: #155a3e;
+  --brand-active: #0f4530;
+  --brand-bg: #eaf4ee;
+  --brand-text: #0f4530;
+  --brand-label: #1a6b4a;
+
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-input: #f8fafc;
+
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-label: #64748b;
+  --border: #e2e8f0;
+  --border-muted: #e2e8f0;
+}
+
+.dark {
+  --brand: #4ade80;
+  --brand-hover: #22c55e;
+  --brand-active: #16a34a;
+  --brand-bg: #1a3528;
+  --brand-text: #86efac;
+  --brand-label: #4ade80;
+
+  --bg-page: #0f1f1a;
+  --bg-card: #1a2e28;
+  --bg-input: #243d36;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-label: #94a3b8;
+  --border: #2a4a40;
+  --border-muted: #2a4a40;
+}
 
 *,
 *::before,
@@ -11,7 +52,7 @@ body {
   font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc;
+  background-color: var(--bg-page);
 }
 
 #root {
@@ -20,18 +61,18 @@ body {
 
 .input {
   width: 100%;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
   border-radius: 0.75rem;
   padding: 0.625rem 0.75rem;
   font-size: 0.875rem;
-  color: #1e293b;
+  color: var(--text-primary);
   outline: none;
   transition: box-shadow 0.1s;
 }
 
 .input:focus {
-  box-shadow: 0 0 0 2px #1a6b4a;
+  box-shadow: 0 0 0 2px var(--brand);
   border-color: transparent;
 }
 

@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Stethoscope, AlertTriangle, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
+import { Stethoscope, AlertTriangle, CheckCircle2, Circle, RefreshCw, Baby } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 
 // ── Types ──────────────────────────────────────────────────────────
-type Tab = 'dehydration' | 'pneumonia' | 'malDen';
+type Tab = 'dehydration' | 'pneumonia' | 'malDen' | 'newborn';
 type DHKey = 'diarrhoea' | 'vomiting' | 'reducedUrine' | 'noTears' | 'dryMouth' | 'skinPinch' | 'lethargy' | 'unableDrink';
 type PNKey = 'chestIndrawing' | 'stridor' | 'cyanosis' | 'alteredConsciousness';
 type MalariaKey = 'feverChills' | 'pallor' | 'splenomegaly' | 'cerebral';
 type DengueKey = 'musclePain' | 'rash' | 'bleeding' | 'retroOrbital' | 'tourniquet';
+type NBKey = 'unableToFeed' | 'convulsions' | 'fastBreathing' | 'chestIndrawing' | 'fever' | 'hypothermia' | 'jaundice' | 'decreasedMovement' | 'umbilicalRedness' | 'eyeDischarge';
 
 // ── Constants ──────────────────────────────────────────────────────
 const DH_KEYS: DHKey[] = ['diarrhoea', 'vomiting', 'reducedUrine', 'noTears', 'dryMouth', 'skinPinch', 'lethargy', 'unableDrink'];
@@ -17,6 +18,8 @@ const DH_CRITICAL: DHKey[] = ['lethargy', 'unableDrink'];
 const PN_DANGER_KEYS: PNKey[] = ['chestIndrawing', 'stridor', 'cyanosis', 'alteredConsciousness'];
 const MALARIA_KEYS: MalariaKey[] = ['feverChills', 'pallor', 'splenomegaly', 'cerebral'];
 const DENGUE_KEYS: DengueKey[] = ['musclePain', 'rash', 'bleeding', 'retroOrbital', 'tourniquet'];
+const NB_KEYS: NBKey[] = ['unableToFeed', 'convulsions', 'fastBreathing', 'chestIndrawing', 'fever', 'hypothermia', 'jaundice', 'decreasedMovement', 'umbilicalRedness', 'eyeDischarge'];
+const NB_CRITICAL: NBKey[] = ['unableToFeed', 'convulsions', 'fastBreathing', 'chestIndrawing'];
 
 // ── Logic ──────────────────────────────────────────────────────────
 function rrThreshold(ageMonths: number): number | null {
@@ -36,9 +39,9 @@ function dhSeverity(c: Set<DHKey>): 'none' | 'some' | 'severe' {
 type BannerColor = 'green' | 'yellow' | 'red';
 
 const BANNER_STYLES: Record<BannerColor, { wrap: string; icon: string; title: string; body: string }> = {
-  green: { wrap: 'bg-green-50 border-l-4 border-green-500', icon: 'text-green-600', title: 'text-green-900', body: 'text-green-800' },
-  yellow: { wrap: 'bg-yellow-50 border-l-4 border-yellow-500', icon: 'text-yellow-600', title: 'text-yellow-900', body: 'text-yellow-800' },
-  red: { wrap: 'bg-red-50 border-l-4 border-red-500', icon: 'text-red-600', title: 'text-red-900', body: 'text-red-800' },
+  green: { wrap: 'bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500', icon: 'text-green-600 dark:text-green-400', title: 'text-green-900 dark:text-green-200', body: 'text-green-800 dark:text-green-300' },
+  yellow: { wrap: 'bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500', icon: 'text-yellow-600 dark:text-yellow-400', title: 'text-yellow-900 dark:text-yellow-200', body: 'text-yellow-800 dark:text-yellow-300' },
+  red: { wrap: 'bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500', icon: 'text-red-600 dark:text-red-400', title: 'text-red-900 dark:text-red-200', body: 'text-red-800 dark:text-red-300' },
 };
 
 function ResultBanner({ color, title, action }: { color: BannerColor; title: string; action: string }) {
@@ -66,16 +69,16 @@ function SymRow({
       className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-colors border ${
         checked
           ? critical
-            ? 'bg-red-50 border-red-300'
+            ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800'
             : 'bg-emerald-50 border-emerald-300'
-          : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+          : 'bg-slate-50 dark:bg-[#243d36] border-slate-200 dark:border-[#2a4a40] hover:border-slate-300 dark:hover:border-[#4ade80]/40'
       }`}
     >
       {checked
         ? <CheckCircle2 size={20} className={`shrink-0 ${critical ? 'text-red-500' : 'text-emerald-500'}`} />
         : <Circle size={20} className="shrink-0 text-slate-300" />}
       <span className={`text-sm font-medium flex-1 ${
-        checked ? (critical ? 'text-red-800' : 'text-emerald-800') : 'text-slate-700'
+        checked ? (critical ? 'text-red-800 dark:text-red-300' : 'text-emerald-800 dark:text-emerald-300') : 'text-slate-700 dark:text-slate-300'
       }`}>
         {label}
       </span>
@@ -93,9 +96,9 @@ function ScoreBar({ label, score, max, color }: { label: string; score: number; 
     <div>
       <div className="flex justify-between text-xs mb-1">
         <span className={`font-semibold ${color}`}>{label}</span>
-        <span className="text-slate-500">{score}/{max}</span>
+        <span className="text-slate-500 dark:text-slate-400">{score}/{max}</span>
       </div>
-      <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+      <div className="h-3 bg-slate-100 dark:bg-[#243d36] rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-300 ${color.replace('text-', 'bg-')}`}
           style={{ width: `${pct}%` }}
@@ -165,6 +168,16 @@ export default function DiagnosticCheck() {
   }
   function mdReset() { setMdMalaria(new Set()); setMdDengue(new Set()); setMdResult(null); }
 
+  // Newborn
+  const [nbChecked, setNbChecked] = useState<Set<NBKey>>(new Set());
+  const [nbResult, setNbResult] = useState<'danger' | 'safe' | null>(null);
+
+  function nbToggle(k: NBKey) {
+    setNbChecked(prev => { const n = new Set(prev); n.has(k) ? n.delete(k) : n.add(k); return n; });
+    setNbResult(null);
+  }
+  function nbReset() { setNbChecked(new Set()); setNbResult(null); }
+
   // Computed values for pneumonia threshold hint
   const pnAgeNum = parseFloat(pnAge);
   const pnLiveThreshold = !isNaN(pnAgeNum) && pnAgeNum >= 0 ? rrThreshold(pnAgeNum) : null;
@@ -173,28 +186,29 @@ export default function DiagnosticCheck() {
     { id: 'dehydration', label: t('diagnose.tabDehydration') },
     { id: 'pneumonia', label: t('diagnose.tabPneumonia') },
     { id: 'malDen', label: t('diagnose.tabMalDen') },
+    { id: 'newborn', label: t('diagnose.tabNewborn') },
   ];
 
   return (
     <div className="p-4 pb-10">
       {/* Header */}
       <header className="mb-4 pt-2">
-        <h1 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <Stethoscope size={20} className="text-[#1a6b4a]" />
+        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <Stethoscope size={20} style={{ color: 'var(--brand)' }} />
           {t('diagnose.title')}
         </h1>
       </header>
 
       {/* Tab bar */}
-      <div className="flex gap-1 bg-slate-100 rounded-xl p-1 mb-5">
+      <div className="flex gap-1 bg-slate-100 dark:bg-[#1a2e28] rounded-xl p-1 mb-5">
         {tabs.map(t_ => (
           <button
             key={t_.id}
             onClick={() => setTab(t_.id)}
             className={`flex-1 py-2 px-1 text-xs font-semibold rounded-lg transition-colors leading-tight ${
               tab === t_.id
-                ? 'bg-white text-[#1a6b4a] shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
+                ? 'bg-white dark:bg-[#243d36] text-[#1a6b4a] dark:text-[#4ade80] shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
           >
             {t_.label}
@@ -206,7 +220,7 @@ export default function DiagnosticCheck() {
       {tab === 'dehydration' && (
         <div className="space-y-4">
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">
               {t('diagnose.dhInstr')}
             </p>
             <div className="space-y-2">
@@ -222,7 +236,7 @@ export default function DiagnosticCheck() {
             </div>
           </div>
 
-          <p className="text-xs text-center text-slate-400">
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500">
             {t('diagnose.dhSigns', { n: dhChecked.size })}
           </p>
 
@@ -244,17 +258,17 @@ export default function DiagnosticCheck() {
               />
 
               {dhResult === 'some' && (
-                <Card className="p-4 bg-blue-50 border-blue-100">
-                  <p className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-1">
+                <Card className="p-4 bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800">
+                  <p className="text-xs font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wide mb-1">
                     {t('diagnose.dhORS')}
                   </p>
-                  <p className="text-sm text-blue-900">{t('diagnose.dhORSDetail')}</p>
+                  <p className="text-sm text-blue-900 dark:text-blue-200">{t('diagnose.dhORSDetail')}</p>
                 </Card>
               )}
             </>
           )}
 
-          <p className="text-xs text-center text-slate-400 italic pt-1">{t('diagnose.disclaimer')}</p>
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500 italic pt-1">{t('diagnose.disclaimer')}</p>
         </div>
       )}
 
@@ -274,7 +288,7 @@ export default function DiagnosticCheck() {
                 value={pnAge}
                 onChange={e => { setPnAge(e.target.value); setPnResult(null); }}
                 placeholder="0 – 59"
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-[#2a4a40] bg-white dark:bg-[#243d36] text-slate-800 dark:text-slate-100 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80] focus:border-transparent"
               />
             </div>
             <div>
@@ -289,15 +303,15 @@ export default function DiagnosticCheck() {
                 value={pnRR}
                 onChange={e => { setPnRR(e.target.value); setPnResult(null); }}
                 placeholder="e.g. 45"
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] focus:border-transparent"
+                className="w-full border border-slate-200 dark:border-[#2a4a40] bg-white dark:bg-[#243d36] text-slate-800 dark:text-slate-100 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80] focus:border-transparent"
               />
             </div>
 
             {pnAge !== '' && !isNaN(pnAgeNum) && (
               <div className={`text-xs px-3 py-2 rounded-lg font-medium ${
                 pnLiveThreshold !== null
-                  ? 'bg-slate-100 text-slate-600'
-                  : 'bg-amber-50 text-amber-700'
+                  ? 'bg-slate-100 dark:bg-[#243d36] text-slate-600 dark:text-slate-300'
+                  : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400'
               }`}>
                 {pnLiveThreshold !== null
                   ? t('diagnose.pnThreshold', { n: pnLiveThreshold })
@@ -307,7 +321,7 @@ export default function DiagnosticCheck() {
           </Card>
 
           <div>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">
               {t('diagnose.pnDangerTitle')}
             </p>
             <div className="space-y-2">
@@ -346,11 +360,11 @@ export default function DiagnosticCheck() {
 
               {pnThresholdVal !== null && pnRR !== '' && (
                 <div className="space-y-1 px-1">
-                  <div className="flex justify-between text-xs text-slate-500">
+                  <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
                     <span>{t('diagnose.pnRR')}</span>
-                    <span className="font-bold text-slate-700">{pnRR} / {pnThresholdVal} bpm</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-200">{pnRR} / {pnThresholdVal} bpm</span>
                   </div>
-                  <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-slate-100 dark:bg-[#243d36] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${
                         pnResult === 'none' ? 'bg-green-400' : pnResult === 'pneumonia' ? 'bg-yellow-400' : 'bg-red-400'
@@ -364,12 +378,12 @@ export default function DiagnosticCheck() {
           )}
 
           {pnResult === 'outOfRange' && (
-            <Card className="p-4 bg-amber-50 border-amber-100">
-              <p className="text-sm text-amber-800">{t('diagnose.pnOutOfRange')}</p>
+            <Card className="p-4 bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800">
+              <p className="text-sm text-amber-800 dark:text-amber-300">{t('diagnose.pnOutOfRange')}</p>
             </Card>
           )}
 
-          <p className="text-xs text-center text-slate-400 italic pt-1">{t('diagnose.disclaimer')}</p>
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500 italic pt-1">{t('diagnose.disclaimer')}</p>
         </div>
       )}
 
@@ -451,7 +465,59 @@ export default function DiagnosticCheck() {
             </>
           )}
 
-          <p className="text-xs text-center text-slate-400 italic pt-1">{t('diagnose.disclaimer')}</p>
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500 italic pt-1">{t('diagnose.disclaimer')}</p>
+        </div>
+      )}
+
+      {/* ── Tab 4: Newborn ───────────────────────────────────────── */}
+      {tab === 'newborn' && (
+        <div className="space-y-4">
+          {/* Age note */}
+          <div className="flex items-center gap-2 px-1 py-2 rounded-xl bg-slate-50 dark:bg-[#1a2e28] border border-slate-200 dark:border-[#2a4a40]">
+            <Baby size={15} style={{ color: 'var(--brand)' }} className="shrink-0 ml-1" />
+            <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+              {t('diagnose.nbAgeNote')}
+            </p>
+          </div>
+
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+            {t('diagnose.nbInstr')}
+          </p>
+
+          <div className="space-y-2">
+            {NB_KEYS.map(k => (
+              <SymRow
+                key={k}
+                label={t(`diagnose.nb_${k}`)}
+                checked={nbChecked.has(k)}
+                onToggle={() => nbToggle(k)}
+                critical={NB_CRITICAL.includes(k)}
+              />
+            ))}
+          </div>
+
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500">
+            {t('diagnose.nbSigns', { n: nbChecked.size })}
+          </p>
+
+          <div className="flex gap-2">
+            <Button variant="secondary" size="sm" onClick={nbReset} className="flex items-center gap-1.5 shrink-0">
+              <RefreshCw size={13} /> {t('diagnose.reset')}
+            </Button>
+            <Button fullWidth onClick={() => setNbResult(nbChecked.size > 0 ? 'danger' : 'safe')}>
+              {t('diagnose.assess')}
+            </Button>
+          </div>
+
+          {nbResult !== null && (
+            <ResultBanner
+              color={nbResult === 'danger' ? 'red' : 'green'}
+              title={t(`diagnose.nbResult_${nbResult}`)}
+              action={t(`diagnose.nbAction_${nbResult}`)}
+            />
+          )}
+
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500 italic pt-1">{t('diagnose.disclaimer')}</p>
         </div>
       )}
     </div>

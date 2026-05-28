@@ -53,11 +53,11 @@ function ResultBanner({
           <p className="text-sm text-white/80 mt-0.5">{subtitle}</p>
         )}
       </div>
-      <div className="px-4 py-4 bg-white border-t-0">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1.5">
+      <div className="px-4 py-4 bg-white dark:bg-[#1a2e28] border-t-0">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1.5">
           Recommendation
         </p>
-        <p className="text-sm text-slate-700 leading-snug">{recommendation}</p>
+        <p className="text-sm text-slate-700 dark:text-slate-300 leading-snug">{recommendation}</p>
       </div>
     </div>
   );
@@ -83,8 +83,8 @@ function ToggleGroup<T extends string>({
           className="flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-colors"
           style={
             value === o.value
-              ? { backgroundColor: '#1a6b4a', color: 'white', borderColor: '#1a6b4a' }
-              : { backgroundColor: '#f8fafc', color: '#475569', borderColor: '#e2e8f0' }
+              ? { backgroundColor: 'var(--brand)', color: 'var(--bg-page)', borderColor: 'var(--brand)' }
+              : { backgroundColor: 'var(--bg-input)', color: 'var(--text-secondary)', borderColor: 'var(--border)' }
           }
         >
           {o.label}
@@ -119,7 +119,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
         {label}
       </label>
       <div className="relative">
@@ -131,7 +131,7 @@ function Field({
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a]"
+          className="w-full bg-slate-50 dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
         />
         {unit && (
           <span className="absolute right-3 top-2.5 text-sm text-slate-400 pointer-events-none">
@@ -170,16 +170,16 @@ function MuacChips({ target }: { target: MuacTarget }) {
 function HowToMeasure({ t }: { t: TFunc }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-slate-200 rounded-xl overflow-hidden">
+    <div className="border border-slate-200 dark:border-[#2a4a40] rounded-xl overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 text-sm font-medium text-slate-700"
+        className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-[#1a2e28] text-sm font-medium text-slate-700 dark:text-slate-300"
       >
         <span>{t('nutrition.howToMeasure')}</span>
         {open ? <ChevronUp size={15} className="text-slate-400" /> : <ChevronDown size={15} className="text-slate-400" />}
       </button>
       {open && (
-        <div className="px-4 py-3 space-y-2 bg-white text-sm text-slate-600 leading-snug">
+        <div className="px-4 py-3 space-y-2 bg-white dark:bg-[#1a2e28] text-sm text-slate-600 dark:text-slate-300 leading-snug">
           <p>{t('nutrition.howStep1')}</p>
           <p>{t('nutrition.howStep2')}</p>
           <p>{t('nutrition.howStep3')}</p>
@@ -320,14 +320,14 @@ export default function NutritionAssess() {
   return (
     <div className="p-4 pb-8">
       <header className="mb-5 pt-2">
-        <h1 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <Scale size={20} style={{ color: '#1a6b4a' }} />
+        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <Scale size={20} style={{ color: 'var(--brand)' }} />
           {t('nutrition.title')}
         </h1>
       </header>
 
       {/* Tab switcher */}
-      <div className="flex bg-slate-100 rounded-xl p-1 mb-4">
+      <div className="flex bg-slate-100 dark:bg-[#1a2e28] rounded-xl p-1 mb-4">
         {(['muac', 'zscore'] as Tab[]).map((tb) => (
           <button
             key={tb}
@@ -335,8 +335,8 @@ export default function NutritionAssess() {
             className="flex-1 py-2 text-sm font-semibold rounded-lg transition-colors"
             style={
               tab === tb
-                ? { backgroundColor: 'white', color: '#1e293b', boxShadow: '0 1px 3px rgba(0,0,0,.08)' }
-                : { color: '#94a3b8' }
+                ? { backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)', boxShadow: '0 1px 3px rgba(0,0,0,.08)' }
+                : { color: 'var(--text-muted)' }
             }
           >
             {t(tb === 'muac' ? 'nutrition.muacTab' : 'nutrition.zscoreTab')}
@@ -351,7 +351,7 @@ export default function NutritionAssess() {
             <div className="space-y-4">
               {/* Target selector */}
               <div>
-                <p className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide">
                   {t('nutrition.sex')}
                 </p>
                 <ToggleGroup<MuacTarget>
@@ -366,7 +366,7 @@ export default function NutritionAssess() {
 
               {/* MUAC input */}
               <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
                   {t('nutrition.muac')}
                   <span className="ml-1 normal-case font-normal text-slate-400">
                     ({t('nutrition.muacHint')})
@@ -378,7 +378,7 @@ export default function NutritionAssess() {
                     min={50} max={400} placeholder="e.g. 120"
                     value={muac}
                     onChange={(e) => { setMuac(e.target.value); setMuacAssessed(false); }}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a]"
+                    className="w-full bg-slate-50 dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
                   />
                   <span className="absolute right-3 top-2.5 text-sm text-slate-400 pointer-events-none">mm</span>
                 </div>
@@ -389,7 +389,7 @@ export default function NutritionAssess() {
               {target === 'child' && (
                 <label
                   className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-colors ${
-                    edema ? 'bg-red-50 border-red-200' : 'bg-slate-50 border-slate-200'
+                    edema ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-slate-50 dark:bg-[#243d36] border-slate-200 dark:border-[#2a4a40]'
                   }`}
                 >
                   <input
@@ -400,12 +400,12 @@ export default function NutritionAssess() {
                   />
                   <div
                     className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                      edema ? 'bg-red-500 border-red-500' : 'border-slate-300'
+                      edema ? 'bg-red-500 border-red-500' : 'border-slate-300 dark:border-slate-600'
                     }`}
                   >
                     {edema && <CheckCircle size={12} className="text-white" />}
                   </div>
-                  <span className={`text-sm font-medium ${edema ? 'text-red-700' : 'text-slate-700'}`}>
+                  <span className={`text-sm font-medium ${edema ? 'text-red-700 dark:text-red-400' : 'text-slate-700 dark:text-slate-300'}`}>
                     {t('nutrition.edema')}
                   </span>
                 </label>
@@ -461,7 +461,7 @@ export default function NutritionAssess() {
             <div className="space-y-4">
               {/* Indicator selector */}
               <div>
-                <p className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide">
                   {t('nutrition.indicator')}
                 </p>
                 <ToggleGroup<ZScoreIndicator>
@@ -480,7 +480,7 @@ export default function NutritionAssess() {
 
               {/* Sex */}
               <div>
-                <p className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide">
                   {t('nutrition.sex')}
                 </p>
                 <ToggleGroup<'M' | 'F'>
@@ -546,9 +546,9 @@ export default function NutritionAssess() {
             <>
               {/* Borderline warning */}
               {zResult.borderline && (
-                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex items-start gap-2">
-                  <AlertTriangle size={15} className="text-amber-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-amber-700">{t('nutrition.borderlineNote')}</p>
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-3 flex items-start gap-2">
+                  <AlertTriangle size={15} className="text-amber-500 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-amber-700 dark:text-amber-300">{t('nutrition.borderlineNote')}</p>
                 </div>
               )}
 
@@ -571,11 +571,11 @@ export default function NutritionAssess() {
                 </div>
 
                 {/* Recommendation */}
-                <div className="px-4 py-4 bg-white">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1.5">
+                <div className="px-4 py-4 bg-white dark:bg-[#1a2e28]">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1.5">
                     {t('nutrition.recommendation')}
                   </p>
-                  <p className="text-sm text-slate-700 leading-snug">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-snug">
                     {zRec(zResult.category, t)}
                   </p>
                 </div>
@@ -591,7 +591,7 @@ export default function NutritionAssess() {
           )}
 
           {!zResult && (
-            <p className="text-center text-sm text-slate-400 mt-4">{t('nutrition.noResult')}</p>
+            <p className="text-center text-sm text-slate-400 dark:text-slate-500 mt-4">{t('nutrition.noResult')}</p>
           )}
         </div>
       )}
@@ -599,7 +599,7 @@ export default function NutritionAssess() {
       {/* Disclaimer */}
       <div className="mt-6 flex items-start gap-2 px-1">
         <AlertTriangle size={13} className="text-amber-400 mt-0.5 flex-shrink-0" />
-        <p className="text-xs text-slate-400 italic">{t('nutrition.disclaimer')}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 italic">{t('nutrition.disclaimer')}</p>
       </div>
     </div>
   );

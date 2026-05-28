@@ -1,11 +1,11 @@
 {
   "categories": [
-    { "id": "greeting", "icon": "Hand" },
-    { "id": "pain", "icon": "AlertCircle" },
-    { "id": "history", "icon": "ClipboardList" },
-    { "id": "examination", "icon": "Search" },
+    { "id": "greeting",     "icon": "HandMetal" },
+    { "id": "pain",         "icon": "AlertCircle" },
+    { "id": "history",      "icon": "ClipboardList" },
     { "id": "instructions", "icon": "Info" },
-    { "id": "emergency", "icon": "AlertTriangle" }
+    { "id": "emergency",    "icon": "AlertTriangle" },
+    { "id": "nutrition",    "icon": "Apple" }
   ],
   "phrases": [
     {
@@ -13,210 +13,437 @@
       "en": "Hello, I am a health worker.",
       "ko": "안녕하세요, 저는 의료 종사자입니다.",
       "fr": "Bonjour, je suis un agent de santé.",
-      "sw": "Habari, mimi ni mfanyakazi wa afya."
+      "sw": "Habari, mimi ni mfanyakazi wa afya.",
+      "pron": {
+        "ko": "An-nyeong-ha-se-yo, jeo-neun ui-ryo jong-sa-ja-im-ni-da.",
+        "fr": "Bon-ZHOOR, zhuh swee uh-na-ZHAN duh son-TAY.",
+        "sw": "Ha-BA-ri, MI-mi ni m-fa-nya-KA-zi wa A-fya."
+      }
     },
     {
       "id": "g2", "category": "greeting",
       "en": "I need to examine you. Do you consent?",
       "ko": "진찰이 필요합니다. 동의하십니까?",
       "fr": "Je dois vous examiner. Êtes-vous d'accord?",
-      "sw": "Ninahitaji kukuchunguza. Je, unakubaliana?"
+      "sw": "Ninahitaji kukuchunguza. Je, unakubaliana?",
+      "pron": {
+        "ko": "Jin-cha-ri pil-ryo-ham-ni-da. Dong-ui-ha-sim-ni-kka?",
+        "fr": "Zhuh dwa voo ek-za-mi-NAY. Et-voo da-KOR?",
+        "sw": "Ni-na-hi-TA-ji ku-ku-CHUN-gu-za. JE, u-na-ku-ba-LI-a-na?"
+      }
     },
     {
       "id": "g3", "category": "greeting",
-      "en": "Do you speak [language]?",
-      "ko": "[언어]를 하실 수 있으십니까?",
-      "fr": "Parlez-vous [langue]?",
-      "sw": "Je, unazungumza [lugha]?"
+      "en": "My name is ___. I am here to help you.",
+      "ko": "제 이름은 ___입니다. 도와드리러 왔습니다.",
+      "fr": "Je m'appelle ___. Je suis là pour vous aider.",
+      "sw": "Jina langu ni ___. Nimekuja kukusaidia.",
+      "pron": {
+        "ko": "Je i-reum-eun ___ im-ni-da. Do-wa-deu-ri-reo wat-sseum-ni-da.",
+        "fr": "Zhuh ma-PEL ___. Zhuh swee la poor voo-zay-DAY.",
+        "sw": "JI-na LAN-gu ni ___. Ni-me-KU-ja ku-ku-sa-I-di-a."
+      }
     },
+    {
+      "id": "g4", "category": "greeting",
+      "en": "Please do not be afraid. I will help you.",
+      "ko": "두려워하지 마세요. 제가 도와드리겠습니다.",
+      "fr": "N'ayez pas peur. Je vais vous aider.",
+      "sw": "Usiogope. Nitakusaidia.",
+      "pron": {
+        "ko": "Du-ryeo-wo-ha-ji ma-se-yo. Je-ga do-wa-deu-ri-get-sseum-ni-da.",
+        "fr": "NAY-yay pa PUR. Zhuh vay voo-zay-DAY.",
+        "sw": "U-si-O-go-pe. Ni-ta-ku-sa-I-di-a."
+      }
+    },
+    {
+      "id": "g5", "category": "greeting",
+      "en": "Everything I see will be kept private.",
+      "ko": "제가 본 것은 모두 비밀로 유지됩니다.",
+      "fr": "Tout ce que je vois restera confidentiel.",
+      "sw": "Kila ninachokiona kitabaki siri.",
+      "pron": {
+        "ko": "Je-ga bon geo-seun mo-du bi-mil-ro yu-ji-doem-ni-da.",
+        "fr": "Too suh zhuh vwa res-te-RA kon-fi-don-SYEL.",
+        "sw": "KI-la ni-na-cho-KI-o-na ki-ta-BA-ki SI-ri."
+      }
+    },
+
     {
       "id": "p1", "category": "pain",
       "en": "Where does it hurt?",
       "ko": "어디가 아프세요?",
       "fr": "Où avez-vous mal?",
-      "sw": "Unaumia wapi?"
+      "sw": "Unaumia wapi?",
+      "pron": {
+        "ko": "Eo-di-ga a-peu-se-yo?",
+        "fr": "Oo a-vay-VOO mal?",
+        "sw": "U-na-U-mi-a WA-pi?"
+      }
     },
     {
       "id": "p2", "category": "pain",
-      "en": "How long have you had this pain?",
-      "ko": "이 통증이 얼마나 됐습니까?",
-      "fr": "Depuis combien de temps avez-vous cette douleur?",
-      "sw": "Maumivu haya yamekuwa kwa muda gani?"
+      "en": "Point to where the pain is.",
+      "ko": "통증이 있는 곳을 가리켜 주세요.",
+      "fr": "Montrez-moi où vous avez mal.",
+      "sw": "Nionyeshe mahali maumivu yalipo.",
+      "pron": {
+        "ko": "Tong-jeung-i in-neun go-seul ga-ri-kyeo ju-se-yo.",
+        "fr": "Mon-tray-MWA oo voo-za-vay MAL.",
+        "sw": "Ni-on-YE-she ma-HA-li ma-u-MI-vu ya-LI-po."
+      }
     },
     {
       "id": "p3", "category": "pain",
       "en": "Is the pain severe, moderate, or mild?",
       "ko": "통증이 심합니까, 보통입니까, 아니면 가볍습니까?",
       "fr": "La douleur est-elle sévère, modérée ou légère?",
-      "sw": "Maumivu ni makali, wastani, au kidogo?"
+      "sw": "Maumivu ni makali, wastani, au kidogo?",
+      "pron": {
+        "ko": "Tong-jeung-i sim-ham-ni-kka, bo-tong-im-ni-kka, a-ni-myeon ga-byeop-sseum-ni-kka?",
+        "fr": "La doo-LUR et-EL se-VAIR, mo-day-RAY oo lay-ZHAIR?",
+        "sw": "Ma-u-MI-vu ni ma-KA-li, was-TA-ni, au ki-DO-go?"
+      }
     },
     {
       "id": "p4", "category": "pain",
-      "en": "Point to where the pain is.",
-      "ko": "통증이 있는 곳을 가리켜 주세요.",
-      "fr": "Montrez-moi où vous avez mal.",
-      "sw": "Nionyeshe mahali maumivu yalipo."
+      "en": "How long have you had this pain?",
+      "ko": "이 통증이 얼마나 됐습니까?",
+      "fr": "Depuis combien de temps avez-vous cette douleur?",
+      "sw": "Maumivu haya yamekuwa kwa muda gani?",
+      "pron": {
+        "ko": "I tong-jeung-i eol-ma-na dwaet-sseum-ni-kka?",
+        "fr": "Duh-PWEE kom-BYAN duh ton a-vay-voo set doo-LUR?",
+        "sw": "Ma-u-MI-vu HA-ya ya-me-KU-wa kwa MU-da GA-ni?"
+      }
     },
     {
       "id": "p5", "category": "pain",
       "en": "Does it hurt when I press here?",
       "ko": "여기를 누르면 아프십니까?",
       "fr": "Est-ce que ça fait mal quand j'appuie ici?",
-      "sw": "Je, inakuumiza ninapobonyeza hapa?"
+      "sw": "Je, inakuumiza ninapobonyeza hapa?",
+      "pron": {
+        "ko": "Yeo-gi-reul nu-reu-myeon a-peu-sim-ni-kka?",
+        "fr": "Es-kuh sa fay MAL kon zha-PWEE ee-SEE?",
+        "sw": "JE, i-na-ku-U-mi-za ni-na-po-bon-YE-za HA-pa?"
+      }
     },
+
     {
       "id": "h1", "category": "history",
       "en": "Do you have a fever?",
       "ko": "열이 있으십니까?",
       "fr": "Avez-vous de la fièvre?",
-      "sw": "Je, una homa?"
+      "sw": "Je, una homa?",
+      "pron": {
+        "ko": "Yeol-i it-sseu-sim-ni-kka?",
+        "fr": "A-vay-voo duh la FYEV-ruh?",
+        "sw": "JE, U-na HO-ma?"
+      }
     },
     {
       "id": "h2", "category": "history",
       "en": "Do you have diarrhea?",
       "ko": "설사를 하십니까?",
       "fr": "Avez-vous la diarrhée?",
-      "sw": "Je, una kuhara?"
+      "sw": "Je, una kuhara?",
+      "pron": {
+        "ko": "Seol-sa-reul ha-sim-ni-kka?",
+        "fr": "A-vay-voo la dya-RAY?",
+        "sw": "JE, U-na ku-HA-ra?"
+      }
     },
     {
       "id": "h3", "category": "history",
       "en": "Do you have vomiting?",
       "ko": "구토를 하십니까?",
       "fr": "Avez-vous des vomissements?",
-      "sw": "Je, una kutapika?"
+      "sw": "Je, una kutapika?",
+      "pron": {
+        "ko": "Gu-to-reul ha-sim-ni-kka?",
+        "fr": "A-vay-voo day vo-mi-SES-mon?",
+        "sw": "JE, U-na ku-ta-PI-ka?"
+      }
     },
     {
       "id": "h4", "category": "history",
       "en": "Do you have a cough?",
       "ko": "기침을 하십니까?",
       "fr": "Avez-vous une toux?",
-      "sw": "Je, una kikohozi?"
+      "sw": "Je, una kikohozi?",
+      "pron": {
+        "ko": "Gi-chim-eul ha-sim-ni-kka?",
+        "fr": "A-vay-voo oon TOO?",
+        "sw": "JE, U-na ki-ko-HO-zi?"
+      }
     },
     {
       "id": "h5", "category": "history",
       "en": "Are you pregnant?",
       "ko": "임신 중이십니까?",
       "fr": "Êtes-vous enceinte?",
-      "sw": "Je, uko mjamzito?"
+      "sw": "Je, uko mjamzito?",
+      "pron": {
+        "ko": "Im-sin jung-i-sim-ni-kka?",
+        "fr": "Et-voo on-SANT?",
+        "sw": "JE, U-ko m-JAM-zi-to?"
+      }
     },
     {
       "id": "h6", "category": "history",
       "en": "Do you have any allergies?",
       "ko": "알레르기가 있으십니까?",
       "fr": "Avez-vous des allergies?",
-      "sw": "Je, una mzio wowote?"
+      "sw": "Je, una mzio wowote?",
+      "pron": {
+        "ko": "Al-le-reu-gi-ga it-sseu-sim-ni-kka?",
+        "fr": "A-vay-voo day za-lair-ZHEE?",
+        "sw": "JE, U-na m-ZI-o wo-WO-te?"
+      }
     },
     {
       "id": "h7", "category": "history",
       "en": "Are you taking any medication?",
       "ko": "현재 복용 중인 약이 있으십니까?",
       "fr": "Prenez-vous des médicaments?",
-      "sw": "Je, unachukua dawa yoyote?"
+      "sw": "Je, unachukua dawa yoyote?",
+      "pron": {
+        "ko": "Hyeon-jae bok-yong jung-in ya-gi it-sseu-sim-ni-kka?",
+        "fr": "Pruh-NAY-voo day may-di-ka-MON?",
+        "sw": "JE, u-na-CHU-ku-a DA-wa yo-YO-te?"
+      }
     },
     {
       "id": "h8", "category": "history",
       "en": "How many days have you been sick?",
       "ko": "며칠 동안 아프셨습니까?",
       "fr": "Depuis combien de jours êtes-vous malade?",
-      "sw": "Umekuwa mgonjwa kwa siku ngapi?"
+      "sw": "Umekuwa mgonjwa kwa siku ngapi?",
+      "pron": {
+        "ko": "Myeo-chil dong-an a-peu-syeot-sseum-ni-kka?",
+        "fr": "Duh-PWEE kom-BYAN duh zhoor et-voo ma-LAD?",
+        "sw": "U-me-KU-wa m-GON-jwa kwa SI-ku NGA-pi?"
+      }
     },
-    {
-      "id": "e1", "category": "examination",
-      "en": "I need to take your temperature.",
-      "ko": "체온을 측정하겠습니다.",
-      "fr": "Je dois prendre votre température.",
-      "sw": "Ninahitaji kupima joto lako."
-    },
-    {
-      "id": "e2", "category": "examination",
-      "en": "Please breathe deeply.",
-      "ko": "깊게 숨을 쉬어 주세요.",
-      "fr": "Respirez profondément, s'il vous plaît.",
-      "sw": "Tafadhali pumua kwa kina."
-    },
-    {
-      "id": "e3", "category": "examination",
-      "en": "Open your mouth, please.",
-      "ko": "입을 벌려 주세요.",
-      "fr": "Ouvrez la bouche, s'il vous plaît.",
-      "sw": "Tafadhali fungua kinywa chako."
-    },
-    {
-      "id": "e4", "category": "examination",
-      "en": "Please lie down.",
-      "ko": "누워 주세요.",
-      "fr": "Allongez-vous, s'il vous plaît.",
-      "sw": "Tafadhali lala chini."
-    },
-    {
-      "id": "e5", "category": "examination",
-      "en": "I am going to measure your arm.",
-      "ko": "팔 둘레를 측정하겠습니다.",
-      "fr": "Je vais mesurer votre bras.",
-      "sw": "Nitapima mkono wako."
-    },
+
     {
       "id": "i1", "category": "instructions",
       "en": "Take this medicine twice a day.",
       "ko": "이 약을 하루에 두 번 드세요.",
       "fr": "Prenez ce médicament deux fois par jour.",
-      "sw": "Chukua dawa hii mara mbili kwa siku."
+      "sw": "Chukua dawa hii mara mbili kwa siku.",
+      "pron": {
+        "ko": "I ya-geul ha-ru-e du beon deu-se-yo.",
+        "fr": "Pruh-NAY suh may-di-ka-MON duh fwa par ZHOOR.",
+        "sw": "CHU-ku-a DA-wa HII MA-ra m-BI-li kwa SI-ku."
+      }
     },
     {
       "id": "i2", "category": "instructions",
       "en": "Drink plenty of clean water.",
       "ko": "깨끗한 물을 많이 드세요.",
       "fr": "Buvez beaucoup d'eau propre.",
-      "sw": "Kunywa maji mengi safi."
+      "sw": "Kunywa maji mengi safi.",
+      "pron": {
+        "ko": "Kkaek-kkeut-han mu-reul ma-ni deu-se-yo.",
+        "fr": "Boo-VAY bo-KOO do PRO-pruh.",
+        "sw": "KUN-ywa MA-ji MEN-gi SA-fi."
+      }
     },
     {
       "id": "i3", "category": "instructions",
       "en": "Come back in 3 days, or sooner if worse.",
       "ko": "3일 후에 다시 오세요. 나빠지면 바로 오세요.",
       "fr": "Revenez dans 3 jours, ou plus tôt si ça empire.",
-      "sw": "Rudi baada ya siku 3, au mapema zaidi ukizidi kuumwa."
+      "sw": "Rudi baada ya siku 3, au mapema zaidi ukizidi kuumwa.",
+      "pron": {
+        "ko": "Sam-il hu-e da-si o-se-yo. Na-ppa-ji-myeon ba-ro o-se-yo.",
+        "fr": "Ruh-vuh-NAY don trwa ZHOOR, oo ploo toh si sa om-PEER.",
+        "sw": "RU-di BA-da ya SI-ku ta-TO, au ma-PE-ma za-I-di u-ki-ZI-di ku-UM-wa."
+      }
     },
     {
       "id": "i4", "category": "instructions",
       "en": "Finish all of the medication.",
       "ko": "약을 끝까지 다 드세요.",
       "fr": "Prenez tous les médicaments jusqu'au bout.",
-      "sw": "Maliza dawa zote."
+      "sw": "Maliza dawa zote.",
+      "pron": {
+        "ko": "Ya-geul kkeut-kka-ji da deu-se-yo.",
+        "fr": "Pruh-NAY too lay may-di-ka-MON zhoos-koh BOO.",
+        "sw": "Ma-LI-za DA-wa ZO-te."
+      }
     },
     {
       "id": "i5", "category": "instructions",
+      "en": "Please breathe deeply.",
+      "ko": "깊게 숨을 쉬어 주세요.",
+      "fr": "Respirez profondément, s'il vous plaît.",
+      "sw": "Tafadhali pumua kwa kina.",
+      "pron": {
+        "ko": "Gip-ge su-meul swi-eo ju-se-yo.",
+        "fr": "Res-pi-RAY pro-fon-day-MON, sil voo PLAY.",
+        "sw": "Ta-FA-dha-li pu-MU-a kwa KI-na."
+      }
+    },
+    {
+      "id": "i6", "category": "instructions",
+      "en": "Open your mouth, please.",
+      "ko": "입을 벌려 주세요.",
+      "fr": "Ouvrez la bouche, s'il vous plaît.",
+      "sw": "Tafadhali fungua kinywa chako.",
+      "pron": {
+        "ko": "I-beul beol-ryeo ju-se-yo.",
+        "fr": "Oo-VRAY la BOOSH, sil voo PLAY.",
+        "sw": "Ta-FA-dha-li FUN-gu-a KIN-ywa CHA-ko."
+      }
+    },
+    {
+      "id": "i7", "category": "instructions",
+      "en": "Please lie down.",
+      "ko": "누워 주세요.",
+      "fr": "Allongez-vous, s'il vous plaît.",
+      "sw": "Tafadhali lala chini.",
+      "pron": {
+        "ko": "Nu-wo ju-se-yo.",
+        "fr": "A-lon-ZHAY-voo, sil voo PLAY.",
+        "sw": "Ta-FA-dha-li LA-la CHI-ni."
+      }
+    },
+    {
+      "id": "i8", "category": "instructions",
       "en": "Rest and eat small meals often.",
       "ko": "쉬고 조금씩 자주 드세요.",
       "fr": "Reposez-vous et mangez de petites portions souvent.",
-      "sw": "Pumzika na kula kidogo kidogo mara nyingi."
+      "sw": "Pumzika na kula kidogo kidogo mara nyingi.",
+      "pron": {
+        "ko": "Swi-go jo-geum-ssik ja-ju deu-se-yo.",
+        "fr": "Ruh-po-ZAY-voo ay mon-ZHAY duh puh-TEET por-SYON soo-VON.",
+        "sw": "Pum-ZI-ka na KU-la ki-DO-go ki-DO-go MA-ra NYIN-gi."
+      }
     },
+
     {
       "id": "em1", "category": "emergency",
       "en": "This is serious. You need to go to the hospital.",
       "ko": "심각한 상태입니다. 병원에 가야 합니다.",
       "fr": "C'est grave. Vous devez aller à l'hôpital.",
-      "sw": "Hali ni mbaya. Unahitaji kwenda hospitali."
+      "sw": "Hali ni mbaya. Unahitaji kwenda hospitali.",
+      "pron": {
+        "ko": "Sim-ga-kan sang-tae-im-ni-da. Byeong-won-e ga-ya ham-ni-da.",
+        "fr": "Say GRAV. Voo duh-VAY a-LAY a lo-pi-TAL.",
+        "sw": "HA-li ni m-BA-ya. U-na-hi-TA-ji KWEN-da hos-pi-TA-li."
+      }
     },
     {
       "id": "em2", "category": "emergency",
       "en": "Call for help immediately!",
       "ko": "즉시 도움을 요청하세요!",
       "fr": "Appelez à l'aide immédiatement!",
-      "sw": "Omba msaada sasa hivi!"
+      "sw": "Omba msaada sasa hivi!",
+      "pron": {
+        "ko": "Jeuk-si do-um-eul yo-cheong-ha-se-yo!",
+        "fr": "A-play a LAID i-may-dyat-MON!",
+        "sw": "OM-ba m-SA-da SA-sa HI-vi!"
+      }
     },
     {
       "id": "em3", "category": "emergency",
       "en": "Do not move the patient.",
       "ko": "환자를 움직이지 마세요.",
       "fr": "Ne bougez pas le patient.",
-      "sw": "Usimhamishie mgonjwa."
+      "sw": "Usimhamishie mgonjwa.",
+      "pron": {
+        "ko": "Hwan-ja-reul um-ji-gi-ji ma-se-yo.",
+        "fr": "Nuh boo-ZHAY pa luh pa-SYON.",
+        "sw": "U-si-m-ha-MI-shi-e m-GON-jwa."
+      }
     },
     {
       "id": "em4", "category": "emergency",
       "en": "The patient is not breathing. Begin CPR.",
       "ko": "환자가 숨을 쉬지 않습니다. 심폐소생술을 시작하세요.",
       "fr": "Le patient ne respire pas. Commencez la RCP.",
-      "sw": "Mgonjwa hapumui. Anza CPR."
+      "sw": "Mgonjwa hapumui. Anza CPR.",
+      "pron": {
+        "ko": "Hwan-ja-ga su-meul swi-ji an-sseum-ni-da. Sim-pye-so-saeng-sul-eul si-ja-ka-se-yo.",
+        "fr": "Luh pa-SYON nuh res-PEER pa. Ko-mon-SAY la air-say-PAY.",
+        "sw": "M-GON-jwa ha-PU-mu-i. AN-za see-pee-AR."
+      }
+    },
+
+    {
+      "id": "n1", "category": "nutrition",
+      "en": "Is the child breastfeeding?",
+      "ko": "아이가 모유 수유 중입니까?",
+      "fr": "L'enfant est-il allaité au sein?",
+      "sw": "Je, mtoto ananyonywa?",
+      "pron": {
+        "ko": "A-i-ga mo-yu su-yu jung-im-ni-kka?",
+        "fr": "Lon-FON et-EEL a-lay-TAY oh SAN?",
+        "sw": "JE, m-TO-to a-na-NYON-ywa?"
+      }
+    },
+    {
+      "id": "n2", "category": "nutrition",
+      "en": "How many times a day does the child eat?",
+      "ko": "아이가 하루에 몇 번 먹습니까?",
+      "fr": "Combien de fois par jour l'enfant mange-t-il?",
+      "sw": "Mtoto anakula mara ngapi kwa siku?",
+      "pron": {
+        "ko": "A-i-ga ha-ru-e myeot beon meok-sseum-ni-kka?",
+        "fr": "Kom-BYAN duh fwa par ZHOOR lon-FON monzh-TIL?",
+        "sw": "M-TO-to a-na-KU-la MA-ra NGA-pi kwa SI-ku?"
+      }
+    },
+    {
+      "id": "n3", "category": "nutrition",
+      "en": "The child needs therapeutic food (RUTF).",
+      "ko": "이 아이에게는 치료식 (RUTF)이 필요합니다.",
+      "fr": "L'enfant a besoin d'aliments thérapeutiques (ATPE).",
+      "sw": "Mtoto anahitaji chakula cha tiba (RUTF).",
+      "pron": {
+        "ko": "I a-i-e-ge-neun chi-ryo-sik-i pil-ryo-ham-ni-da.",
+        "fr": "Lon-FON a buh-ZWAN da-li-MON tay-ra-POO-tik.",
+        "sw": "M-TO-to a-na-hi-TA-ji cha-KU-la cha TI-ba."
+      }
+    },
+    {
+      "id": "n4", "category": "nutrition",
+      "en": "Give the child one sachet of RUTF per day.",
+      "ko": "아이에게 하루에 RUTF 한 봉지를 주세요.",
+      "fr": "Donnez à l'enfant un sachet d'ATPE par jour.",
+      "sw": "Mpe mtoto kifurushi kimoja cha RUTF kwa siku.",
+      "pron": {
+        "ko": "A-i-e-ge ha-ru-e RUTF han bong-ji-reul ju-se-yo.",
+        "fr": "Do-NAY a lon-FON un sa-SHAY dah-TAY-pay par ZHOOR.",
+        "sw": "M-pe m-TO-to ki-fu-RU-shi ki-MO-ja cha RUTF kwa SI-ku."
+      }
+    },
+    {
+      "id": "n5", "category": "nutrition",
+      "en": "Does the child have bilateral leg swelling?",
+      "ko": "아이의 양쪽 다리가 부어 있습니까?",
+      "fr": "L'enfant a-t-il un gonflement des deux jambes?",
+      "sw": "Je, mtoto ana uvimbe pande zote mbili za miguu?",
+      "pron": {
+        "ko": "A-i-ui yang-jjok da-ri-ga bu-eo it-sseum-ni-kka?",
+        "fr": "Lon-FON a-TIL un gon-FLER-mon day duh ZHOMB?",
+        "sw": "JE, m-TO-to a-na u-VIM-be PAN-de ZO-te m-BI-li za mi-GU-u?"
+      }
+    },
+    {
+      "id": "n6", "category": "nutrition",
+      "en": "Continue breastfeeding alongside the therapeutic food.",
+      "ko": "치료식과 함께 모유 수유를 계속 하세요.",
+      "fr": "Continuez l'allaitement en même temps que l'ATPE.",
+      "sw": "Endelea kunyonyesha pamoja na chakula cha tiba.",
+      "pron": {
+        "ko": "Chi-ryo-sik-gwa ham-kke mo-yu su-yu-reul gye-sok ha-se-yo.",
+        "fr": "Kon-ti-NYOO-ay la-lay-TMON on mem TON kuh lah-TAY-pay.",
+        "sw": "En-de-LE-a ku-nyo-NYE-sha pa-MO-ja na cha-KU-la cha TI-ba."
+      }
     }
   ]
 }

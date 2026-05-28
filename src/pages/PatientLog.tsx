@@ -62,7 +62,7 @@ export default function PatientLog() {
           <Button variant="ghost" size="sm" onClick={() => setSelected(null)}>
             <X size={16} />
           </Button>
-          <h1 className="text-xl font-bold text-slate-800">{selected.name}</h1>
+          <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100">{selected.name}</h1>
         </header>
 
         <Card className="p-4 mb-3">
@@ -76,8 +76,8 @@ export default function PatientLog() {
               [t('patients.recorded'), formatDate(selected.createdAt)],
             ].filter((x): x is string[] => x !== null).map(([label, value]) => (
               <div key={String(label)}>
-                <p className="text-xs text-slate-400 mb-0.5">{label}</p>
-                <p className="font-medium text-slate-800">{value}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mb-0.5">{label}</p>
+                <p className="font-medium text-slate-800 dark:text-slate-100">{value}</p>
               </div>
             ))}
           </div>
@@ -85,15 +85,15 @@ export default function PatientLog() {
 
         {selected.diagnosis && (
           <Card className="p-4 mb-3">
-            <p className="text-xs text-slate-400 mb-1">{t('patients.diagnosis')}</p>
-            <p className="text-sm text-slate-800">{selected.diagnosis}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mb-1">{t('patients.diagnosis')}</p>
+            <p className="text-sm text-slate-800 dark:text-slate-100">{selected.diagnosis}</p>
           </Card>
         )}
 
         {selected.notes && (
           <Card className="p-4 mb-3">
-            <p className="text-xs text-slate-400 mb-1">{t('patients.notes')}</p>
-            <p className="text-sm text-slate-800 whitespace-pre-wrap">{selected.notes}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mb-1">{t('patients.notes')}</p>
+            <p className="text-sm text-slate-800 dark:text-slate-100 whitespace-pre-wrap">{selected.notes}</p>
           </Card>
         )}
 
@@ -111,7 +111,7 @@ export default function PatientLog() {
           <Button variant="ghost" size="sm" onClick={() => { setShowForm(false); setForm(EMPTY_FORM); }}>
             <X size={16} />
           </Button>
-          <h1 className="text-xl font-bold text-slate-800">{t('patients.newPatient')}</h1>
+          <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100">{t('patients.newPatient')}</h1>
         </header>
 
         <Card className="p-4 mb-4">
@@ -135,7 +135,8 @@ export default function PatientLog() {
                 <div className="flex gap-2 mt-0.5">
                   {(['months', 'years'] as const).map((u) => (
                     <button key={u} onClick={() => setForm({ ...form, ageUnit: u })}
-                      className={`flex-1 py-2.5 rounded-xl text-xs font-semibold border ${form.ageUnit === u ? 'bg-[#1a6b4a] text-white border-[#1a6b4a]' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                      className={`flex-1 py-2.5 rounded-xl text-xs font-semibold border ${form.ageUnit === u ? 'text-white dark:text-[#0f1f1a]' : 'bg-slate-50 dark:bg-[#243d36] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-[#2a4a40]'}`}
+                      style={form.ageUnit === u ? { backgroundColor: 'var(--brand)', borderColor: 'var(--brand)' } : undefined}>
                       {t(`patients.age${u === 'months' ? 'Months' : 'Years'}`)}
                     </button>
                   ))}
@@ -147,7 +148,8 @@ export default function PatientLog() {
               <div className="flex gap-2">
                 {(['M', 'F'] as const).map((s) => (
                   <button key={s} onClick={() => setForm({ ...form, sex: s })}
-                    className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border ${form.sex === s ? 'bg-[#1a6b4a] text-white border-[#1a6b4a]' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                    className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border ${form.sex === s ? 'text-white dark:text-[#0f1f1a]' : 'bg-slate-50 dark:bg-[#243d36] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-[#2a4a40]'}`}
+                    style={form.sex === s ? { backgroundColor: 'var(--brand)', borderColor: 'var(--brand)' } : undefined}>
                     {s === 'M' ? t('patients.male') : t('patients.female')}
                   </button>
                 ))}
@@ -195,8 +197,8 @@ export default function PatientLog() {
   return (
     <div className="p-4">
       <header className="mb-5 pt-2 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <Users size={20} className="text-orange-600" />
+        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <Users size={20} className="text-orange-600 dark:text-orange-400" />
           {t('patients.title')}
         </h1>
         <Button size="sm" onClick={() => setShowForm(true)}>
@@ -209,14 +211,14 @@ export default function PatientLog() {
         <input
           type="text" placeholder={t('patients.search')}
           value={query} onChange={(e) => setQuery(e.target.value)}
-          className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a]"
+          className="w-full bg-white dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl pl-9 pr-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
         />
       </div>
 
       {filtered.length === 0 ? (
         <div className="text-center py-12">
-          <Users size={40} className="text-slate-200 mx-auto mb-3" />
-          <p className="text-slate-400 text-sm">{t('patients.noPatients')}</p>
+          <Users size={40} className="text-slate-200 dark:text-slate-700 mx-auto mb-3" />
+          <p className="text-slate-400 dark:text-slate-500 text-sm">{t('patients.noPatients')}</p>
           <Button className="mt-4" onClick={() => setShowForm(true)}>
             <Plus size={14} className="mr-1" /> {t('patients.newPatient')}
           </Button>
@@ -231,19 +233,19 @@ export default function PatientLog() {
                 {p.sex}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-slate-800 text-sm truncate">{p.name}</p>
-                <p className="text-xs text-slate-400">
+                <p className="font-semibold text-slate-800 dark:text-slate-100 text-sm truncate">{p.name}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">
                   {formatAge(p)}{p.diagnosis ? ` · ${p.diagnosis}` : ''}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={(e) => { e.stopPropagation(); handleDelete(p.id); }}
-                  className="p-1.5 rounded-lg hover:bg-red-50 text-slate-300 hover:text-red-400 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-300 dark:text-slate-600 hover:text-red-400 transition-colors"
                 >
                   <Trash2 size={14} />
                 </button>
-                <ChevronRight size={16} className="text-slate-300" />
+                <ChevronRight size={16} className="text-slate-300 dark:text-slate-600" />
               </div>
             </Card>
           ))}
@@ -256,7 +258,7 @@ export default function PatientLog() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
         {label}
       </label>
       {children}

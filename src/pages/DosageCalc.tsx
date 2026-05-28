@@ -35,17 +35,17 @@ function StatBox({
   return (
     <div
       className="rounded-xl p-3"
-      style={{ backgroundColor: accent ? '#eaf4ee' : '#f8fafc' }}
+      style={{ backgroundColor: accent ? 'var(--brand-bg)' : 'var(--bg-input)' }}
     >
       <p
         className="text-[10px] font-semibold uppercase tracking-wider mb-1.5 leading-none"
-        style={{ color: accent ? '#1a6b4a' : '#94a3b8' }}
+        style={{ color: accent ? 'var(--brand)' : 'var(--text-muted)' }}
       >
         {label}
       </p>
       <p
         className={`font-bold leading-tight ${small ? 'text-base' : 'text-2xl'}`}
-        style={{ color: accent ? '#0f4530' : '#1e293b' }}
+        style={{ color: accent ? 'var(--brand-text)' : 'var(--text-primary)' }}
       >
         {value}
       </p>
@@ -120,8 +120,8 @@ export default function DosageCalc() {
   return (
     <div className="p-4 pb-8">
       <header className="mb-5 pt-2">
-        <h1 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <Pill size={20} style={{ color: '#1a6b4a' }} />
+        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <Pill size={20} style={{ color: 'var(--brand)' }} />
           {t('dosage.title')}
         </h1>
       </header>
@@ -132,12 +132,12 @@ export default function DosageCalc() {
 
           {/* Drug select */}
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
               {t('dosage.selectDrug')}
             </label>
             <div className="relative">
               <select
-                className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 pr-8 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a]"
+                className="w-full appearance-none bg-slate-50 dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 pr-8 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
                 value={drugId}
                 onChange={(e) => handleDrugChange(e.target.value)}
               >
@@ -153,12 +153,12 @@ export default function DosageCalc() {
           {/* Formulation select (only when > 1 option) */}
           {formulations.length > 1 && (
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
                 {t('dosage.concentration')}
               </label>
               <div className="relative">
                 <select
-                  className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 pr-8 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a]"
+                  className="w-full appearance-none bg-slate-50 dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 pr-8 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
                   value={formulationIdx}
                   onChange={(e) => { setFormulationIdx(Number(e.target.value)); setResult(null); }}
                 >
@@ -173,7 +173,7 @@ export default function DosageCalc() {
 
           {/* Weight */}
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
               {t('dosage.weight')}
             </label>
             <div className="relative">
@@ -185,7 +185,7 @@ export default function DosageCalc() {
                 placeholder="e.g. 12.5"
                 value={weight}
                 onChange={(e) => { setWeight(e.target.value); setResult(null); }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a]"
+                className="w-full bg-slate-50 dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
               />
               <span className="absolute right-3 top-2.5 text-sm text-slate-400 pointer-events-none">kg</span>
             </div>
@@ -209,7 +209,7 @@ export default function DosageCalc() {
                 }`}
               />
             </div>
-            <span className="text-sm text-slate-700">{t('dosage.isAdult')}</span>
+            <span className="text-sm text-slate-700 dark:text-slate-300">{t('dosage.isAdult')}</span>
           </label>
 
           <Button fullWidth onClick={handleCalculate} disabled={!canCalculate}>
@@ -220,7 +220,7 @@ export default function DosageCalc() {
 
       {/* Empty state */}
       {!result && (
-        <p className="text-center text-sm text-slate-400 mt-6">{t('dosage.noSelection')}</p>
+        <p className="text-center text-sm text-slate-400 dark:text-slate-500 mt-6">{t('dosage.noSelection')}</p>
       )}
 
       {/* Results */}
@@ -229,11 +229,11 @@ export default function DosageCalc() {
 
           {/* Max dose warning */}
           {result.isOverMax && (
-            <div className="bg-red-50 border border-red-200 rounded-2xl p-3 flex items-start gap-2">
-              <AlertTriangle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-3 flex items-start gap-2">
+              <AlertTriangle size={16} className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-red-700">{t('dosage.maxCapApplied')}</p>
-                <p className="text-xs text-red-600 mt-0.5">
+                <p className="text-sm font-semibold text-red-700 dark:text-red-300">{t('dosage.maxCapApplied')}</p>
+                <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">
                   {t('dosage.maxCapDetail', {
                     calc: result.singleDoseMg,
                     max: result.maxMg,
@@ -248,8 +248,8 @@ export default function DosageCalc() {
             {/* Header row */}
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="font-bold text-slate-800 text-base">{selectedDrug.name}</h2>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <h2 className="font-bold text-slate-800 dark:text-slate-100 text-base">{selectedDrug.name}</h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   {weight} kg
                   {selectedFormulation && ` · ${selectedFormulation.label}`}
                   {` · ${result.isAdult ? t('dosage.adultDose') : t('dosage.pediatricDose')}`}
@@ -259,10 +259,10 @@ export default function DosageCalc() {
                 onClick={handleCopy}
                 title={t('dosage.copy')}
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
-                style={{ backgroundColor: copied ? '#eaf4ee' : '#f1f5f9' }}
+                style={{ backgroundColor: copied ? 'var(--brand-bg)' : 'var(--bg-input)' }}
               >
                 {copied
-                  ? <Check size={15} style={{ color: '#1a6b4a' }} />
+                  ? <Check size={15} style={{ color: 'var(--brand)' }} />
                   : <Copy size={15} className="text-slate-400" />
                 }
               </button>
@@ -297,22 +297,21 @@ export default function DosageCalc() {
                 />
               </div>
             ) : (
-              <div className="rounded-xl p-3 mb-4" style={{ backgroundColor: '#fffbeb' }}>
+              <div className="rounded-xl p-3 mb-4 bg-amber-50 dark:bg-amber-900/20">
                 <p
-                  className="text-xs font-semibold uppercase tracking-wide mb-1 flex items-center gap-1"
-                  style={{ color: '#d97706' }}
+                  className="text-xs font-semibold uppercase tracking-wide mb-1 flex items-center gap-1 text-amber-600 dark:text-amber-400"
                 >
                   <BookOpen size={11} />
                   {t('dosage.dosingNote')}
                 </p>
-                <p className="text-sm leading-snug" style={{ color: '#92400e' }}>
+                <p className="text-sm leading-snug text-amber-800 dark:text-amber-300">
                   {result.displayDose}
                 </p>
               </div>
             )}
 
-            <div className="pt-3 border-t border-slate-100">
-              <p className="text-xs text-slate-600">
+            <div className="pt-3 border-t border-slate-100 dark:border-[#2a4a40]">
+              <p className="text-xs text-slate-600 dark:text-slate-300">
                 <span className="font-semibold">{t('dosage.duration')}:</span>{' '}
                 {result.duration}
               </p>
@@ -322,13 +321,13 @@ export default function DosageCalc() {
           {/* Indications */}
           {result.indications.length > 0 && (
             <Card className="p-4">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">
                 {t('dosage.indications')}
               </p>
               <ul className="space-y-1">
                 {result.indications.map((ind) => (
-                  <li key={ind} className="text-sm text-slate-700 flex items-start gap-2">
-                    <span className="flex-shrink-0 mt-0.5" style={{ color: '#1a6b4a' }}>•</span>
+                  <li key={ind} className="text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2">
+                    <span className="flex-shrink-0 mt-0.5" style={{ color: 'var(--brand)' }}>•</span>
                     {ind}
                   </li>
                 ))}
@@ -354,11 +353,11 @@ export default function DosageCalc() {
 
           {/* Notes */}
           {result.notes && (
-            <Card className="p-4 bg-amber-50">
-              <p className="text-xs font-semibold text-amber-600 uppercase tracking-wide mb-1 flex items-center gap-1">
+            <Card className="p-4 bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800">
+              <p className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1 flex items-center gap-1">
                 <Info size={12} /> {t('dosage.notes')}
               </p>
-              <p className="text-sm text-amber-800">{result.notes}</p>
+              <p className="text-sm text-amber-800 dark:text-amber-300">{result.notes}</p>
             </Card>
           )}
         </div>
@@ -367,7 +366,7 @@ export default function DosageCalc() {
       {/* Disclaimer — always visible */}
       <div className="mt-6 flex items-start gap-2 px-1">
         <AlertTriangle size={13} className="text-amber-400 mt-0.5 flex-shrink-0" />
-        <p className="text-xs text-slate-400 italic">{t('dosage.disclaimer')}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 italic">{t('dosage.disclaimer')}</p>
       </div>
     </div>
   );

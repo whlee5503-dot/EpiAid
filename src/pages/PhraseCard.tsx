@@ -41,6 +41,26 @@ const LANG_NAME: Record<LangCode, string> = {
   en: 'English', ko: '한국어', fr: 'Français', sw: 'Kiswahili',
 };
 
+const LANG_TO_BCP47: Record<LangCode, string> = {
+  en: 'en-US', ko: 'ko-KR', fr: 'fr-FR', sw: 'sw-KE',
+};
+
+const hasTTS = typeof window !== 'undefined' && 'speechSynthesis' in window;
+
+function speakText(text: string, lang: LangCode) {
+  if (!hasTTS) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  if (lang === 'sw') {
+    const voices = window.speechSynthesis.getVoices();
+    const swVoice = voices.find((v) => v.lang.startsWith('sw'));
+    utterance.lang = swVoice ? 'sw-KE' : 'en-US';
+  } else {
+    utterance.lang = LANG_TO_BCP47[lang];
+  }
+  window.speechSynthesis.speak(utterance);
+}
+
 // ── Patient-mode overlay ──────────────────────────────────────────
 
 interface PatientOverlayProps {
@@ -156,6 +176,18 @@ function PatientOverlay({
         >
           {phrase[patientLang]}
         </p>
+
+        {/* TTS button */}
+        {hasTTS && (
+          <button
+            onClick={() => speakText(phrase[patientLang], patientLang)}
+            title="Speak"
+            className="w-12 h-12 rounded-full flex items-center justify-center transition-colors active:scale-95"
+            style={{ backgroundColor: 'var(--brand-bg)', color: 'var(--brand)' }}
+          >
+            <Volume2 size={22} />
+          </button>
+        )}
 
         {/* Pronunciation guide */}
         {pron && (
@@ -423,6 +455,17 @@ export default function PhraseCard() {
                       >
                         <Maximize2 size={14} />
                       </button>
+
+                      {/* TTS */}
+                      {hasTTS && (
+                        <button
+                          onClick={() => speakText(phrase[patientLang], patientLang)}
+                          title="Speak"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/50 active:scale-95"
+                        >
+                          <Volume2 size={14} />
+                        </button>
+                      )}
 
                       {/* Copy */}
                       <button

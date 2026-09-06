@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use EpiAid in your research or work, please cite it as below."
+title: "EpiAid: Offline-First Clinical Decision Support for Field Medical Workers"
+type: software
+authors:
+  - family-names: "Lee"
+    given-names: "Won Ho"
+    orcid: "https://orcid.org/0009-0005-1866-8257"
+    affiliation: "PublicHealth Tech Lab"
+repository-code: "https://github.com/whlee5503-dot/EpiAid"
+url: "https://epiaid.pages.dev"
+license: MIT
+version: 1.0.0
+date-released: "2026-05-28"
+keywords:
+  - clinical decision support
+  - field medicine
+  - public health
+  - offline-first
+  - global health
+  - digital public good
+  - open source
+abstract: >-
+  EpiAid is Module 3 of the EpiCalc Suite: an offline-first clinical
+  decision support tool for missionary, NGO, and community health worker
+  field medical use. Features include a weight-based dosage calculator
+  for WHO Essential Medicines, MUAC nutrition screening with Z-score
+  calculation, WHO IMCI-protocol diagnostic checklists (dehydration,
+  pneumonia, malaria, newborn danger signs), clinical phrase cards, and
+  offline patient logging via IndexedDB. The interface is fully localized
+  in English, Korean, French, and Swahili. The app is optimized for 2G/3G
+  environments and runs entirely offline after first install as a
+  Progressive Web App.

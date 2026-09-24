@@ -1,5 +1,8 @@
 {
-  "app": { "name": "EpiAid", "tagline": "Outil d'aide médicale de terrain" },
+  "app": {
+    "name": "EpiAid",
+    "tagline": "Outil d'aide médicale de terrain"
+  },
   "nav": {
     "home": "Accueil",
     "dosage": "Dosage",
@@ -253,5 +256,47 @@
     "error": "Une erreur s'est produite",
     "yes": "Oui",
     "no": "Non"
+  },
+  "unlock": {
+    "title": "Verrouillé",
+    "desc": "Déverrouillez pour consulter les dossiers des patients",
+    "pwdLabel": "Mot de passe",
+    "pwdPlaceholder": "Entrez le mot de passe",
+    "pwdError": "Mot de passe incorrect",
+    "recoveryLabel": "Code de récupération",
+    "recoveryPlaceholder": "Code de récupération à 16 caractères",
+    "recoveryError": "Code de récupération incorrect",
+    "unlockBtn": "Déverrouiller",
+    "switchToRecovery": "Déverrouiller avec le code de récupération",
+    "switchToPwd": "Déverrouiller avec le mot de passe",
+    "forgotBoth": "J'ai perdu mon mot de passe et mon code de récupération",
+    "resetTitle": "Ceci effacera toutes les données et réinitialisera",
+    "resetDesc": "Sans le mot de passe ni le code de récupération, les dossiers chiffrés ne peuvent jamais être récupérés. Continuer supprimera définitivement tous les dossiers patients enregistrés et redémarrera l'application avec le chiffrement désactivé. Cette action est irréversible.",
+    "resetPrompt": "Tapez \"{{phrase}}\" pour continuer",
+    "resetConfirmBtn": "Tout supprimer et réinitialiser",
+    "resetCancel": "Annuler et revenir"
+  },
+  "encryption": {
+    "title": "Chiffrement",
+    "statusOn": "Les dossiers des patients sont chiffrés",
+    "statusOff": "Les dossiers des patients ne sont pas chiffrés",
+    "enableBtn": "Activer le chiffrement",
+    "enableDesc": "Choisissez un mot de passe pour protéger les dossiers des patients stockés sur cet appareil.",
+    "disableBtn": "Désactiver le chiffrement",
+    "disableWarning": "Cette action déchiffrera et stockera tous les dossiers des patients en texte clair sur cet appareil.",
+    "changePwdBtn": "Changer le mot de passe",
+    "lockNowBtn": "Verrouiller maintenant",
+    "newPwdPlaceholder": "Nouveau mot de passe (min. 6 caractères)",
+    "confirmPwdPlaceholder": "Confirmer le mot de passe",
+    "currentPwdPlaceholder": "Mot de passe actuel",
+    "pwdTooShort": "Le mot de passe doit contenir au moins 6 caractères",
+    "pwdMismatch": "Les mots de passe ne correspondent pas",
+    "genericError": "Une erreur s'est produite. Veuillez réessayer.",
+    "recoveryTitle": "Enregistrez votre code de récupération",
+    "recoveryWarning": "Notez-le et conservez-le en lieu sûr. Si vous oubliez votre mot de passe, c'est le seul moyen de déverrouiller vos dossiers.",
+    "recoverySavedBtn": "Je l'ai enregistré",
+    "bannerTitle": "Les dossiers des patients ne sont pas chiffrés sur cet appareil",
+    "bannerDesc": "Toute personne ayant accès à cet appareil pourrait lire les noms et informations de santé des patients.",
+    "bannerCta": "Protéger maintenant"
   }
 }

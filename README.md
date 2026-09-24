@@ -49,7 +49,16 @@ Designed for **missionaries, NGO field medical workers, and Community Health Wor
 | 🌍 **4-Language UI** | Full interface localization (EN / KR / FR / SW) |
 
 ---
+## Security
 
+Patient records can be optionally protected with on-device encryption (AES-256-GCM). When enabled:
+
+- A password you choose derives the encryption key (PBKDF2, 310,000 iterations) — it is never sent anywhere or stored in plain form.
+- A one-time 16-character recovery code is generated when you enable encryption or change your password. **This code is shown only once and cannot be retrieved later** — write it down and keep it somewhere safe.
+- If both the password and the recovery code are lost, encrypted records **cannot be recovered by any means**. The app provides an explicit, confirmation-gated reset that erases the encrypted data and returns the app to an unencrypted state — this is a deliberate security tradeoff (a true backdoor would defeat the purpose of encryption).
+- All data stays on the device. Nothing is transmitted to any server at any time, encrypted or not.
+
+---
 ## Tech Stack
 
 | Layer | Technology |

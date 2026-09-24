@@ -101,11 +101,36 @@ interface CryptoContextValue {
     isEncryptionEnabled: boolean;
     isUnlocked: boolean;
     cryptoKey: CryptoKey | null;
-    enableEncryption(password: string): Promise<string>;
-    disableEncryption(password: string): Promise<void>;
+    /**
+     * Enables encryption for the first time (or after a reset).
+     * `onKeyReady` fires once the new key is ready but before it's activated —
+     * use it to re-encrypt any existing plaintext records with the new key.
+     * @returns The one-time recovery code the user must save.
+     */
+    enableEncryption(
+        password: string,
+        onKeyReady?: (newKey: CryptoKey) => Promise<void>,
+    ): Promise<string>;
+    /**
+     * Disables encryption after verifying `password`.
+     * `onBeforeClear` fires with the still-valid key before metadata is wiped —
+     * use it to decrypt existing records back to plaintext.
+     * @throws If the password is incorrect.
+     */
+    disableEncryption(
+        password: string,
+        onBeforeClear?: (key: CryptoKey) => Promise<void>,
+    ): Promise<void>;
     unlock(password: string): Promise<boolean>;
     unlockWithRecoveryCode(code: string): Promise<boolean>;
     lock(): void;
+    /**
+     * Changes the encryption password and generates a new recovery code.
+     * `onBeforeCommit` fires after the new key is derived but before localStorage
+     * is updated — use it to re-encrypt existing data with the new key.
+     * @returns The newly generated 16-character recovery code.
+     * @throws If the current password is wrong or `onBeforeCommit` throws.
+     */
     changePassword(
         oldPassword: string,
         newPassword: string,
@@ -141,7 +166,12 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
     );
     const [cryptoKey, setCryptoKey] = useState<CryptoKey | null>(null);
 
-    const enableEncryption = useCallback(async (password: string): Promise<string> => {
+    // ── enableEncryption ──────────────────────────────────────────────────────
+
+    const enableEncryption = useCallback(async (
+        password: string,
+        onKeyReady?: (newKey: CryptoKey) => Promise<void>,
+    ): Promise<string> => {
         const salt = generateSalt();
         const mainKey = await pbkdf2DeriveKey(password, salt, true);
         const verifier = await encryptData(VERIFIER_PLAINTEXT, mainKey);
@@ -153,6 +183,11 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
         const rawMainKey = await crypto.subtle.exportKey('raw', mainKey);
         const recoveryBlob = await wrapRawKey(rawMainKey, recoveryKey);
 
+        const runtimeKey = await importRawKey(rawMainKey);
+
+        // Re-encrypt any existing plaintext records BEFORE flipping the enabled flag
+        if (onKeyReady) await onKeyReady(runtimeKey);
+
         localStorage.setItem(LS_ENABLED, 'true');
         localStorage.setItem(LS_SALT, toBase64(salt));
         localStorage.setItem(LS_RECOVERY_HASH, recoveryCodeHash);
@@ -160,14 +195,18 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
         localStorage.setItem(LS_RECOVERY_BLOB, recoveryBlob);
         localStorage.setItem(LS_VERIFIER, verifier);
 
-        const runtimeKey = await importRawKey(rawMainKey);
         setIsEncryptionEnabled(true);
         setCryptoKey(runtimeKey);
 
         return recoveryCode;
     }, []);
 
-    const disableEncryption = useCallback(async (password: string): Promise<void> => {
+    // ── disableEncryption ─────────────────────────────────────────────────────
+
+    const disableEncryption = useCallback(async (
+        password: string,
+        onBeforeClear?: (key: CryptoKey) => Promise<void>,
+    ): Promise<void> => {
         const saltB64 = localStorage.getItem(LS_SALT);
         const verifier = localStorage.getItem(LS_VERIFIER);
         if (!saltB64 || !verifier) throw new Error('Encryption metadata missing.');
@@ -182,6 +221,9 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
             throw new Error('Incorrect password.');
         }
 
+        // Decrypt existing records back to plaintext BEFORE clearing the key material
+        if (onBeforeClear) await onBeforeClear(key);
+
         for (const k of [LS_ENABLED, LS_SALT, LS_RECOVERY_HASH, LS_RECOVERY_SALT, LS_RECOVERY_BLOB, LS_VERIFIER]) {
             localStorage.removeItem(k);
         }
@@ -189,6 +231,8 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
         setIsEncryptionEnabled(false);
         setCryptoKey(null);
     }, []);
+
+    // ── unlock ────────────────────────────────────────────────────────────────
 
     const unlock = useCallback(async (password: string): Promise<boolean> => {
         const saltB64 = localStorage.getItem(LS_SALT);
@@ -206,6 +250,8 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
             return false;
         }
     }, []);
+
+    // ── unlockWithRecoveryCode ────────────────────────────────────────────────
 
     const unlockWithRecoveryCode = useCallback(async (code: string): Promise<boolean> => {
         const storedHash = localStorage.getItem(LS_RECOVERY_HASH);
@@ -228,9 +274,13 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
+    // ── lock ──────────────────────────────────────────────────────────────────
+
     const lock = useCallback((): void => {
         setCryptoKey(null);
     }, []);
+
+    // ── changePassword ────────────────────────────────────────────────────────
 
     const changePassword = useCallback(async (
         oldPassword: string,
@@ -262,6 +312,8 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
         const recoveryBlob = await wrapRawKey(rawNewKey, newRecoveryKey);
 
         const runtimeKey = await importRawKey(rawNewKey);
+
+        // Re-encrypt existing records with the new key BEFORE committing new metadata
         if (onBeforeCommit) await onBeforeCommit(oldKey, runtimeKey);
 
         localStorage.setItem(LS_SALT, toBase64(newSalt));
@@ -274,10 +326,9 @@ export function CryptoProvider({ children }: { children: ReactNode }) {
         return recoveryCode;
     }, []);
 
+    // ── resetForgotten ────────────────────────────────────────────────────────
+
     const resetForgotten = useCallback(async (): Promise<void> => {
-        // No key available — encrypted rows can never be decrypted again, so we
-        // clear the patient list along with the crypto metadata rather than
-        // leave permanently-orphaned ciphertext.
         localStorage.removeItem('epiaid_patients');
         for (const k of [LS_ENABLED, LS_SALT, LS_RECOVERY_HASH, LS_RECOVERY_SALT, LS_RECOVERY_BLOB, LS_VERIFIER]) {
             localStorage.removeItem(k);

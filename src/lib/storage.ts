@@ -17,12 +17,6 @@ export interface PatientRecord {
 
 const KEY = 'epiaid_patients';
 
-/**
- * Reads the raw (possibly encrypted) list from localStorage.
- * When a cryptoKey is provided, each record is expected to be an encrypted
- * blob under `_enc` and is decrypted; otherwise the plain array is returned
- * as-is (supports pre-encryption data and the "encryption disabled" case).
- */
 export async function getPatients(cryptoKey: CryptoKey | null): Promise<PatientRecord[]> {
   try {
     const raw = localStorage.getItem(KEY);
@@ -30,8 +24,6 @@ export async function getPatients(cryptoKey: CryptoKey | null): Promise<PatientR
     const list = JSON.parse(raw) as Array<PatientRecord | { _enc: string }>;
 
     if (!cryptoKey) {
-      // Encryption disabled: assume plain records. If an encrypted blob is
-      // encountered here (locked-out edge case), skip it rather than throw.
       return list.filter((r): r is PatientRecord => !('_enc' in r));
     }
 
@@ -42,7 +34,7 @@ export async function getPatients(cryptoKey: CryptoKey | null): Promise<PatientR
           const json = await decryptData(r._enc, cryptoKey);
           decrypted.push(JSON.parse(json) as PatientRecord);
         } catch {
-          // Wrong key or corrupted entry — skip rather than crash the list.
+          // wrong key or corrupted entry — skip rather than crash the list
         }
       } else {
         decrypted.push(r); // legacy plaintext record, pre-encryption
@@ -63,7 +55,6 @@ export async function savePatient(patient: PatientRecord, cryptoKey: CryptoKey |
     ? { _enc: await encryptData(JSON.stringify(updated), cryptoKey) }
     : updated;
 
-  // Find existing entry by id — must decrypt each to compare id when encrypted.
   let idx = -1;
   for (let i = 0; i < rawList.length; i++) {
     const r = rawList[i];
@@ -94,7 +85,7 @@ export async function deletePatient(id: string, cryptoKey: CryptoKey | null): Pr
 
   for (const r of rawList) {
     if ('_enc' in r) {
-      if (!cryptoKey) { kept.push(r); continue; } // can't check id without key — keep it
+      if (!cryptoKey) { kept.push(r); continue; }
       try {
         const json = await decryptData(r._enc, cryptoKey);
         if ((JSON.parse(json) as PatientRecord).id !== id) kept.push(r);
@@ -110,4 +101,38 @@ export async function deletePatient(id: string, cryptoKey: CryptoKey | null): Pr
 
 export function generateId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+}
+
+/**
+ * Re-encrypts (or decrypts, or both) every stored record when the crypto
+ * key changes — called when encryption is enabled, disabled, or the
+ * password changes, so existing records are never silently orphaned.
+ * oldKey: the key to decrypt with (null = records are currently plaintext).
+ * newKey: the key to re-encrypt with (null = leave as plaintext).
+ */
+export async function reencryptAll(
+  oldKey: CryptoKey | null,
+  newKey: CryptoKey | null,
+): Promise<void> {
+  const raw = localStorage.getItem(KEY);
+  if (!raw) return;
+  const rawList = JSON.parse(raw) as Array<PatientRecord | { _enc: string }>;
+  const rewritten: Array<PatientRecord | { _enc: string }> = [];
+
+  for (const r of rawList) {
+    let record: PatientRecord;
+    if ('_enc' in r) {
+      if (!oldKey) { rewritten.push(r); continue; }
+      try {
+        record = JSON.parse(await decryptData(r._enc, oldKey)) as PatientRecord;
+      } catch {
+        rewritten.push(r); // can't decrypt — leave untouched rather than lose it
+        continue;
+      }
+    } else {
+      record = r;
+    }
+    rewritten.push(newKey ? { _enc: await encryptData(JSON.stringify(record), newKey) } : record);
+  }
+  localStorage.setItem(KEY, JSON.stringify(rewritten));
 }

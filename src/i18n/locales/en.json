@@ -1,5 +1,8 @@
 {
-  "app": { "name": "EpiAid", "tagline": "Field Medical Aid Tool" },
+  "app": {
+    "name": "EpiAid",
+    "tagline": "Field Medical Aid Tool"
+  },
   "nav": {
     "home": "Home",
     "dosage": "Dosage",
@@ -249,9 +252,51 @@
   "common": {
     "back": "Back",
     "close": "Close",
-    "loading": "Loading…",
+    "loading": "Loading...",
     "error": "An error occurred",
     "yes": "Yes",
     "no": "No"
+  },
+  "unlock": {
+    "title": "Locked",
+    "desc": "Unlock to view patient records",
+    "pwdLabel": "Password",
+    "pwdPlaceholder": "Enter password",
+    "pwdError": "Incorrect password",
+    "recoveryLabel": "Recovery code",
+    "recoveryPlaceholder": "16-character recovery code",
+    "recoveryError": "Incorrect recovery code",
+    "unlockBtn": "Unlock",
+    "switchToRecovery": "Unlock with recovery code",
+    "switchToPwd": "Unlock with password",
+    "forgotBoth": "I lost both my password and recovery code",
+    "resetTitle": "This will erase all data and reset",
+    "resetDesc": "Without either the password or the recovery code, encrypted records can never be recovered by any means. Continuing will permanently delete every stored patient record and restart the app with encryption disabled. This cannot be undone.",
+    "resetPrompt": "Type \"{{phrase}}\" to continue",
+    "resetConfirmBtn": "Delete everything and reset",
+    "resetCancel": "Cancel and go back"
+  },
+  "encryption": {
+    "title": "Encryption",
+    "statusOn": "Patient records are encrypted",
+    "statusOff": "Patient records are not encrypted",
+    "enableBtn": "Enable encryption",
+    "enableDesc": "Choose a password to protect patient records stored on this device.",
+    "disableBtn": "Disable encryption",
+    "disableWarning": "This will decrypt and store all patient records in plain text on this device.",
+    "changePwdBtn": "Change password",
+    "lockNowBtn": "Lock now",
+    "newPwdPlaceholder": "New password (min. 6 characters)",
+    "confirmPwdPlaceholder": "Confirm password",
+    "currentPwdPlaceholder": "Current password",
+    "pwdTooShort": "Password must be at least 6 characters",
+    "pwdMismatch": "Passwords do not match",
+    "genericError": "Something went wrong. Please try again.",
+    "recoveryTitle": "Save your recovery code",
+    "recoveryWarning": "Write this down and keep it somewhere safe. If you forget your password, this is the only way to unlock your records.",
+    "recoverySavedBtn": "I've saved it",
+    "bannerTitle": "This device stores patient records without encryption",
+    "bannerDesc": "Anyone with access to this device could read patient names and health information.",
+    "bannerCta": "Protect records now"
   }
 }

@@ -1,5 +1,8 @@
 {
-  "app": { "name": "EpiAid", "tagline": "Zana ya Msaada wa Matibabu" },
+  "app": {
+    "name": "EpiAid",
+    "tagline": "Zana ya Msaada wa Matibabu"
+  },
   "nav": {
     "home": "Nyumbani",
     "dosage": "Dozi",
@@ -253,5 +256,47 @@
     "error": "Hitilafu imetokea",
     "yes": "Ndiyo",
     "no": "Hapana"
+  },
+  "unlock": {
+    "title": "Imefungwa",
+    "desc": "Fungua ili kuona rekodi za wagonjwa",
+    "pwdLabel": "Nenosiri",
+    "pwdPlaceholder": "Weka nenosiri",
+    "pwdError": "Nenosiri si sahihi",
+    "recoveryLabel": "Msimbo wa urejeshaji",
+    "recoveryPlaceholder": "Msimbo wa urejeshaji wa herufi 16",
+    "recoveryError": "Msimbo wa urejeshaji si sahihi",
+    "unlockBtn": "Fungua",
+    "switchToRecovery": "Fungua kwa msimbo wa urejeshaji",
+    "switchToPwd": "Fungua kwa nenosiri",
+    "forgotBoth": "Nimepoteza nenosiri na msimbo wa urejeshaji vyote",
+    "resetTitle": "Hii itafuta data yote na kuweka upya",
+    "resetDesc": "Bila nenosiri au msimbo wa urejeshaji, rekodi zilizosimbwa haziwezi kurejeshwa kwa njia yoyote. Kuendelea kutafuta kabisa kila rekodi ya mgonjwa iliyohifadhiwa na kuanzisha upya programu bila usimbaji. Hatua hii haiwezi kutenduliwa.",
+    "resetPrompt": "Andika \"{{phrase}}\" ili kuendelea",
+    "resetConfirmBtn": "Futa kila kitu na uweke upya",
+    "resetCancel": "Ghairi na urudi"
+  },
+  "encryption": {
+    "title": "Usimbaji",
+    "statusOn": "Rekodi za wagonjwa zimesimbwa",
+    "statusOff": "Rekodi za wagonjwa hazijasimbwa",
+    "enableBtn": "Washa usimbaji",
+    "enableDesc": "Chagua nenosiri kulinda rekodi za wagonjwa zilizohifadhiwa kwenye kifaa hiki.",
+    "disableBtn": "Zima usimbaji",
+    "disableWarning": "Hatua hii itasimbua na kuhifadhi rekodi zote za wagonjwa kwa maandishi wazi kwenye kifaa hiki.",
+    "changePwdBtn": "Badilisha nenosiri",
+    "lockNowBtn": "Funga sasa",
+    "newPwdPlaceholder": "Nenosiri jipya (angalau herufi 6)",
+    "confirmPwdPlaceholder": "Thibitisha nenosiri",
+    "currentPwdPlaceholder": "Nenosiri la sasa",
+    "pwdTooShort": "Nenosiri lazima liwe na angalau herufi 6",
+    "pwdMismatch": "Manenosiri hayafanani",
+    "genericError": "Hitilafu imetokea. Tafadhali jaribu tena.",
+    "recoveryTitle": "Hifadhi msimbo wako wa urejeshaji",
+    "recoveryWarning": "Andika hii na uihifadhi mahali salama. Ukisahau nenosiri lako, hii ndiyo njia pekee ya kufungua rekodi zako.",
+    "recoverySavedBtn": "Nimeihifadhi",
+    "bannerTitle": "Kifaa hiki kinahifadhi rekodi za wagonjwa bila usimbaji",
+    "bannerDesc": "Mtu yeyote mwenye ufikiaji wa kifaa hiki anaweza kusoma majina ya wagonjwa na taarifa za afya.",
+    "bannerCta": "Linda sasa"
   }
 }

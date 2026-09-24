@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Users, Plus, Search, Trash2, ChevronRight, X } from 'lucide-react';
 import { usePatients } from '../hooks/usePatients';
 import type { PatientRecord } from '../lib/storage';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Users, Plus, Search, Trash2, ChevronRight, X, Shield, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { useCrypto } from '../context/CryptoContext';
+import { EncryptionSetupModal } from '../components/EncryptionSetupModal';
 
 type FormData = Omit<PatientRecord, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -23,6 +25,17 @@ const EMPTY_FORM: FormData = {
 export default function PatientLog() {
   const { t } = useTranslation();
   const { patients, add, remove } = usePatients();
+  const { isEncryptionEnabled } = useCrypto();
+  const [showEncryptionModal, setShowEncryptionModal] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(
+    () => sessionStorage.getItem('epiaid_encryption_banner_dismissed') === 'true'
+  );
+  const showBanner = !isEncryptionEnabled && patients.length > 0 && !bannerDismissed;
+
+  function dismissBanner() {
+    sessionStorage.setItem('epiaid_encryption_banner_dismissed', 'true');
+    setBannerDismissed(true);
+  }
   const [query, setQuery] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<FormData>(EMPTY_FORM);
@@ -33,16 +46,16 @@ export default function PatientLog() {
     (p.diagnosis ?? '').toLowerCase().includes(query.toLowerCase())
   );
 
-  function handleSave() {
+  async function handleSave() {
     if (!form.name.trim()) return;
-    add(form);
+    await add(form);
     setForm(EMPTY_FORM);
     setShowForm(false);
   }
 
-  function handleDelete(id: string) {
+  async function handleDelete(id: string) {
     if (window.confirm(t('patients.confirmDelete'))) {
-      remove(id);
+      await remove(id);
       if (selected?.id === id) setSelected(null);
     }
   }
@@ -196,15 +209,45 @@ export default function PatientLog() {
 
   return (
     <div className="p-4">
+      {showBanner && (
+        <div className="mb-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-start gap-2.5">
+          <ShieldAlert size={18} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-amber-800 dark:text-amber-300">{t('encryption.bannerTitle')}</p>
+            <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5 leading-relaxed">{t('encryption.bannerDesc')}</p>
+            <button
+              onClick={() => setShowEncryptionModal(true)}
+              className="text-xs font-semibold text-amber-800 dark:text-amber-300 underline underline-offset-2 mt-1.5"
+            >
+              {t('encryption.bannerCta')}
+            </button>
+          </div>
+          <button onClick={dismissBanner} className="text-amber-500 hover:text-amber-700 dark:text-amber-500 shrink-0">
+            <X size={16} />
+          </button>
+        </div>
+      )}
       <header className="mb-5 pt-2 flex items-center justify-between">
         <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
           <Users size={20} className="text-orange-600 dark:text-orange-400" />
           {t('patients.title')}
         </h1>
-        <Button size="sm" onClick={() => setShowForm(true)}>
-          <Plus size={14} className="mr-1" /> {t('patients.newPatient')}
-        </Button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowEncryptionModal(true)}
+            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#243d36]"
+            title={t('encryption.title')}
+          >
+            {isEncryptionEnabled
+              ? <ShieldCheck size={18} className="text-green-600" />
+              : <Shield size={18} className="text-slate-400" />}
+          </button>
+          <Button size="sm" onClick={() => setShowForm(true)}>
+            <Plus size={14} className="mr-1" /> {t('patients.newPatient')}
+          </Button>
+        </div>
       </header>
+      {showEncryptionModal && <EncryptionSetupModal onClose={() => setShowEncryptionModal(false)} />}
 
       <div className="relative mb-4">
         <Search size={15} className="absolute left-3 top-3 text-slate-400" />
@@ -227,9 +270,8 @@ export default function PatientLog() {
         <div className="space-y-2">
           {filtered.map((p) => (
             <Card key={p.id} className="p-4 flex items-center gap-3" onClick={() => setSelected(p)}>
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm ${
-                p.sex === 'M' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-700'
-              }`}>
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm ${p.sex === 'M' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-700'
+                }`}>
                 {p.sex}
               </div>
               <div className="flex-1 min-w-0">

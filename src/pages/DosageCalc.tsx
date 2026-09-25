@@ -1,12 +1,37 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pill, AlertTriangle, Info, ChevronDown, Copy, Check, BookOpen } from 'lucide-react';
-import { calculateDose, type Drug, type DrugFormulation, type DosageResult } from '../lib/dosage';
+import {
+  calculateDose,
+  type AgeGroup,
+  type Drug,
+  type DrugFormulation,
+  type DosageResult,
+  type PregnancyStatus,
+} from '../lib/dosage';
 import drugsData from '../data/drugs.json';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 
-const drugs = drugsData as Drug[];
+const drugs = drugsData as unknown as Drug[];
+
+const AGE_GROUPS: AgeGroup[] = ['neonate', 'infant1to5m', 'infant6to11m', 'child1to11y', 'adult12plus'];
+
+const AGE_GROUP_DEFAULTS: Record<AgeGroup, string> = {
+  neonate: 'Neonate (< 1 month)',
+  infant1to5m: 'Infant 1–5 months',
+  infant6to11m: 'Infant 6–11 months',
+  child1to11y: 'Child 1–11 years',
+  adult12plus: '12 years and older (adult dose)',
+};
+
+const PREGNANCY_OPTIONS: PregnancyStatus[] = ['no', 'yes', 'unknown'];
+
+const PREGNANCY_DEFAULTS: Record<PregnancyStatus, string> = {
+  no: 'Not pregnant / N/A',
+  yes: 'Pregnant',
+  unknown: 'Unknown',
+};
 
 type TFunc = ReturnType<typeof useTranslation>['t'];
 
@@ -53,11 +78,24 @@ function StatBox({
   );
 }
 
+function GuidanceBox({ label, text }: { label: string; text: string }) {
+  return (
+    <div className="rounded-xl p-3 mb-4 bg-amber-50 dark:bg-amber-900/20">
+      <p className="text-xs font-semibold uppercase tracking-wide mb-1 flex items-center gap-1 text-amber-600 dark:text-amber-400">
+        <BookOpen size={11} />
+        {label}
+      </p>
+      <p className="text-sm leading-snug text-amber-800 dark:text-amber-300">{text}</p>
+    </div>
+  );
+}
+
 function buildCopyText(
   drug: Drug,
   weight: string,
   formulation: DrugFormulation | null,
   result: DosageResult,
+  ageLabel: string,
   fLabel: string,
   disclaimer: string,
 ): string {
@@ -65,6 +103,7 @@ function buildCopyText(
     'EpiAid — Dosage Result',
     `Drug: ${drug.name}`,
     `Weight: ${weight} kg`,
+    `Age group: ${ageLabel}`,
     formulation ? `Form: ${formulation.label}` : null,
     result.hasCalculation
       ? `Single dose: ${result.singleDoseMgCapped} mg`
@@ -72,7 +111,9 @@ function buildCopyText(
     result.volumePerDose ? `Volume: ${result.volumePerDose}` : null,
     result.freqPerDay !== null ? `Frequency: ${fLabel}` : null,
     result.dailyDoseMg ? `Daily total: ${result.dailyDoseMg} mg` : null,
+    result.hasCalculation && result.guidance ? `Guidance: ${result.guidance}` : null,
     `Duration: ${result.duration}`,
+    ...result.alerts.map((a) => `${a.level === 'block' ? '⛔' : '⚠'} ${a.message}`),
     `⚠ ${disclaimer}`,
   ];
   return lines.filter(Boolean).join('\n');
@@ -83,7 +124,9 @@ export default function DosageCalc() {
   const [drugId, setDrugId] = useState('');
   const [formulationIdx, setFormulationIdx] = useState(0);
   const [weight, setWeight] = useState('');
-  const [isAdult, setIsAdult] = useState(false);
+  const [ageGroup, setAgeGroup] = useState<AgeGroup | ''>('');
+  // Default 'unknown' is the safe choice: it triggers pregnancy hard stops
+  const [pregnancy, setPregnancy] = useState<PregnancyStatus>('unknown');
   const [result, setResult] = useState<DosageResult | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -93,7 +136,10 @@ export default function DosageCalc() {
 
   const weightNum = parseFloat(weight);
   const weightValid = !isNaN(weightNum) && weightNum >= 0.5 && weightNum <= 150;
-  const canCalculate = !!drugId && weightValid;
+  const canCalculate = !!drugId && weightValid && ageGroup !== '';
+  const isAdult = ageGroup === 'adult12plus';
+
+  const ageLabel = (g: AgeGroup) => t(`dosage.ageGroups.${g}`, AGE_GROUP_DEFAULTS[g]);
 
   function handleDrugChange(id: string) {
     setDrugId(id);
@@ -102,15 +148,16 @@ export default function DosageCalc() {
   }
 
   function handleCalculate() {
-    if (!selectedDrug || !weightValid) return;
-    setResult(calculateDose(selectedDrug, weightNum, isAdult, selectedFormulation));
+    if (!selectedDrug || !weightValid || ageGroup === '') return;
+    const patient = { ageGroup, pregnancy: isAdult ? pregnancy : ('no' as const) };
+    setResult(calculateDose(selectedDrug, weightNum, patient, selectedFormulation));
   }
 
   async function handleCopy() {
-    if (!result || !selectedDrug) return;
+    if (!result || !selectedDrug || ageGroup === '') return;
     const fLabel = freqText(result.freqPerDay, t);
     const text = buildCopyText(
-      selectedDrug, weight, selectedFormulation, result, fLabel, t('dosage.disclaimer'),
+      selectedDrug, weight, selectedFormulation, result, ageLabel(ageGroup), fLabel, t('dosage.disclaimer'),
     );
     await navigator.clipboard.writeText(text);
     setCopied(true);
@@ -194,23 +241,60 @@ export default function DosageCalc() {
             )}
           </div>
 
-          {/* Adult toggle */}
-          <label className="flex items-center gap-3 cursor-pointer select-none">
-            <div
-              role="switch"
-              aria-checked={isAdult}
-              onClick={() => { setIsAdult((v) => !v); setResult(null); }}
-              className="w-10 h-6 rounded-full transition-colors relative flex-shrink-0 cursor-pointer"
-              style={{ backgroundColor: isAdult ? '#1a6b4a' : '#e2e8f0' }}
-            >
-              <span
-                className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                  isAdult ? 'translate-x-4' : 'translate-x-0.5'
-                }`}
-              />
+          {/* Age group */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
+              {t('dosage.ageGroup', 'Age group')}
+            </label>
+            <div className="relative">
+              <select
+                className="w-full appearance-none bg-slate-50 dark:bg-[#243d36] border border-slate-200 dark:border-[#2a4a40] rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 pr-8 focus:outline-none focus:ring-2 focus:ring-[#1a6b4a] dark:focus:ring-[#4ade80]"
+                value={ageGroup}
+                onChange={(e) => { setAgeGroup(e.target.value as AgeGroup | ''); setResult(null); }}
+              >
+                <option value="">— {t('dosage.ageGroup', 'Age group')} —</option>
+                {AGE_GROUPS.map((g) => (
+                  <option key={g} value={g}>{ageLabel(g)}</option>
+                ))}
+              </select>
+              <ChevronDown size={15} className="absolute right-3 top-3 text-slate-400 pointer-events-none" />
             </div>
-            <span className="text-sm text-slate-700 dark:text-slate-300">{t('dosage.isAdult')}</span>
-          </label>
+          </div>
+
+          {/* Pregnancy status (adults only) */}
+          {isAdult && (
+            <div>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wide">
+                {t('dosage.pregnancy', 'Pregnancy')}
+              </label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {PREGNANCY_OPTIONS.map((p) => {
+                  const active = pregnancy === p;
+                  return (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => { setPregnancy(p); setResult(null); }}
+                      className="rounded-xl px-2 py-2 text-xs font-semibold border transition-colors"
+                      style={{
+                        backgroundColor: active ? 'var(--brand-bg)' : 'var(--bg-input)',
+                        color: active ? 'var(--brand-text)' : 'var(--text-muted)',
+                        borderColor: active ? 'var(--brand)' : 'transparent',
+                      }}
+                      aria-pressed={active}
+                    >
+                      {t(`dosage.pregnancyOptions.${p}`, PREGNANCY_DEFAULTS[p])}
+                    </button>
+                  );
+                })}
+              </div>
+              {pregnancy === 'unknown' && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  {t('dosage.pregnancyUnknownHint', 'Unknown is treated as possibly pregnant.')}
+                </p>
+              )}
+            </div>
+          )}
 
           <Button fullWidth onClick={handleCalculate} disabled={!canCalculate}>
             {t('dosage.calculate')}
@@ -226,6 +310,33 @@ export default function DosageCalc() {
       {/* Results */}
       {result && selectedDrug && (
         <div className="space-y-3">
+
+          {/* Safety alerts: hard stops (block) and warnings */}
+          {result.alerts.map((a, i) => (
+            <div
+              key={i}
+              role="alert"
+              className={`rounded-2xl p-3 flex items-start gap-2 border ${a.level === 'block'
+                  ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700'
+                  : 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800'
+                }`}
+            >
+              <AlertTriangle
+                size={16}
+                className={`mt-0.5 flex-shrink-0 ${a.level === 'block' ? 'text-red-600 dark:text-red-400' : 'text-orange-500 dark:text-orange-400'}`}
+              />
+              <div>
+                <p className={`text-sm font-semibold ${a.level === 'block' ? 'text-red-700 dark:text-red-300' : 'text-orange-700 dark:text-orange-300'}`}>
+                  {a.level === 'block'
+                    ? t('dosage.blocked', 'Do not give — dose not calculated')
+                    : t('dosage.warning', 'Caution')}
+                </p>
+                <p className={`text-xs mt-0.5 ${a.level === 'block' ? 'text-red-600 dark:text-red-400' : 'text-orange-600 dark:text-orange-400'}`}>
+                  {a.message}
+                </p>
+              </div>
+            </div>
+          ))}
 
           {/* Max dose warning */}
           {result.isOverMax && (
@@ -252,7 +363,7 @@ export default function DosageCalc() {
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   {weight} kg
                   {selectedFormulation && ` · ${selectedFormulation.label}`}
-                  {` · ${result.isAdult ? t('dosage.adultDose') : t('dosage.pediatricDose')}`}
+                  {ageGroup !== '' && ` · ${ageLabel(ageGroup)}`}
                 </p>
               </div>
               <button
@@ -269,46 +380,43 @@ export default function DosageCalc() {
             </div>
 
             {result.hasCalculation ? (
-              <div className="grid grid-cols-2 gap-2.5 mb-4">
-                <StatBox
-                  label={t('dosage.singleDose')}
-                  value={`${result.singleDoseMgCapped} mg`}
-                  accent
-                />
-                <StatBox
-                  label={t('dosage.frequency')}
-                  value={freqText(result.freqPerDay, t)}
-                  small
-                />
-                <StatBox
-                  label={t('dosage.volume')}
-                  value={result.volumePerDose ?? '—'}
-                  accent={!!result.volumePerDose}
-                />
-                <StatBox
-                  label={t('dosage.dailyTotal')}
-                  value={
-                    result.dailyDoseMg
-                      ? `${result.dailyDoseMg} mg`
-                      : result.freqPerDay === null
-                        ? t('dosage.freqSingle')
-                        : '—'
-                  }
-                />
-              </div>
-            ) : (
-              <div className="rounded-xl p-3 mb-4 bg-amber-50 dark:bg-amber-900/20">
-                <p
-                  className="text-xs font-semibold uppercase tracking-wide mb-1 flex items-center gap-1 text-amber-600 dark:text-amber-400"
-                >
-                  <BookOpen size={11} />
-                  {t('dosage.dosingNote')}
-                </p>
-                <p className="text-sm leading-snug text-amber-800 dark:text-amber-300">
-                  {result.displayDose}
-                </p>
-              </div>
-            )}
+              <>
+                <div className="grid grid-cols-2 gap-2.5 mb-4">
+                  <StatBox
+                    label={t('dosage.singleDose')}
+                    value={`${result.singleDoseMgCapped} mg`}
+                    accent
+                  />
+                  <StatBox
+                    label={t('dosage.frequency')}
+                    value={freqText(result.freqPerDay, t)}
+                    small
+                  />
+                  <StatBox
+                    label={t('dosage.volume')}
+                    value={result.volumePerDose ?? '—'}
+                    accent={!!result.volumePerDose}
+                  />
+                  <StatBox
+                    label={t('dosage.dailyTotal')}
+                    value={
+                      result.dailyDoseMg
+                        ? `${result.dailyDoseMg} mg`
+                        : result.freqPerDay === null
+                          ? t('dosage.freqSingle')
+                          : '—'
+                    }
+                  />
+                </div>
+
+                {/* Indication-specific dosing (e.g. meningitis, HIV prophylaxis, cholera) */}
+                {result.guidance && (
+                  <GuidanceBox label={t('dosage.dosingNote')} text={result.guidance} />
+                )}
+              </>
+            ) : result.displayDose ? (
+              <GuidanceBox label={t('dosage.dosingNote')} text={result.displayDose} />
+            ) : null}
 
             <div className="pt-3 border-t border-slate-100 dark:border-[#2a4a40]">
               <p className="text-xs text-slate-600 dark:text-slate-300">

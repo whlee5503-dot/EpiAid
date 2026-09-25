@@ -105,7 +105,16 @@
       "Sulfonamide allergy",
       "Neonates < 4 weeks (kernicterus risk)"
     ],
-    "notes": "Pediatric treatment dose is total co-trimoxazole (4mg TMP/kg = 24mg co-trimoxazole/kg). HIV prophylaxis (WHO 2014): adults 960mg once daily, continued regardless of pregnancy stage; also reduces malaria in people with HIV. Not recommended by WHO for shigellosis (resistance). Caution in G6PD deficiency."
+    "notes": "Pediatric treatment dose is total co-trimoxazole (4mg TMP/kg = 24mg co-trimoxazole/kg). HIV prophylaxis (WHO 2014): adults 960mg once daily, continued regardless of pregnancy stage; also reduces malaria in people with HIV. Not recommended by WHO for shigellosis (resistance). Caution in G6PD deficiency.",
+    "rules": [
+      {
+        "level": "block",
+        "ageGroups": [
+          "neonate"
+        ],
+        "message": "Not for neonates under 4 weeks (kernicterus risk). HIV-exposed infants start co-trimoxazole prophylaxis at 4–6 weeks."
+      }
+    ]
   },
   {
     "id": "metronidazole",
@@ -161,7 +170,19 @@
     "contraindications": [
       "Alcohol consumption"
     ],
-    "notes": "Use with caution in the 1st trimester of pregnancy (follow national formulary). C. difficile: oral vancomycin or fidaxomicin are preferred where available; metronidazole 500mg every 8h for 10 days is an alternative for non-severe disease only. Avoid alcohol during treatment and 48h after. Metallic taste is common."
+    "notes": "Use with caution in the 1st trimester of pregnancy (follow national formulary). C. difficile: oral vancomycin or fidaxomicin are preferred where available; metronidazole 500mg every 8h for 10 days is an alternative for non-severe disease only. Avoid alcohol during treatment and 48h after. Metallic taste is common.",
+    "rules": [
+      {
+        "level": "warn",
+        "ageGroups": [
+          "adult12plus"
+        ],
+        "pregnancy": [
+          "yes"
+        ],
+        "message": "Pregnancy: use with caution in the 1st trimester (follow national formulary)."
+      }
+    ]
   },
   {
     "id": "ors",
@@ -243,7 +264,25 @@
       "Diarrhea in children under 5"
     ],
     "contraindications": [],
-    "notes": "Give alongside ORS for all children under 5 with diarrhea. Not needed for children receiving zinc-fortified therapeutic foods (F-75, F-100, RUTF)."
+    "notes": "Give alongside ORS for all children under 5 with diarrhea. Not needed for children receiving zinc-fortified therapeutic foods (F-75, F-100, RUTF).",
+    "ageDoses": [
+      {
+        "ageGroups": [
+          "neonate",
+          "infant1to5m"
+        ],
+        "dose": "10 mg once daily",
+        "doseMg": 10
+      },
+      {
+        "ageGroups": [
+          "infant6to11m",
+          "child1to11y"
+        ],
+        "dose": "20 mg once daily",
+        "doseMg": 20
+      }
+    ]
   },
   {
     "id": "vitamin-a",
@@ -277,7 +316,7 @@
         "type": "cap"
       }
     ],
-    "adultDose": "Pregnant or possibly pregnant women: max 10,000 IU/day or 25,000 IU/week — never a single high dose",
+    "adultDose": "No routine supplementation for adults. For xerophthalmia or measles in adults, follow national guidance.",
     "adultSingleDoseMg": null,
     "adultFreqPerDay": null,
     "adultMaxDaily": "10,000 IU (pregnancy)",
@@ -299,7 +338,41 @@
       "Pregnancy or possible pregnancy: never give a single dose > 25,000 IU (teratogenic)",
       "Vitamin A toxicity/hypervitaminosis"
     ],
-    "notes": "SAM (WHO 2013): no high-dose vitamin A if the child receives WHO-standard F-75, F-100 or RUTF. Give one age-based dose on admission only if foods are not fortified; repeat on day 2 and 14 only with eye signs or recent measles. Postpartum supplementation is not recommended by WHO."
+    "notes": "SAM (WHO 2013): no high-dose vitamin A if the child receives WHO-standard F-75, F-100 or RUTF. Give one age-based dose on admission only if foods are not fortified; repeat on day 2 and 14 only with eye signs or recent measles. Postpartum supplementation is not recommended by WHO.",
+    "rules": [
+      {
+        "level": "block",
+        "ageGroups": [
+          "adult12plus"
+        ],
+        "pregnancy": [
+          "yes",
+          "unknown"
+        ],
+        "message": "Pregnant or possibly pregnant: never give a high-dose capsule (> 25,000 IU). Maximum 10,000 IU/day or 25,000 IU/week (WHO 2011)."
+      }
+    ],
+    "ageDoses": [
+      {
+        "ageGroups": [
+          "neonate",
+          "infant1to5m"
+        ],
+        "dose": "50,000 IU"
+      },
+      {
+        "ageGroups": [
+          "infant6to11m"
+        ],
+        "dose": "100,000 IU"
+      },
+      {
+        "ageGroups": [
+          "child1to11y"
+        ],
+        "dose": "200,000 IU"
+      }
+    ]
   },
   {
     "id": "mebendazole",
@@ -355,7 +428,18 @@
       "< 1 year old",
       "1st trimester pregnancy"
     ],
-    "notes": "WHO 2017 preventive chemotherapy: 500mg single dose once or twice yearly depending on prevalence; pregnant women may be treated after the 1st trimester. Pinworm is usually treated with a repeat dose after 2 weeks. Can be crushed and mixed with food."
+    "notes": "WHO 2017 preventive chemotherapy: 500mg single dose once or twice yearly depending on prevalence; pregnant women may be treated after the 1st trimester. Pinworm is usually treated with a repeat dose after 2 weeks. Can be crushed and mixed with food.",
+    "rules": [
+      {
+        "level": "block",
+        "ageGroups": [
+          "neonate",
+          "infant1to5m",
+          "infant6to11m"
+        ],
+        "message": "Not for children under 1 year (WHO preventive chemotherapy starts at 12 months)."
+      }
+    ]
   },
   {
     "id": "al",
@@ -400,7 +484,14 @@
     "contraindications": [
       "Severe malaria (use IV/IM artesunate)"
     ],
-    "notes": "Preferred treatment in all trimesters of pregnancy, including the 1st trimester (WHO, Nov 2022). Infants < 5kg: use the dedicated infant formulation (artemether-lumefantrine 5/60mg dispersible, for 2–<5kg) — do not split older-child tablets. Must be taken with food — fat increases absorption. Complete the full course."
+    "notes": "Preferred treatment in all trimesters of pregnancy, including the 1st trimester (WHO, Nov 2022). Infants < 5kg: use the dedicated infant formulation (artemether-lumefantrine 5/60mg dispersible, for 2–<5kg) — do not split older-child tablets. Must be taken with food — fat increases absorption. Complete the full course.",
+    "rules": [
+      {
+        "level": "block",
+        "weightBelowKg": 5,
+        "message": "Under 5 kg: use the infant formulation (artemether-lumefantrine 5/60mg dispersible, for 2–<5 kg) — do not use standard tablets."
+      }
+    ]
   },
   {
     "id": "ciprofloxacin",
@@ -459,7 +550,19 @@
       "Tendon disorders",
       "Avoid in children unless benefit > risk"
     ],
-    "notes": "Cholera (GTFCC 2022): doxycycline is first-line for all ages including pregnant women; ciprofloxacin or azithromycin are alternatives. Antibiotics only for eligible cholera patients (e.g. severe dehydration). Fluoroquinolone resistance in S. Typhi is widespread — check local data. Give 2h before or 4–6h after zinc, antacids or dairy."
+    "notes": "Cholera (GTFCC 2022): doxycycline is first-line for all ages including pregnant women; ciprofloxacin or azithromycin are alternatives. Antibiotics only for eligible cholera patients (e.g. severe dehydration). Fluoroquinolone resistance in S. Typhi is widespread — check local data. Give 2h before or 4–6h after zinc, antacids or dairy.",
+    "rules": [
+      {
+        "level": "warn",
+        "ageGroups": [
+          "adult12plus"
+        ],
+        "pregnancy": [
+          "yes"
+        ],
+        "message": "Pregnancy: use only if no safer alternative. For cholera, doxycycline or azithromycin are preferred (GTFCC 2022)."
+      }
+    ]
   },
   {
     "id": "ceftriaxone",
@@ -527,6 +630,15 @@
       "Neonates with hyperbilirubinemia",
       "Neonates receiving IV calcium-containing solutions"
     ],
-    "notes": "Pediatric dosing per WHO Pocket Book of Hospital Care for Children (2013). Meningitis needs the higher dose — the calculated 80mg/kg/2g cap applies to pneumonia/sepsis. Gonorrhea: WHO 2024 recommends 1g IM single dose. Reconstitute 1g in 3.5ml 1% lidocaine for IM (less pain; never IV). IV: dilute in 50–100ml NS over 30 min."
+    "notes": "Pediatric dosing per WHO Pocket Book of Hospital Care for Children (2013). Meningitis needs the higher dose — the calculated 80mg/kg/2g cap applies to pneumonia/sepsis. Gonorrhea: WHO 2024 recommends 1g IM single dose. Reconstitute 1g in 3.5ml 1% lidocaine for IM (less pain; never IV). IV: dilute in 50–100ml NS over 30 min.",
+    "rules": [
+      {
+        "level": "block",
+        "ageGroups": [
+          "neonate"
+        ],
+        "message": "Neonates need a different regimen: 50mg/kg every 12h if < 7 days old, 75mg/kg after 1 week (meningitis, with gentamicin). Contraindicated in premature neonates (up to 41 weeks postmenstrual age), neonatal jaundice, or with IV calcium-containing fluids — use cefotaxime instead."
+      }
+    ]
   }
 ]

@@ -3,7 +3,7 @@
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
 - **Validation date:** 2026-09-25
-- **Data version:** Phase 1 (flat schema, one calculated dose per population per drug)
+- **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
 > **Disclaimer.** EpiAid is a decision-support tool, not clinical guidance. National treatment guidelines and local antimicrobial resistance data take precedence.
@@ -110,7 +110,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 | Schedule | 0, 8, 24, 36, 48, 60h | Same | ✅ |
 | 1st trimester | Preferred treatment | WHO update 25 Nov 2022 (strong recommendation) | ✅ |
 | Infants 2–<5 kg | Infant formulation 5/60 mg (note) | WHO malaria guidelines, version 10 Sept 2026 | ✅ (per-dose schedule ⏳) |
-| 40/240 mg tablet | Halve tablet count (note) | Product label | ⏳ (calculator handling to be checked in Phase 2) |
+| 40/240 mg tablet | Halve tablet count (note); calculator does not compute AL tablet counts | Product label | ✅ |
 
 ### 9. Ciprofloxacin
 
@@ -132,11 +132,41 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 | Gonorrhea | 1 g IM single dose | WHO STI guidelines 2024 | ✅ |
 | Adult severe infections | 1–2 g once daily | AWaRe 2022 | ⏳ (meningitis dose) |
 
-## Known limitations (Phase 2)
+## Patient context and safety rules
 
-1. **One calculated dose per population.** Indication-specific doses (ceftriaxone meningitis, cholera single doses, metronidazole by indication) are shown as text only. Phase 2 restructures `drugs.json` into `drug → indications[] → regimens[]` so each is calculated.
-2. **No hard stops yet.** Pregnancy (vitamin A) and neonatal (ceftriaxone) contraindications are displayed as warnings, not enforced. Phase 2 adds blocking rules.
-3. **Pending items (⏳)** must be page-cited from the primary PDF before they are used in calculations.
+The calculator asks for an **age group** and, for patients aged 12 and older, **pregnancy status** (not pregnant / pregnant / unknown). Age groups follow the WHO age cut-offs used by the drugs in scope:
+
+| Age group | Why this boundary is needed |
+|---|---|
+| Neonate (< 1 month) | Ceftriaxone neonatal regimen and contraindications; co-trimoxazole not before 4 weeks |
+| Infant 1–5 months | Zinc 10 mg; vitamin A 50,000 IU |
+| Infant 6–11 months | Zinc 20 mg; vitamin A 100,000 IU; mebendazole not yet allowed |
+| Child 1–11 years | Vitamin A 200,000 IU; mebendazole allowed |
+| 12 years and older | Adult dosing; pregnancy status asked |
+
+Rules are stored as data in `drugs.json` (`rules[]`, `ageDoses[]`). A **block** rule stops the calculation and shows the reason; a **warn** rule shows an alert next to the calculated dose. Pregnancy status "unknown" is treated as possibly pregnant.
+
+| Drug | Condition | Level | Source |
+|---|---|---|---|
+| Vitamin A | Age ≥ 12, pregnant or pregnancy unknown | Block (no high-dose capsule) | WHO 2011 |
+| Co-trimoxazole | Neonate (< 4 weeks) | Block | WHO 2014 CPT supplement |
+| Ceftriaxone | Neonate | Block (neonatal regimen and contraindications shown) | Pocket Book 2013 §3.9; WHOPAR |
+| Mebendazole | Under 1 year | Block | WHO STH guideline 2017 |
+| Artemether-lumefantrine | Weight < 5 kg | Block (use infant formulation) | WHO malaria guidelines, version 10 Sept 2026 |
+| Ciprofloxacin | Pregnant | Warn | GTFCC 2022 |
+| Metronidazole | Pregnant | Warn | National formulary (no WHO absolute contraindication) |
+| Any mg/kg drug | Neonate | Warn (confirm neonatal dosing) | General precaution |
+
+Fixed doses by age group: zinc (10 mg < 6 months; 20 mg ≥ 6 months) and vitamin A (50,000 / 100,000 / 200,000 IU) are selected automatically from the age group.
+
+## Automated tests
+
+`src/lib/dosage.test.ts` (Vitest, `npm test`) checks the WHO reference doses, maximum-dose caps, vial/tablet rounding, age-group doses and every safety rule above (28 tests). Any change to `drugs.json` must keep these tests passing.
+
+## Known limitations
+
+1. **One calculated dose per population.** Indication-specific doses (ceftriaxone meningitis, cholera single doses, metronidazole by indication) are shown as dosing guidance text next to the calculated default dose. A future version will let the user choose the indication so each is calculated.
+2. **Pending items (⏳)** must be page-cited from the primary PDF before they are used in calculations.
 
 ## Sources
 

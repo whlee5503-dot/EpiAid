@@ -47,17 +47,33 @@ export interface DosageResult {
 }
 
 function formatVolume(doseMg: number, f: DrugFormulation): string | null {
-  if (f.mgPerUnit === null) return null;
+  if (f.mgPerUnit === null || doseMg <= 0) return null;
+
+  // Liquid formulations: volume in ml
   if (f.mlPerUnit !== null) {
     const ml = (doseMg / f.mgPerUnit) * f.mlPerUnit;
     return `${Math.round(ml * 10) / 10} ml`;
   }
-  const count = doseMg / f.mgPerUnit;
-  const rounded = Math.round(count * 2) / 2;
-  const fractionMap: Record<string, string> = {
-    '0.5': '½', '1.5': '1½', '2.5': '2½', '3.5': '3½',
-  };
-  const str = fractionMap[rounded.toString()] ?? rounded.toString();
+
+  // Avoid floating-point noise (e.g. 3.0000001 vials)
+  const count = Math.round((doseMg / f.mgPerUnit) * 1000) / 1000;
+
+  // Vials: round UP to whole vials that must be opened
+  if (f.type === 'vial') {
+    const vials = Math.ceil(count);
+    return `${vials} × ${f.mgPerUnit}mg vial`;
+  }
+
+  // Tablets can be halved; capsules and sachets cannot
+  const step = f.type === 'tab' ? 0.5 : 1;
+  const rounded = Math.round(count / step) * step;
+
+  // Dose too small for this solid form — caller should choose a liquid
+  if (rounded === 0) return null;
+
+  const whole = Math.floor(rounded);
+  const hasHalf = rounded - whole === 0.5;
+  const str = hasHalf ? (whole === 0 ? '½' : `${whole}½`) : `${whole}`;
   return `${str} ${f.type}`;
 }
 

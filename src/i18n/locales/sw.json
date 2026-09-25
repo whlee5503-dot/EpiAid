@@ -38,7 +38,7 @@
     "indications": "Dalili za kutumia",
     "contraindications": "Makatazo",
     "notes": "Maelezo",
-    "noSelection": "Chagua dawa na weka uzito kupata dozi.",
+    "noSelection": "Chagua dawa, weka uzito na uchague kundi la umri.",
     "forms": "Aina zinazopatikana",
     "concentration": "Mkusanyiko / Aina",
     "singleDose": "Dozi Moja",
@@ -55,7 +55,24 @@
     "freq2": "Mara mbili kwa siku (kila masaa 12)",
     "freq3": "Mara 3 kwa siku (kila masaa 8)",
     "freq4": "Mara 4 kwa siku (kila masaa 6)",
-    "freqSingle": "Dozi moja"
+    "freqSingle": "Dozi moja",
+    "ageGroup": "Kundi la umri",
+    "ageGroups": {
+      "neonate": "Mtoto mchanga (< mwezi 1)",
+      "infant1to5m": "Mtoto miezi 1–5",
+      "infant6to11m": "Mtoto miezi 6–11",
+      "child1to11y": "Mtoto miaka 1–11",
+      "adult12plus": "Miaka 12 na zaidi (dozi ya mtu mzima)"
+    },
+    "pregnancy": "Ujauzito",
+    "pregnancyOptions": {
+      "no": "Si mjamzito / Haihusiki",
+      "yes": "Mjamzito",
+      "unknown": "Haijulikani"
+    },
+    "pregnancyUnknownHint": "\"Haijulikani\" inachukuliwa kama huenda ni mjamzito.",
+    "blocked": "Usitoe — dozi haijakokotolewa",
+    "warning": "Tahadhari"
   },
   "nutrition": {
     "title": "Tathmini ya Lishe",

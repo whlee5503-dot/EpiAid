@@ -38,7 +38,7 @@
     "indications": "Indications",
     "contraindications": "Contraindications",
     "notes": "Notes",
-    "noSelection": "Select a drug and enter weight to see dosage.",
+    "noSelection": "Select a drug, enter the weight and choose an age group.",
     "forms": "Available forms",
     "concentration": "Concentration / Form",
     "singleDose": "Single Dose",
@@ -55,7 +55,24 @@
     "freq2": "Twice daily (every 12h)",
     "freq3": "3× daily (every 8h)",
     "freq4": "4× daily (every 6h)",
-    "freqSingle": "Single dose"
+    "freqSingle": "Single dose",
+    "ageGroup": "Age group",
+    "ageGroups": {
+      "neonate": "Neonate (< 1 month)",
+      "infant1to5m": "Infant 1–5 months",
+      "infant6to11m": "Infant 6–11 months",
+      "child1to11y": "Child 1–11 years",
+      "adult12plus": "12 years and older (adult dose)"
+    },
+    "pregnancy": "Pregnancy",
+    "pregnancyOptions": {
+      "no": "Not pregnant / N/A",
+      "yes": "Pregnant",
+      "unknown": "Unknown"
+    },
+    "pregnancyUnknownHint": "Unknown is treated as possibly pregnant.",
+    "blocked": "Do not give — dose not calculated",
+    "warning": "Caution"
   },
   "nutrition": {
     "title": "Nutrition Assessment",

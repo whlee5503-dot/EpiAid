@@ -38,7 +38,7 @@
     "indications": "적응증",
     "contraindications": "금기",
     "notes": "참고사항",
-    "noSelection": "약물을 선택하고 체중을 입력하세요.",
+    "noSelection": "약물을 선택하고 체중과 연령군을 입력하세요.",
     "forms": "사용 가능한 제형",
     "concentration": "농도 / 제형",
     "singleDose": "1회 용량",
@@ -55,7 +55,24 @@
     "freq2": "1일 2회 (12시간마다)",
     "freq3": "1일 3회 (8시간마다)",
     "freq4": "1일 4회 (6시간마다)",
-    "freqSingle": "1회 단독 투여"
+    "freqSingle": "1회 단독 투여",
+    "ageGroup": "연령군",
+    "ageGroups": {
+      "neonate": "신생아 (1개월 미만)",
+      "infant1to5m": "영아 1–5개월",
+      "infant6to11m": "영아 6–11개월",
+      "child1to11y": "소아 1–11세",
+      "adult12plus": "12세 이상 (성인 용량)"
+    },
+    "pregnancy": "임신 여부",
+    "pregnancyOptions": {
+      "no": "임신 아님 / 해당 없음",
+      "yes": "임신",
+      "unknown": "모름"
+    },
+    "pregnancyUnknownHint": "'모름'은 임신 가능성이 있는 것으로 처리합니다.",
+    "blocked": "투여 금지 — 용량을 계산하지 않았습니다",
+    "warning": "주의"
   },
   "nutrition": {
     "title": "영양 평가",

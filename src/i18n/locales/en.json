@@ -315,5 +315,11 @@
     "bannerTitle": "This device stores patient records without encryption",
     "bannerDesc": "Anyone with access to this device could read patient names and health information.",
     "bannerCta": "Protect records now"
+  },
+  "footer": {
+    "siblingsHeading": "Part of the PHT Lab family",
+    "hub": "phtlab.org",
+    "orcid": "ORCID",
+    "disclaimer": "EpiAid supports clinical decisions in the field. It does not replace national treatment guidelines, local resistance data or a clinician's judgment."
   }
 }

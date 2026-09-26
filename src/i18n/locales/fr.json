@@ -315,5 +315,11 @@
     "bannerTitle": "Les dossiers des patients ne sont pas chiffrés sur cet appareil",
     "bannerDesc": "Toute personne ayant accès à cet appareil pourrait lire les noms et informations de santé des patients.",
     "bannerCta": "Protéger maintenant"
+  },
+  "footer": {
+    "siblingsHeading": "Fait partie de la famille PHT Lab",
+    "hub": "phtlab.org",
+    "orcid": "ORCID",
+    "disclaimer": "EpiAid aide aux décisions cliniques sur le terrain. Il ne remplace ni les directives nationales de traitement, ni les données locales de résistance, ni le jugement d'un clinicien."
   }
 }

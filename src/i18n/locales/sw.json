@@ -315,5 +315,11 @@
     "bannerTitle": "Kifaa hiki kinahifadhi rekodi za wagonjwa bila usimbaji",
     "bannerDesc": "Mtu yeyote mwenye ufikiaji wa kifaa hiki anaweza kusoma majina ya wagonjwa na taarifa za afya.",
     "bannerCta": "Linda sasa"
+  },
+  "footer": {
+    "siblingsHeading": "Sehemu ya familia ya PHT Lab",
+    "hub": "phtlab.org",
+    "orcid": "ORCID",
+    "disclaimer": "EpiAid inasaidia maamuzi ya kitabibu uwandani. Haichukui nafasi ya miongozo ya kitaifa ya matibabu, data ya usugu wa dawa ya eneo husika wala uamuzi wa mtaalamu wa afya."
   }
 }

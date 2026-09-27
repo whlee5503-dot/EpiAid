@@ -32,12 +32,26 @@
     {
       "name": "Dosage Calculator",
       "url": "/dosage",
-      "description": "Calculate drug doses by weight"
+      "description": "Calculate drug doses by weight",
+      "icons": [
+        {
+          "src": "/icons/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Nutrition Assessment",
       "url": "/nutrition",
-      "description": "MUAC and malnutrition screening"
+      "description": "MUAC and malnutrition screening",
+      "icons": [
+        {
+          "src": "/icons/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

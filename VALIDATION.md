@@ -39,13 +39,15 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 | Item | App value | WHO reference | Status |
 |---|---|---|---|
 | Pediatric dose | Weight-band table (fixed mg per dose, every 12h); mg/kg is no longer used for the calculation | Oral 80–90 mg/kg/day, given as weight bands (AWaRe 2022, p.152, CAP – mild, children) | ✅ |
-| Pediatric max | 1,000 mg/dose (≥20 kg band) | AWaRe p.152: ≥20 kg 500 mg every 8h or 1 g every 12h | ✅ |
+| Pediatric max | 1,000 mg/dose (≥20 kg band) | AWaRe p.152: ≥20 kg 500 mg every 8h or 1 g every 12h; Table 50.1 (p.640): maximum daily dose 1.5 g, can be higher for serious bacterial infections | ✅ |
 | Weight bands | 3–<6 kg 250 mg; 6–<10 kg 375 mg; 10–<15 kg 500 mg; 15–<20 kg 750 mg; ≥20 kg 1,000 mg (every 12h); below 3 kg: calculation blocked | Identical to AWaRe p.152 oral weight bands; the table starts at 3 kg | ✅ |
-| Adult dose | 500 mg every 8h (pneumonia 1 g every 8h as text) | AWaRe: CAP 1 g every 8h; otitis media 500 mg every 8h | 📝 / ⏳ (CAP page) |
-| Duration | Pneumonia: 3 days (low HIV prevalence, no chest indrawing) or 5 days (high HIV prevalence, chest indrawing); other indications: see AWaRe book | AWaRe 2022, p.152 (CAP – mild, children) | ✅ (pneumonia) / ⏳ (otitis media, sinusitis) |
+| Adult dose | 1 g every 8h (default); 500 mg every 8h for pharyngitis, acute otitis media, mild COPD exacerbation, dental infections (text) | AWaRe 2022, Table 49.1, p.629: lower dose 500 mg every 8h; higher dose 1 g every 8h (acute sinusitis, mild CAP). Mild CAP first choice 1 g every 8h, p.150 | ✅ / 📝 (lower-dose indications as text) |
+| Duration | Children, pneumonia: 3 days (low HIV prevalence, no chest indrawing) or 5 days (high HIV prevalence, chest indrawing). Adults, mild CAP: 5 days. Other indications: see AWaRe book | AWaRe 2022, p.152 (children) and p.150 (adults) | ✅ (pneumonia) / ⏳ (otitis media, sinusitis) |
 | UTI, skin infections | Removed | Not AWaRe first choices | ✅ |
 
 **Correction (2026-11-17).** The earlier weight-band note listed 125 mg for 3–<6 kg, 250 mg for 6–<10 kg and "20–<30 kg 1,000 mg; ≥30 kg adult dose". These values came from the November 2021 draft and do not match the final book (p.152: 250 mg, 375 mg, and ≥20 kg 500 mg every 8h or 1 g every 12h). In addition, the calculator multiplied 40 mg/kg while displaying the band note, so the screen could show two different doses. The calculation now uses the weight-band table (`weightBands` in `drugs.json`) and weights below 3 kg are blocked. Tests: `src/lib/dosage.test.ts` (band boundaries 3, 5.9, 6, 9.9, 10, 14.9, 15, 19.9, 20 and 45 kg, and the 2.9 kg block).
+
+**Correction (2026-11-17, adult dose and duration).** The adult calculation used 500 mg every 8h, but AWaRe Table 49.1 (p.629) lists 1 g every 8h for acute sinusitis and mild CAP (p.150) and 500 mg every 8h only for pharyngitis, acute otitis media, mild COPD exacerbation and dental infections. The default is now 1 g every 8h, with the lower-dose indications listed as text. The `duration` field described only the paediatric pneumonia criteria (p.152) and is now split by age group (adult mild CAP: 5 days, p.150). The paediatric weight-band table (Table 50.1, p.640) applies to all oral indications; WHO states a maximum daily dose of 1.5 g that can be higher in serious bacterial infections.
 
 ### 2. Co-trimoxazole
 
@@ -167,7 +169,7 @@ Fixed doses by age group: zinc (10 mg < 6 months; 20 mg ≥ 6 months) and vitami
 
 ## Known limitations
 
-1. **One calculated dose per population.** Indication-specific doses (ceftriaxone meningitis, cholera single doses, metronidazole by indication) are shown as dosing guidance text next to the calculated default dose. A future version will let the user choose the indication so each is calculated.
+1. **One calculated dose per population.** Indication-specific doses (ceftriaxone meningitis, cholera single doses, metronidazole by indication) are shown as dosing guidance text next to the calculated default dose. A future version will let the user choose the indication so each is calculated.  Example: adult amoxicillin is 500 mg every 8h for otitis media but 1 g every 8h for pneumonia and sinusitis (AWaRe 2022, p.629); the calculator uses 1 g.
 2. **Pending items (⏳)** must be page-cited from the primary PDF before they are used in calculations.
 
 ## Sources

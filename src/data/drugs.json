@@ -38,8 +38,8 @@
         "type": "tab"
       }
     ],
-    "adultDose": "500mg every 8h (pneumonia: 1g every 8h)",
-    "adultSingleDoseMg": 500,
+    "adultDose": "1 g every 8h for acute sinusitis and mild pneumonia; 500 mg every 8h for pharyngitis, acute otitis media, mild COPD exacerbation and dental infections (WHO AWaRe 2022, Table 49.1, p.629)",
+    "adultSingleDoseMg": 1000,
     "adultFreqPerDay": 3,
     "adultMaxDaily": "3g",
     "adultMaxDailyMg": 3000,
@@ -48,7 +48,7 @@
     "pediatricFreqPerDay": 2,
     "pediatricMaxMg": 1000,
     "pediatricUnit": "mg",
-    "pediatricNote": "WHO weight bands (oral, per dose, every 12h): 3 to <6 kg 250 mg; 6 to <10 kg 375 mg; 10 to <15 kg 500 mg; 15 to <20 kg 750 mg; >=20 kg 500 mg every 8h or 1 g every 12h. Source: WHO AWaRe antibiotic book 2022, p.152.",
+    "pediatricNote": "WHO weight bands (oral, per dose, every 12h): 3 to <6 kg 250 mg; 6 to <10 kg 375 mg; 10 to <15 kg 500 mg; 15 to <20 kg 750 mg; >=20 kg 500 mg every 8h or 1 g every 12h. WHO states a maximum daily dose of 1.5 g, which can be higher for serious bacterial infections. Source: WHO AWaRe antibiotic book 2022, pp.152 and 640.",
     "weightBands": [
       {
         "minKg": 3,
@@ -76,7 +76,7 @@
         "doseMg": 1000
       }
     ],
-    "duration": "Pneumonia: 3 days if low HIV prevalence and no chest indrawing; 5 days if high HIV prevalence and chest indrawing (WHO AWaRe 2022, p.152). For other indications see the AWaRe book.",
+    "duration": "Pneumonia, children: 3 days if low HIV prevalence and no chest indrawing; 5 days if high HIV prevalence and chest indrawing (AWaRe 2022, p.152). Mild CAP, adults: 5 days (AWaRe 2022, p.150). Other indications: see the AWaRe book.",
     "indications": [
       "Pneumonia",
       "Otitis media",

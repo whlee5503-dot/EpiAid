@@ -219,3 +219,14 @@ describe('amoxicillin WHO weight bands (AWaRe 2022, p.152)', () => {
         expect(r.hasCalculation).toBe(false);
     });
 });
+
+describe('amoxicillin adult dose (AWaRe 2022, Table 49.1, p.629)', () => {
+    it('adult default is the higher dose: 1 g every 8h = 3 g/day', () => {
+        const d = getDrug('amoxicillin');
+        const r = calculateDose(d, 60, ADULT, getForm(d, 'Tab 500mg'));
+        expect(r.singleDoseMgCapped).toBe(1000);
+        expect(r.freqPerDay).toBe(3);
+        expect(r.dailyDoseMg).toBe(3000);
+        expect(r.volumePerDose).toBe('2 tab');
+    });
+});

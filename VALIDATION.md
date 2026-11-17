@@ -42,7 +42,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 | Pediatric max | 1,000 mg/dose (≥20 kg band) | AWaRe p.152: ≥20 kg 500 mg every 8h or 1 g every 12h | ✅ |
 | Weight bands | 3–<6 kg 250 mg; 6–<10 kg 375 mg; 10–<15 kg 500 mg; 15–<20 kg 750 mg; ≥20 kg 1,000 mg (every 12h); below 3 kg: calculation blocked | Identical to AWaRe p.152 oral weight bands; the table starts at 3 kg | ✅ |
 | Adult dose | 500 mg every 8h (pneumonia 1 g every 8h as text) | AWaRe: CAP 1 g every 8h; otitis media 500 mg every 8h | 📝 / ⏳ (CAP page) |
-| Duration | 5 days | 5 days; 3 days for fast-breathing pneumonia in low-HIV settings | ✅ |
+| Duration | Pneumonia: 3 days (low HIV prevalence, no chest indrawing) or 5 days (high HIV prevalence, chest indrawing); other indications: see AWaRe book | AWaRe 2022, p.152 (CAP – mild, children) | ✅ (pneumonia) / ⏳ (otitis media, sinusitis) |
 | UTI, skin infections | Removed | Not AWaRe first choices | ✅ |
 
 **Correction (2026-11-17).** The earlier weight-band note listed 125 mg for 3–<6 kg, 250 mg for 6–<10 kg and "20–<30 kg 1,000 mg; ≥30 kg adult dose". These values came from the November 2021 draft and do not match the final book (p.152: 250 mg, 375 mg, and ≥20 kg 500 mg every 8h or 1 g every 12h). In addition, the calculator multiplied 40 mg/kg while displaying the band note, so the screen could show two different doses. The calculation now uses the weight-band table (`weightBands` in `drugs.json`) and weights below 3 kg are blocked. Tests: `src/lib/dosage.test.ts` (band boundaries 3, 5.9, 6, 9.9, 10, 14.9, 15, 19.9, 20 and 45 kg, and the 2.9 kg block).

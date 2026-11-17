@@ -23,19 +23,19 @@ const INFANT_1_5: PatientContext = { ageGroup: 'infant1to5m', pregnancy: 'no' };
 const INFANT_6_11: PatientContext = { ageGroup: 'infant6to11m', pregnancy: 'no' };
 
 describe('WHO pediatric doses (phase 1 data)', () => {
-    it('amoxicillin 20 kg: 40 mg/kg every 12h = 800 mg', () => {
+    it('amoxicillin 20 kg: WHO weight band >=20 kg = 1000 mg every 12h', () => {
         const d = getDrug('amoxicillin');
         const r = calculateDose(d, 20, CHILD, getForm(d, 'Susp 125mg/5ml'));
-        expect(r.singleDoseMgCapped).toBe(800);
+        expect(r.singleDoseMgCapped).toBe(1000);
         expect(r.freqPerDay).toBe(2);
-        expect(r.volumePerDose).toBe('32 ml');
+        expect(r.volumePerDose).toBe('40 ml');
     });
 
-    it('amoxicillin 30 kg is capped at 1000 mg/dose', () => {
+    it('amoxicillin 30 kg stays at the >=20 kg band dose of 1000 mg', () => {
         const r = calculateDose(getDrug('amoxicillin'), 30, CHILD, null);
-        expect(r.singleDoseMg).toBe(1200);
+        expect(r.singleDoseMg).toBe(1000);
         expect(r.singleDoseMgCapped).toBe(1000);
-        expect(r.isOverMax).toBe(true);
+        expect(r.isOverMax).toBe(false);
     });
 
     it('ceftriaxone 20 kg: 80 mg/kg once daily = 1600 mg', () => {
@@ -78,7 +78,7 @@ describe('formatVolume (via calculateDose)', () => {
 
     it('rounds tablets to the nearest half tablet', () => {
         const d = getDrug('amoxicillin');
-        const r = calculateDose(d, 20, CHILD, getForm(d, 'Tab 500mg'));
+        const r = calculateDose(d, 8, INFANT_6_11, getForm(d, 'Tab 250mg'));
         expect(r.volumePerDose).toBe('1½ tab');
     });
 
@@ -195,5 +195,27 @@ describe('safety rules (hard stops and warnings)', () => {
         const r = calculateDose(getDrug('amoxicillin'), 3.5, NEONATE, null);
         expect(r.hasCalculation).toBe(true);
         expect(r.alerts.map((a) => a.message)).toContain(NEONATE_MGKG_WARNING);
+    });
+});
+
+describe('amoxicillin WHO weight bands (AWaRe 2022, p.152)', () => {
+    const dose = (kg: number) => calculateDose(getDrug('amoxicillin'), kg, CHILD, null);
+
+    it.each([
+        [3, 250], [5.9, 250],
+        [6, 375], [9.9, 375],
+        [10, 500], [14.9, 500],
+        [15, 750], [19.9, 750],
+        [20, 1000], [45, 1000],
+    ])('%s kg gives %s mg every 12h', (kg, mg) => {
+        const r = dose(kg);
+        expect(r.singleDoseMgCapped).toBe(mg);
+        expect(r.freqPerDay).toBe(2);
+    });
+
+    it('is blocked below 3 kg (outside the WHO table)', () => {
+        const r = dose(2.9);
+        expect(r.blocked).toBe(true);
+        expect(r.hasCalculation).toBe(false);
     });
 });

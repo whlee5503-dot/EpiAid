@@ -48,7 +48,34 @@
     "pediatricFreqPerDay": 2,
     "pediatricMaxMg": 1000,
     "pediatricUnit": "mg",
-    "pediatricNote": "WHO weight bands (per dose, every 12h): 3–<6kg 125mg; 6–<10kg 250mg; 10–<15kg 500mg; 15–<20kg 750mg; 20–<30kg 1000mg; ≥30kg adult dose",
+    "pediatricNote": "WHO weight bands (oral, per dose, every 12h): 3 to <6 kg 250 mg; 6 to <10 kg 375 mg; 10 to <15 kg 500 mg; 15 to <20 kg 750 mg; >=20 kg 500 mg every 8h or 1 g every 12h. Source: WHO AWaRe antibiotic book 2022, p.152.",
+    "weightBands": [
+      {
+        "minKg": 3,
+        "maxKg": 6,
+        "doseMg": 250
+      },
+      {
+        "minKg": 6,
+        "maxKg": 10,
+        "doseMg": 375
+      },
+      {
+        "minKg": 10,
+        "maxKg": 15,
+        "doseMg": 500
+      },
+      {
+        "minKg": 15,
+        "maxKg": 20,
+        "doseMg": 750
+      },
+      {
+        "minKg": 20,
+        "maxKg": null,
+        "doseMg": 1000
+      }
+    ],
     "duration": "5 days (fast-breathing pneumonia: 3 days in low-HIV settings)",
     "indications": [
       "Pneumonia",
@@ -58,7 +85,14 @@
     "contraindications": [
       "Penicillin allergy"
     ],
-    "notes": "Pediatric dose follows WHO 2014 revised pneumonia guidance (40mg/kg/dose twice daily) and the WHO AWaRe Antibiotic Book. Not a first-choice antibiotic for UTI or skin infections under AWaRe. Can take with or without food."
+    "notes": "Pediatric dose follows the WHO AWaRe Antibiotic Book (2022) oral weight-band table for mild to moderate pneumonia (80-90 mg/kg/day). Not a first-choice antibiotic for UTI or skin infections under AWaRe. Can take with or without food.",
+    "rules": [
+      {
+        "level": "block",
+        "weightBelowKg": 3,
+        "message": "Weight is below 3 kg. The WHO amoxicillin weight-band table (AWaRe 2022, p.152) starts at 3 kg. Do not use this calculator; follow neonatal or specialist guidance."
+      }
+    ]
   },
   {
     "id": "cotrimoxazole",

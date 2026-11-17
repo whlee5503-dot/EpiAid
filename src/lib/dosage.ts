@@ -30,6 +30,15 @@ export interface AgeDose {
   doseMg?: number;
 }
 
+export interface WeightBand {
+  /** Inclusive lower bound in kg */
+  minKg: number;
+  /** Exclusive upper bound in kg; null means no upper limit */
+  maxKg: number | null;
+  /** Fixed single dose in mg for this weight band */
+  doseMg: number;
+}
+
 export interface DrugFormulation {
   label: string;
   mgPerUnit: number | null;
@@ -55,6 +64,8 @@ export interface Drug {
   pediatricMaxMg: number | null;
   pediatricUnit: string;
   pediatricNote?: string;
+  /** Fixed pediatric doses by weight band; takes precedence over pediatricMgPerKg */
+  weightBands?: WeightBand[];
   ageDoses?: AgeDose[];
   rules?: SafetyRule[];
   duration: string;
@@ -214,6 +225,32 @@ export function calculateDose(
       freqPerDay,
       displayDose: drug.adultDose,
       guidance: drug.adultDose,
+    };
+  }
+
+  // 3b. Pediatric fixed dose by weight band (takes precedence over mg/kg)
+  if (drug.weightBands && drug.weightBands.length > 0) {
+    const band = drug.weightBands.find(
+      (b) => weightKg >= b.minKg && (b.maxKg === null || weightKg < b.maxKg),
+    );
+    // Outside every band: never fall back to mg/kg for a drug dosed by weight bands
+    if (!band) return noCalc(drug.pediatricNote ?? '');
+    const freqPerDay = drug.pediatricFreqPerDay;
+    const neonateAlerts: DosageAlert[] =
+      patient.ageGroup === 'neonate' ? [{ level: 'warn', message: NEONATE_MGKG_WARNING }] : [];
+    return {
+      ...meta,
+      alerts: [...alerts, ...neonateAlerts],
+      hasCalculation: true,
+      singleDoseMg: band.doseMg,
+      singleDoseMgCapped: band.doseMg,
+      isOverMax: false,
+      maxMg: drug.pediatricMaxMg,
+      volumePerDose: formulation ? formatVolume(band.doseMg, formulation) : null,
+      dailyDoseMg: freqPerDay !== null ? band.doseMg * freqPerDay : null,
+      freqPerDay,
+      displayDose: drug.pediatricNote ?? `${band.doseMg} ${drug.pediatricUnit}`,
+      guidance: drug.pediatricNote ?? null,
     };
   }
 

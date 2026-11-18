@@ -44,15 +44,27 @@ describe('WHO pediatric doses (phase 1 data)', () => {
         expect(r.freqPerDay).toBe(1);
     });
 
-    it('ceftriaxone 30 kg is capped at 2000 mg (pneumonia/sepsis)', () => {
-        const r = calculateDose(getDrug('ceftriaxone'), 30, CHILD, null);
-        expect(r.singleDoseMgCapped).toBe(2000);
+    it('ceftriaxone 35 kg: 80 mg/kg = 2800 mg, below the 3 g maximum', () => {
+        const r = calculateDose(getDrug('ceftriaxone'), 35, CHILD, null);
+        expect(r.singleDoseMgCapped).toBe(2800);
+        expect(r.isOverMax).toBe(false);
+    });
+
+    it('ceftriaxone 40 kg is capped at 3000 mg (AWaRe maximum daily dose)', () => {
+        const r = calculateDose(getDrug('ceftriaxone'), 40, CHILD, null);
+        expect(r.singleDoseMgCapped).toBe(3000);
         expect(r.isOverMax).toBe(true);
     });
 
-    it('co-trimoxazole 10 kg: 24 mg/kg every 12h = 240 mg', () => {
+    it('ceftriaxone adult default is 1 g once daily', () => {
+        const r = calculateDose(getDrug('ceftriaxone'), 60, ADULT, null);
+        expect(r.singleDoseMgCapped).toBe(1000);
+        expect(r.freqPerDay).toBe(1);
+    });
+
+    it('co-trimoxazole 10 kg: WHO weight band 10 to <30 kg = 480 mg every 12h', () => {
         const r = calculateDose(getDrug('cotrimoxazole'), 10, CHILD, null);
-        expect(r.singleDoseMgCapped).toBe(240);
+        expect(r.singleDoseMgCapped).toBe(480);
         expect(r.freqPerDay).toBe(2);
     });
 
@@ -227,6 +239,117 @@ describe('amoxicillin adult dose (AWaRe 2022, Table 49.1, p.629)', () => {
         expect(r.singleDoseMgCapped).toBe(1000);
         expect(r.freqPerDay).toBe(3);
         expect(r.dailyDoseMg).toBe(3000);
+        expect(r.volumePerDose).toBe('2 tab');
+    });
+});
+
+describe('co-trimoxazole WHO weight bands (AWaRe 2022, p.651)', () => {
+    const dose = (kg: number) => calculateDose(getDrug('cotrimoxazole'), kg, CHILD, null);
+
+    it.each([
+        [3, 120], [5.9, 120],
+        [6, 240], [9.9, 240],
+        [10, 480], [29.9, 480],
+        [30, 960], [45, 960],
+    ])('%s kg gives %s mg every 12h', (kg, mg) => {
+        const r = dose(kg);
+        expect(r.singleDoseMgCapped).toBe(mg);
+        expect(r.freqPerDay).toBe(2);
+    });
+
+    it('is blocked below 3 kg (outside the WHO table)', () => {
+        const r = dose(2.9);
+        expect(r.blocked).toBe(true);
+        expect(r.hasCalculation).toBe(false);
+    });
+});
+
+describe('ciprofloxacin WHO weight bands (AWaRe 2022, p.646)', () => {
+    const dose = (kg: number) => calculateDose(getDrug('ciprofloxacin'), kg, CHILD, null);
+
+    it.each([
+        [3, 50], [5.9, 50],
+        [6, 100], [9.9, 100],
+        [10, 150], [14.9, 150],
+        [15, 200], [19.9, 200],
+        [20, 300], [29.9, 300],
+        [30, 500], [45, 500],
+    ])('%s kg gives %s mg every 12h', (kg, mg) => {
+        const r = dose(kg);
+        expect(r.singleDoseMgCapped).toBe(mg);
+        expect(r.freqPerDay).toBe(2);
+    });
+
+    it('is blocked below 3 kg (outside the WHO table)', () => {
+        const r = dose(2.9);
+        expect(r.blocked).toBe(true);
+        expect(r.hasCalculation).toBe(false);
+    });
+});
+
+describe('metronidazole WHO doses (AWaRe 2022, pp.636 and 649)', () => {
+    const child = (kg: number) => calculateDose(getDrug('metronidazole'), kg, CHILD, null);
+
+    it.each([
+        [3, 30], [5.9, 30],
+        [6, 50], [9.9, 50],
+        [10, 100], [14.9, 100],
+        [15, 150], [19.9, 150],
+        [20, 200], [29.9, 200],
+        [30, 500], [45, 500],
+    ])('%s kg gives %s mg every 8h', (kg, mg) => {
+        const r = child(kg);
+        expect(r.singleDoseMgCapped).toBe(mg);
+        expect(r.freqPerDay).toBe(3);
+    });
+
+    it('is blocked below 3 kg (outside the WHO table)', () => {
+        const r = child(2.9);
+        expect(r.blocked).toBe(true);
+        expect(r.hasCalculation).toBe(false);
+    });
+
+    it('adult default is 500 mg every 8h = 1500 mg/day', () => {
+        const d = getDrug('metronidazole');
+        const r = calculateDose(d, 60, ADULT, getForm(d, 'Tab 500mg'));
+        expect(r.singleDoseMgCapped).toBe(500);
+        expect(r.freqPerDay).toBe(3);
+        expect(r.dailyDoseMg).toBe(1500);
+        expect(r.volumePerDose).toBe('1 tab');
+    });
+});
+
+describe('tablet count is hidden when rounding changes the dose by more than 10%', () => {
+    it('amoxicillin 375 mg on Tab 500mg shows no tablet count', () => {
+        const d = getDrug('amoxicillin');
+        const r = calculateDose(d, 8, CHILD, getForm(d, 'Tab 500mg'));
+        expect(r.singleDoseMgCapped).toBe(375);
+        expect(r.volumePerDose).toBeNull();
+    });
+
+    it('co-trimoxazole 120 mg on Tab 480mg shows no tablet count', () => {
+        const d = getDrug('cotrimoxazole');
+        const r = calculateDose(d, 5, CHILD, getForm(d, 'Tab 480mg'));
+        expect(r.singleDoseMgCapped).toBe(120);
+        expect(r.volumePerDose).toBeNull();
+    });
+
+    it('metronidazole 50 mg on Tab 200mg shows no tablet count', () => {
+        const d = getDrug('metronidazole');
+        const r = calculateDose(d, 8, CHILD, getForm(d, 'Tab 200mg'));
+        expect(r.singleDoseMgCapped).toBe(50);
+        expect(r.volumePerDose).toBeNull();
+    });
+
+    it('exact half tablet is still shown', () => {
+        const d = getDrug('amoxicillin');
+        const r = calculateDose(d, 8, CHILD, getForm(d, 'Tab 250mg'));
+        expect(r.volumePerDose).toBe('1½ tab');
+    });
+
+    it('whole tablets are still shown (amoxicillin 1000 mg = 2 tab of 500 mg)', () => {
+        const d = getDrug('amoxicillin');
+        const r = calculateDose(d, 20, CHILD, getForm(d, 'Tab 500mg'));
         expect(r.volumePerDose).toBe('2 tab');
     });
 });

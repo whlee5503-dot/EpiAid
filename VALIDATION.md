@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -49,11 +49,13 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 
 **Correction (2026-11-17, adult dose and duration).** The adult calculation used 500 mg every 8h, but AWaRe Table 49.1 (p.629) lists 1 g every 8h for acute sinusitis and mild CAP (p.150) and 500 mg every 8h only for pharyngitis, acute otitis media, mild COPD exacerbation and dental infections. The default is now 1 g every 8h, with the lower-dose indications listed as text. The `duration` field described only the paediatric pneumonia criteria (p.152) and is now split by age group (adult mild CAP: 5 days, p.150). The paediatric weight-band table (Table 50.1, p.640) applies to all oral indications; WHO states a maximum daily dose of 1.5 g that can be higher in serious bacterial infections.
 
+**Revision (2026-11-18, other drugs and tablet rounding).** Co-trimoxazole (p.651), ciprofloxacin (p.646) and metronidazole (p.649) now use the AWaRe 2022 paediatric weight-band tables (Table 50.1) instead of mg/kg, and weights below 3 kg are blocked, as for amoxicillin. Metronidazole's adult default was raised from 400 mg to 500 mg every 8h (Table 49.1, p.636). Ceftriaxone's paediatric maximum was raised from 2 g to 3 g per day to match Table 50.1 (p.645); the earlier 2 g came from product labelling. The Pocket Book (2013) allows 4 g/day in meningitis, so both values are shown in the note. The ceftriaxone gonorrhoea single dose (1 g IM, WHO 2024) was not changed: AWaRe lists 250 mg with a footnote (a) that has not been checked yet (⏳). Separately, tablet counts are no longer shown when rounding to the nearest half tablet changes the dose by more than 10% (for example, 375 mg on a 500 mg tablet); the mg dose is still shown and a liquid form should be used.
+
 ### 2. Co-trimoxazole
 
 | Item | App value | WHO reference | Status |
 |---|---|---|---|
-| Pediatric treatment | 24 mg/kg (4 mg TMP/kg) every 12h | Pocket Book 2013, Annex 2 | ✅ |
+| Pediatric treatment | Weight bands every 12h: 3–<6 kg 120 mg; 6–<10 kg 240 mg; 10–<30 kg 480 mg; ≥30 kg 960 mg (SMX+TMP; `weightBands`); blocked below 3 kg; max daily 1200 mg SMX component (note) | AWaRe 2022, Table 50.1, p.651 | ✅ |
 | Adult treatment | 960 mg every 12h | AWaRe (lower UTI) | ✅ (duration ⏳) |
 | HIV prophylaxis, adult | 960 mg once daily | WHO 2014 CPT supplement §5.2.3 | ✅ |
 | HIV prophylaxis, pediatric | Weight/age bands (note) | WHO 2006 / 2014 CPT guidance | ✅ |
@@ -64,7 +66,8 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 
 | Item | App value | WHO reference | Status |
 |---|---|---|---|
-| Pediatric dose | 7.5 mg/kg every 8h, max 500 mg | Pocket Book 2013 | ✅ |
+| Pediatric dose | Weight bands every 8h: 3–<6 kg 30 mg; 6–<10 kg 50 mg; 10–<15 kg 100 mg; 15–<20 kg 150 mg; 20–<30 kg 200 mg; ≥30 kg 500 mg (`weightBands`); blocked below 3 kg; 7.5 mg/kg and max 1 g/day in note | AWaRe 2022, Table 50.1, p.649 | ✅ |
+| Adult dose | 500 mg every 8h (default); 750 mg every 8h amoebic abscess; 500 mg every 12h trichomoniasis; single doses (text) | AWaRe 2022, Table 49.1, p.636 | ✅ |
 | Amoebiasis / giardiasis doses | Same as default | Indication-specific doses | ⏳ (Phase 2) |
 | C. difficile | Alternative, non-severe only | IDSA/SHEA 2017/2021 (non-WHO) prefer vancomycin/fidaxomicin | ✅ (non-WHO source) |
 | 1st trimester | Caution (not contraindication) | No WHO absolute contraindication found | ✅ |
@@ -120,6 +123,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 
 | Item | App value | WHO reference | Status |
 |---|---|---|---|
+| Pediatric oral dose | Weight bands every 12h: 3–<6 kg 50 mg; 6–<10 kg 100 mg; 10–<15 kg 150 mg; 15–<20 kg 200 mg; 20–<30 kg 300 mg; ≥30 kg 500 mg (`weightBands`); blocked below 3 kg; WHO max 1.5 g/day (note) | AWaRe 2022, Table 50.1, p.646 | ✅ |
 | Shigellosis, child | 15 mg/kg every 12h, 3 days | WHO shigellosis guideline 2005 | ✅ |
 | Cholera, adult | 1 g single dose (alternative) | GTFCC 2022, Table 1 | ✅ |
 | Cholera, child | 20 mg/kg single dose, max 1 g (text) | GTFCC 2022, Table 1 | 📝 |
@@ -130,11 +134,11 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 
 | Item | App value | WHO reference | Status |
 |---|---|---|---|
-| Severe pneumonia / sepsis | 80 mg/kg once daily, max 2 g | Pocket Book 2013, Annex 2 | ✅ |
-| Meningitis | 100 mg/kg/day or 50 mg/kg every 12h, max 4 g (text) | Pocket Book 2013, Annex 2 | 📝 |
+| Severe pneumonia / sepsis | 80 mg/kg once daily, max 3 g | AWaRe 2022, Table 50.1, p.645 | ✅ |
+| Meningitis | 100 mg/kg once daily, max 3 g (text); the Pocket Book allows up to 4 g/day | AWaRe 2022, Table 50.1, p.645; Pocket Book 2013, Annex 2 | 📝 |
 | Neonates | Contraindicated: premature up to 41 weeks PMA, hyperbilirubinaemia, IV calcium | WHOPAR labelling | ✅ |
 | Gonorrhea | 1 g IM single dose | WHO STI guidelines 2024 | ✅ |
-| Adult severe infections | 1–2 g once daily | AWaRe 2022 | ⏳ (meningitis dose) |
+| Adult dose | 1 g once daily (severe diarrhoea, severe upper UTI) is the calculated default; 2 g once daily (severe CAP, sepsis, bone and joint, intra-abdominal, HAP, severe enteric fever) and meningitis 2 g every 12h are shown as text | AWaRe 2022, Table 49.1, p.633 | ✅ |
 
 ## Patient context and safety rules
 
@@ -165,7 +169,7 @@ Fixed doses by age group: zinc (10 mg < 6 months; 20 mg ≥ 6 months) and vitami
 
 ## Automated tests
 
-`src/lib/dosage.test.ts` (Vitest, `npm test`) checks the WHO reference doses, maximum-dose caps, vial/tablet rounding, age-group doses and every safety rule above (28 tests). Any change to `drugs.json` must keep these tests passing.
+`src/lib/dosage.test.ts` (Vitest, `npm test`) checks the WHO reference doses, maximum-dose caps, vial/tablet rounding, age-group doses and every safety rule above (83 tests). Any change to `drugs.json` must keep these tests passing.
 
 ## Known limitations
 

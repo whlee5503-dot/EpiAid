@@ -103,6 +103,8 @@ export interface DosageResult {
 export const NEONATE_MGKG_WARNING =
   'Neonatal dosing often differs from the standard pediatric dose — confirm with neonatal guidelines before giving.';
 
+// Maximum allowed difference between the calculated dose and the rounded tablet dose
+const MAX_ROUNDING_ERROR = 0.1;
 function formatVolume(doseMg: number, f: DrugFormulation): string | null {
   if (f.mgPerUnit === null || doseMg <= 0) return null;
 
@@ -127,6 +129,9 @@ function formatVolume(doseMg: number, f: DrugFormulation): string | null {
 
   // Dose too small for this solid form — caller should choose a liquid
   if (rounded === 0) return null;
+
+  // Rounding must not change the dose by more than 10%; otherwise show no tablet count
+  if (Math.abs(rounded - count) / count > MAX_ROUNDING_ERROR) return null;
 
   const whole = Math.floor(rounded);
   const hasHalf = rounded - whole === 0.5;

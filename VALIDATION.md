@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration and the ceftriaxone gonorrhoea footnote checked on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -51,12 +51,14 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 
 **Revision (2026-11-18, other drugs and tablet rounding; gonorrhoea footnote checked 2026-11-19).** Co-trimoxazole (p.651), ciprofloxacin (p.646) and metronidazole (p.649) now use the AWaRe 2022 paediatric weight-band tables (Table 50.1) instead of mg/kg, and weights below 3 kg are blocked, as for amoxicillin. Metronidazole's adult default was raised from 400 mg to 500 mg every 8h (Table 49.1, p.636). Ceftriaxone's paediatric maximum was raised from 2 g to 3 g per day to match Table 50.1 (p.645); the earlier 2 g came from product labelling. The Pocket Book (2013) allows 4 g/day in meningitis, so both values are shown in the note. The ceftriaxone gonorrhoea single dose (1 g IM, WHO 2024) was not changed: AWaRe 2022 Table 49.1 (p.633) lists 250 mg, and its footnote (a) (p.638) only states that WHO guidelines for sexually transmitted infections are being revised and that the WHO website should be checked for updates. The AWaRe gonococcal infection chapter (p.244) also notes that 500 mg or 1 g ceftriaxone IM is recommended in some international guidelines. The 1 g dose follows the 2024 WHO revision, so no change was needed. Separately, tablet counts are no longer shown when rounding to the nearest half tablet changes the dose by more than 10% (for example, 375 mg on a 500 mg tablet); the mg dose is still shown and a liquid form should be used.
 
+**Revision (2026-11-19, co-trimoxazole UTI duration).** The co-trimoxazole `duration` text said "5 to 10 days", which did not match AWaRe 2022 (chapter 23, lower urinary tract infection). AWaRe lists sulfamethoxazole+trimethoprim 800 mg+160 mg every 12h for 3 days in adults, with the note that longer treatment is usually considered in pregnancy (usually 5 days) and in men (usually 7 days); for children (p.283) the duration is also 3 days. The text now gives these values by group, and the adult dose (960 mg every 12h) was confirmed. The AWaRe pages also state that resistance is high in many settings and that the drug is not active against most ESBL-producing isolates, and they name nitrofurantoin as the preferred option for acute lower UTI. Durations for other indications (for example infectious diarrhoea) were not checked, and the text refers to the AWaRe book.
+
 ### 2. Co-trimoxazole
 
 | Item | App value | WHO reference | Status |
 |---|---|---|---|
 | Pediatric treatment | Weight bands every 12h: 3–<6 kg 120 mg; 6–<10 kg 240 mg; 10–<30 kg 480 mg; ≥30 kg 960 mg (SMX+TMP; `weightBands`); blocked below 3 kg; max daily 1200 mg SMX component (note) | AWaRe 2022, Table 50.1, p.651 | ✅ |
-| Adult treatment | 960 mg every 12h | AWaRe (lower UTI) | ✅ (duration ⏳) |
+| Adult treatment | 960 mg every 12h; lower UTI duration 3 days (usually 5 days in pregnancy, 7 days in men); children 3 days (`duration` text) | AWaRe 2022, chapter 23 lower UTI (children p.283) | ✅ (duration corrected 2026-11-19) |
 | HIV prophylaxis, adult | 960 mg once daily | WHO 2014 CPT supplement §5.2.3 | ✅ |
 | HIV prophylaxis, pediatric | Weight/age bands (note) | WHO 2006 / 2014 CPT guidance | ✅ |
 | Neonates | Contraindicated <4 weeks | CPT starts at 4–6 weeks | ✅ |

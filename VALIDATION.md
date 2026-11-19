@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, and the vitamin A eye-sign schedule checked, on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked and the ORS nasogastric rate added, on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -82,7 +82,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 |---|---|---|---|
 | Plan A | <2y 50–100 ml; 2–10y 100–200 ml; older as much as wanted | Pocket Book 2013, Chart 15 | ✅ |
 | Plan B | 75 ml/kg over 4h | *The treatment of diarrhoea* 2005 | ✅ |
-| Plan C | IV first; NG ORS if IV impossible (text) | Same | ✅ (NG rate ⏳) |
+| Plan C | IV first; if IV is impossible, children can receive ORS by nasogastric tube (or by mouth) at 20 mL/kg/hour for 6 hours (total 120 mL/kg), reassessed every 1 to 2 hours, slower if repeated vomiting or abdominal distension (text only; not applied to adults) | WHO IMCI chart booklet 2019, Plan C | ✅ |
 | Composition | 245 mOsm/L | WHO/UNICEF 2004 | ✅ |
 | SAM | Use ReSoMal (note) | WHO SAM guideline 2013 | ✅ |
 

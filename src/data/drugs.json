@@ -320,7 +320,7 @@
     "contraindications": [
       "Paralytic ileus"
     ],
-    "notes": "WHO low-osmolarity ORS (245 mOsm/L). 1 sachet + 1L clean water. Severe dehydration (Plan C): give IV fluids first; if IV is not possible, give ORS by nasogastric tube and refer urgently. Give ORS by mouth as soon as the patient can drink. In severe acute malnutrition use ReSoMal instead (except suspected cholera)."
+    "notes": "WHO low-osmolarity ORS (245 mOsm/L). 1 sachet + 1L clean water. Severe dehydration (Plan C): give IV fluids first. If IV is not possible, children can be given ORS by nasogastric tube (or by mouth if able to drink): 20 mL/kg/hour for 6 hours (total 120 mL/kg), reassessing every 1-2 hours; give it more slowly if there is repeated vomiting or increasing abdominal distension. Refer urgently (WHO IMCI 2019). Do not apply this rate to adults. Give ORS by mouth as soon as the patient can drink. In severe acute malnutrition use ReSoMal instead (except suspected cholera)."
   },
   {
     "id": "zinc",

@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked, the ORS nasogastric rate added and the artemether-lumefantrine infant formulation wording corrected, on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked, the ORS nasogastric rate added and the artemether-lumefantrine infant formulation wording corrected and the mebendazole pinworm indication clarified, on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -111,7 +111,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 |---|---|---|---|
 | Preventive chemotherapy | 500 mg single dose, ≥1 year | WHO STH guideline 2017 | ✅ |
 | Pregnancy | Contraindicated in 1st trimester | WHO 2017 (after 1st trimester only) | ✅ |
-| Pinworm | Repeat after 2 weeks (text, no dose) | WHO Model Formulary 2008 | ⏳ |
+| Pinworm | Removed from the indication list; note gives 100 mg once, repeated after 2 weeks | CDC pinworm clinical overview; manufacturer labeling (WHO Model Formulary 2008 not retrieved) | ⏳ |
 
 ### 8. Artemether-lumefantrine
 

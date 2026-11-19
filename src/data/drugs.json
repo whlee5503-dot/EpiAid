@@ -520,14 +520,13 @@
     "indications": [
       "Roundworm",
       "Hookworm",
-      "Whipworm",
-      "Pinworm"
+      "Whipworm"
     ],
     "contraindications": [
       "< 1 year old",
       "1st trimester pregnancy"
     ],
-    "notes": "WHO 2017 preventive chemotherapy: 500mg single dose once or twice yearly depending on prevalence; pregnant women may be treated after the 1st trimester. Pinworm is usually treated with a repeat dose after 2 weeks. Can be crushed and mixed with food.",
+    "notes": "WHO 2017 preventive chemotherapy: 500mg single dose once or twice yearly depending on prevalence; pregnant women may be treated after the 1st trimester. Pinworm is not covered by the dose calculated above (that is the STH dose). Pinworm: 100mg as a single dose, repeated after 2 weeks (CDC, manufacturer label); treat household contacts at the same time; limited data under 2 years. Can be crushed and mixed with food.",
     "rules": [
       {
         "level": "block",

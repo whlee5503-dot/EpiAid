@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked and the ORS nasogastric rate added, on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked, the ORS nasogastric rate added and the artemether-lumefantrine infant formulation wording corrected, on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -120,7 +120,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 | Weight bands (20/120 mg) | 5–<15 kg 1; 15–<25 kg 2; 25–<35 kg 3; ≥35 kg 4 tabs | WHO malaria guidelines | ✅ |
 | Schedule | 0, 8, 24, 36, 48, 60h | Same | ✅ |
 | 1st trimester | Preferred treatment | WHO update 25 Nov 2022 (strong recommendation) | ✅ |
-| Infants 2–<5 kg | Infant formulation 5/60 mg (note) | WHO malaria guidelines, version 10 Sept 2026 | ✅ (per-dose schedule ⏳) |
+| Infants 2–<5 kg | Infant formulation Coartem Baby (dispersible tablets of 2.5/30 mg); 2 tablets (5/60 mg) twice daily for 3 days as studied in CALINA (note only; the app still blocks the calculation under 5 kg) | WHO malaria guidelines, version 10 Sept 2026; Swissmedic approval (July 2025) and WHO prequalification of Coartem Baby; CALINA phase 2/3 study (PMC12590907) | ✅ (dose taken from the CALINA study; the product label was not read) |
 | 40/240 mg tablet | Halve tablet count (note); calculator does not compute AL tablet counts | Product label | ✅ |
 
 ### 9. Ciprofloxacin

@@ -583,12 +583,12 @@
     "contraindications": [
       "Severe malaria (use IV/IM artesunate)"
     ],
-    "notes": "Preferred treatment in all trimesters of pregnancy, including the 1st trimester (WHO, Nov 2022). Infants < 5kg: use the dedicated infant formulation (artemether-lumefantrine 5/60mg dispersible, for 2–<5kg) — do not split older-child tablets. Must be taken with food — fat increases absorption. Complete the full course.",
+    "notes": "Preferred treatment in all trimesters of pregnancy, including the 1st trimester (WHO, Nov 2022). Infants < 5kg: use the dedicated infant formulation (Coartem Baby, dispersible tablets of 2.5mg/30mg, for 2–<5kg) — do not split older-child tablets. Dose studied in infants of 2 to <5kg (CALINA): 2 tablets (5mg/60mg) twice daily for 3 days; check the product label. Must be taken with food — fat increases absorption. Complete the full course.",
     "rules": [
       {
         "level": "block",
         "weightBelowKg": 5,
-        "message": "Under 5 kg: use the infant formulation (artemether-lumefantrine 5/60mg dispersible, for 2–<5 kg) — do not use standard tablets."
+        "message": "Under 5 kg: use the infant formulation (Coartem Baby, dispersible tablets of 2.5mg/30mg, for 2–<5 kg) — do not use standard tablets."
       }
     ]
   },

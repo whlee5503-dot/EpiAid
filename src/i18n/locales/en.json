@@ -219,17 +219,19 @@
     "nb_convulsions": "Convulsions (current or in last 24h)",
     "nb_fastBreathing": "Fast breathing (≥60 breaths/min)",
     "nb_chestIndrawing": "Severe chest indrawing",
-    "nb_fever": "Fever (axillary ≥37.5°C)",
+    "nb_fever": "Fever (axillary 38°C or above)",
     "nb_hypothermia": "Hypothermia (axillary <35.5°C)",
-    "nb_jaundice": "Jaundice reaching palms/soles",
+    "nb_jaundice": "Yellow palms and soles, or any jaundice in the first 24 hours",
     "nb_decreasedMovement": "Decreased or absent movement",
     "nb_umbilicalRedness": "Umbilical redness / discharge / smell",
     "nb_eyeDischarge": "Eye discharge (pus or swelling)",
     "nbResult_danger": "URGENT REFERRAL",
     "nbResult_safe": "No danger signs detected",
+    "nbResult_local": "Local Infection",
     "nbAction_danger": "Refer immediately to hospital. Keep warm (kangaroo care), continue breastfeeding if possible. Do not delay.",
     "nbAction_safe": "Continue routine newborn care. Monitor feeding, temperature, and skin colour. Return if any sign develops.",
-    "nbSigns": "{{n}} danger sign(s) selected"
+    "nbAction_local": "Give oral amoxicillin for 5 days and teach the caregiver to treat the umbilicus or eyes at home. Follow up in 2 days. Refer if redness spreads to the skin, there is a lot of pus, or there is no improvement.",
+    "nbSigns": "{{n}} sign(s) selected"
   },
   "phrases": {
     "title": "Phrase Cards",

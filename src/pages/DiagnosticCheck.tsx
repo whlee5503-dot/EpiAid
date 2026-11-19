@@ -22,6 +22,8 @@ const MALARIA_KEYS: MalariaKey[] = ['feverChills', 'pallor', 'splenomegaly', 'ce
 const DENGUE_KEYS: DengueKey[] = ['musclePain', 'rash', 'bleeding', 'retroOrbital', 'tourniquet'];
 const NB_KEYS: NBKey[] = ['unableToFeed', 'convulsions', 'fastBreathing', 'chestIndrawing', 'fever', 'hypothermia', 'jaundice', 'decreasedMovement', 'umbilicalRedness', 'eyeDischarge'];
 const NB_CRITICAL: NBKey[] = ['unableToFeed', 'convulsions', 'fastBreathing', 'chestIndrawing'];
+const NB_DANGER_KEYS: NBKey[] = ['unableToFeed', 'convulsions', 'fastBreathing', 'chestIndrawing', 'fever', 'hypothermia', 'jaundice', 'decreasedMovement'];
+const NB_LOCAL_KEYS: NBKey[] = ['umbilicalRedness', 'eyeDischarge'];
 
 // ── Logic ──────────────────────────────────────────────────────────
 function rrThreshold(ageMonths: number): number | null {
@@ -176,7 +178,7 @@ export default function DiagnosticCheck() {
 
   // Newborn
   const [nbChecked, setNbChecked] = useState<Set<NBKey>>(new Set());
-  const [nbResult, setNbResult] = useState<'danger' | 'safe' | null>(null);
+  const [nbResult, setNbResult] = useState<'danger' | 'local' | 'safe' | null>(null);
 
   function nbToggle(k: NBKey) {
     setNbChecked(prev => { const n = new Set(prev); n.has(k) ? n.delete(k) : n.add(k); return n; });
@@ -510,14 +512,14 @@ export default function DiagnosticCheck() {
             <Button variant="secondary" size="sm" onClick={nbReset} className="flex items-center gap-1.5 shrink-0">
               <RefreshCw size={13} /> {t('diagnose.reset')}
             </Button>
-            <Button fullWidth onClick={() => setNbResult(nbChecked.size > 0 ? 'danger' : 'safe')}>
+            <Button fullWidth onClick={() => setNbResult(NB_DANGER_KEYS.some(k => nbChecked.has(k)) ? 'danger' : NB_LOCAL_KEYS.some(k => nbChecked.has(k)) ? 'local' : 'safe')}>
               {t('diagnose.assess')}
             </Button>
           </div>
 
           {nbResult !== null && (
             <ResultBanner
-              color={nbResult === 'danger' ? 'red' : 'green'}
+              color={nbResult === 'danger' ? 'red' : nbResult === 'local' ? 'yellow' : 'green'}
               title={t(`diagnose.nbResult_${nbResult}`)}
               action={t(`diagnose.nbAction_${nbResult}`)}
             />

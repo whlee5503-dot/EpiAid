@@ -219,17 +219,19 @@
     "nb_convulsions": "Mshtuko (sasa hivi au ndani ya masaa 24 yaliyopita)",
     "nb_fastBreathing": "Kupumua haraka (≥60 pumzi/dakika)",
     "nb_chestIndrawing": "Kuvuta kifua kwa nguvu",
-    "nb_fever": "Homa (kwapa ≥37.5°C)",
+    "nb_fever": "Homa (kwapani °C 38 au zaidi)",
     "nb_hypothermia": "Baridi ya mwili (kwapa <35.5°C)",
-    "nb_jaundice": "Njano ya ngozi (hadi viganja/nyayo)",
+    "nb_jaundice": "Viganja na nyayo ni za manjano, au manjano ndani ya saa 24 za kwanza",
     "nb_decreasedMovement": "Harakati kupungua au kutoweka",
     "nb_umbilicalRedness": "Uwekundu / usaha / harufu ya kitovu",
     "nb_eyeDischarge": "Usaha wa macho (pus au uvimbe)",
     "nbResult_danger": "RUFAA YA HARAKA",
     "nbResult_safe": "Hakuna ishara za hatari zilizogunduliwa",
+    "nbResult_local": "Maambukizi ya Eneo Fulani",
     "nbAction_danger": "Mpe rufaa haraka hospitalini. Mweke joto (huduma ya kangaroo), endelea kunyonyesha ikiwezekana. Usichelewe.",
     "nbAction_safe": "Endelea na huduma ya kawaida ya mtoto mchanga. Fuatilia ulishaji, joto, na rangi ya ngozi. Rudi ikiwa ishara yoyote itaonekana.",
-    "nbSigns": "Ishara {{n}} za hatari zimechaguliwa"
+    "nbAction_local": "Mpe amoxicillin ya kumeza kwa siku 5 na umfundishe mlezi kutibu kitovu au macho nyumbani. Mwone tena baada ya siku 2. Mpeleke rufaa ikiwa wekundu unaenea kwenye ngozi, kuna usaha mwingi, au hakuna nafuu.",
+    "nbSigns": "Dalili {{n}} zimechaguliwa"
   },
   "phrases": {
     "title": "Kadi za Sentensi",

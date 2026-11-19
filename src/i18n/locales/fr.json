@@ -219,17 +219,19 @@
     "nb_convulsions": "Convulsions (actuelles ou dans les 24 dernières heures)",
     "nb_fastBreathing": "Respiration rapide (≥60 resp/min)",
     "nb_chestIndrawing": "Tirage sous-costal sévère",
-    "nb_fever": "Fièvre (axillaire ≥37,5°C)",
+    "nb_fever": "Fièvre (axillaire 38°C ou plus)",
     "nb_hypothermia": "Hypothermie (axillaire <35,5°C)",
-    "nb_jaundice": "Ictère atteignant les paumes/plantes",
+    "nb_jaundice": "Paumes et plantes jaunes, ou ictère dans les 24 premières heures",
     "nb_decreasedMovement": "Mouvements diminués ou absents",
     "nb_umbilicalRedness": "Rougeur / écoulement / odeur ombilicale",
     "nb_eyeDischarge": "Sécrétions oculaires (pus ou gonflement)",
     "nbResult_danger": "RÉFÉRENCEMENT URGENT",
     "nbResult_safe": "Aucun signe de danger détecté",
+    "nbResult_local": "Infection locale",
     "nbAction_danger": "Référer immédiatement à l'hôpital. Maintenir au chaud (soins kangourou), continuer l'allaitement si possible. Ne pas tarder.",
     "nbAction_safe": "Continuer les soins néonatals de routine. Surveiller l'alimentation, la température et la couleur de la peau. Revenir si un signe apparaît.",
-    "nbSigns": "{{n}} signe(s) de danger sélectionné(s)"
+    "nbAction_local": "Donner de l'amoxicilline orale pendant 5 jours et apprendre à la personne qui s'occupe du nourrisson à traiter l'ombilic ou les yeux à domicile. Revoir dans 2 jours. Référer si la rougeur s'étend à la peau, s'il y a beaucoup de pus ou en l'absence d'amélioration.",
+    "nbSigns": "{{n}} signe(s) sélectionné(s)"
   },
   "phrases": {
     "title": "Fiches de phrases",

@@ -149,7 +149,7 @@ export default function DiagnosticCheck() {
   // Malaria / Dengue
   const [mdMalaria, setMdMalaria] = useState<Set<MalariaKey>>(new Set());
   const [mdDengue, setMdDengue] = useState<Set<DengueKey>>(new Set());
-  const [mdResult, setMdResult] = useState<'malaria' | 'dengue' | 'undifferentiated' | null>(null);
+  const [mdResult, setMdResult] = useState<'malaria' | 'dengue' | 'undifferentiated' | 'severeMalaria' | 'dengueWarning' | null>(null);
 
   function mdToggleM(k: MalariaKey) {
     setMdMalaria(prev => { const n = new Set(prev); n.has(k) ? n.delete(k) : n.add(k); return n; });
@@ -160,6 +160,8 @@ export default function DiagnosticCheck() {
     setMdResult(null);
   }
   function mdAssess() {
+    if (mdMalaria.has('cerebral')) { setMdResult('severeMalaria'); return; }
+    if (mdDengue.has('bleeding')) { setMdResult('dengueWarning'); return; }
     const mPct = mdMalaria.size / MALARIA_KEYS.length;
     const dPct = mdDengue.size / DENGUE_KEYS.length;
     if (mPct > dPct) setMdResult('malaria');
@@ -458,7 +460,7 @@ export default function DiagnosticCheck() {
               </div>
 
               <ResultBanner
-                color="yellow"
+                color={mdResult === 'severeMalaria' || mdResult === 'dengueWarning' ? 'red' : 'yellow'}
                 title={t(`diagnose.mdResult_${mdResult}`)}
                 action={t(`diagnose.mdAction_${mdResult}`)}
               />

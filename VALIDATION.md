@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added to the Diagnostic Check on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -160,6 +160,19 @@ Checked on 2026-11-19 against the current `drugs.json` and public programme refe
 | SAM | Vitamin A on day 1, 2 and 14 for all SAM | Calculator: 3 doses only with eye signs of deficiency | ⏳ to reconcile |
 | Malaria | AL 6 doses over 3 days | Matches calculator | ✅ |
 | Dysentery | Ciprofloxacin 500 mg twice daily for 3 days (adult) | Matches calculator | ✅ |
+
+## Diagnostic Check (`DiagnosticCheck.tsx`)
+
+Checked on 2026-11-19 by reading the component logic and the English strings; this was a code and wording review, not clinical testing. The four checklists had no validation record before this date. `protocols.json` is not imported by any component, so the Protocol screens table above applies to repository data only.
+
+| Tab | Logic in the app | Reference checked | Status |
+|---|---|---|---|
+| Malaria / dengue | Any cerebral sign (confusion, seizures) now gives a red "Possible Severe Malaria" result with urgent referral and parenteral artesunate; any bleeding sign gives a red "Dengue with Warning Signs" result with hospital referral. Other results still compare the share of ticked signs. | WHO severe malaria criteria (impaired consciousness, medical emergency, no delay for tests); WHO 2009 dengue warning signs (mucosal bleeding) | ✅ alerts added 2026-11-19; ⏳ the "likelihood" bars and share-based result are not validated |
+| Dehydration | Severity from the number of ticked signs (lethargy or unable to drink, or 4 or more signs = severe; 2 or more = some); diarrhoea and vomiting count toward the total. Some dehydration: ORS 75 mL/kg over 4 h, "reassess every 30 min" | Not yet compared with the WHO IMCI classification | ⏳ |
+| Pneumonia | Age in months and respiratory rate (thresholds 60 below 2 months, 50 for 2 to 11 months, 40 for 12 to 59 months); any danger sign including chest indrawing gives "Severe Pneumonia" with urgent referral; age 60 months or more is out of range and danger signs are not evaluated | Thresholds not re-verified in this review. Chest indrawing as severe pneumonia differs from AWaRe 2022 p.152, which treats chest indrawing within mild pneumonia | ⏳ classification to be checked against current WHO pneumonia guidance |
+| Newborn | Any ticked sign gives "URGENT REFERRAL"; no ticked sign gives "No danger signs detected" | Sign thresholds (fever, hypothermia, fast breathing) not yet compared with the WHO IMCI young infant chart | ⏳ |
+
+The French and Korean texts for the new malaria and dengue messages were checked on screen. The Swahili texts were written without native review and should be checked by a Swahili-speaking clinician before relying on them.
 
 ## Patient context and safety rules
 

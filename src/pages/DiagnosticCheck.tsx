@@ -6,15 +6,17 @@ import { Button } from '../components/ui/Button';
 
 // ── Types ──────────────────────────────────────────────────────────
 type Tab = 'dehydration' | 'pneumonia' | 'malDen' | 'newborn';
-type DHKey = 'diarrhoea' | 'vomiting' | 'reducedUrine' | 'noTears' | 'dryMouth' | 'skinPinch' | 'lethargy' | 'unableDrink';
+type DHKey = 'lethargy' | 'unableDrink' | 'sunkenEyes' | 'skinPinchVerySlow' | 'restless' | 'drinksEagerly' | 'skinPinch';
 type PNKey = 'chestIndrawing' | 'stridor' | 'cyanosis' | 'alteredConsciousness' | 'unableToDrink' | 'vomitsEverything' | 'convulsions';
 type MalariaKey = 'feverChills' | 'pallor' | 'splenomegaly' | 'cerebral';
 type DengueKey = 'musclePain' | 'rash' | 'bleeding' | 'retroOrbital' | 'tourniquet';
 type NBKey = 'unableToFeed' | 'convulsions' | 'fastBreathing' | 'chestIndrawing' | 'fever' | 'hypothermia' | 'jaundice' | 'decreasedMovement' | 'umbilicalRedness' | 'eyeDischarge';
 
 // ── Constants ──────────────────────────────────────────────────────
-const DH_KEYS: DHKey[] = ['diarrhoea', 'vomiting', 'reducedUrine', 'noTears', 'dryMouth', 'skinPinch', 'lethargy', 'unableDrink'];
+const DH_KEYS: DHKey[] = ['lethargy', 'unableDrink', 'sunkenEyes', 'skinPinchVerySlow', 'restless', 'drinksEagerly', 'skinPinch'];
 const DH_CRITICAL: DHKey[] = ['lethargy', 'unableDrink'];
+const DH_SEVERE_KEYS: DHKey[] = ['lethargy', 'unableDrink', 'sunkenEyes', 'skinPinchVerySlow'];
+const DH_SOME_KEYS: DHKey[] = ['restless', 'sunkenEyes', 'drinksEagerly', 'skinPinch'];
 const PN_DANGER_KEYS: PNKey[] = ['unableToDrink', 'vomitsEverything', 'convulsions', 'stridor', 'cyanosis', 'alteredConsciousness'];
 const MALARIA_KEYS: MalariaKey[] = ['feverChills', 'pallor', 'splenomegaly', 'cerebral'];
 const DENGUE_KEYS: DengueKey[] = ['musclePain', 'rash', 'bleeding', 'retroOrbital', 'tourniquet'];
@@ -30,8 +32,8 @@ function rrThreshold(ageMonths: number): number | null {
 }
 
 function dhSeverity(c: Set<DHKey>): 'none' | 'some' | 'severe' {
-  if (DH_CRITICAL.some(k => c.has(k)) || c.size >= 4) return 'severe';
-  if (c.size >= 2) return 'some';
+  if (DH_CRITICAL.some(k => c.has(k)) || DH_SEVERE_KEYS.filter(k => c.has(k)).length >= 2) return 'severe';
+  if (DH_SOME_KEYS.filter(k => c.has(k)).length >= 2) return 'some';
   return 'none';
 }
 

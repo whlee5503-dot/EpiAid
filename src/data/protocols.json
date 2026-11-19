@@ -13,7 +13,7 @@
     "steps": [
       "Admit to inpatient care (TFC/SC) if: no appetite, medical complications, edema grade 3",
       "Outpatient care (OTP) if: good appetite, no complications",
-      "RUTF: 92g/kg/day in 5 portions",
+      "RUTF: about 150-200 kcal/kg/day (one 92 g sachet = 500 kcal) in 5 portions",
       "Amoxicillin 25mg/kg twice daily × 7 days (routine)",
       "Vitamin A: day 1, 2, 14",
       "Folic acid 5mg on day 1",
@@ -38,7 +38,7 @@
     "symptoms": ["mild wasting", "poor growth", "poor appetite"],
     "steps": [
       "Enroll in Supplementary Feeding Programme (SFP)",
-      "Provide supplementary food (CSB++ or Plumpy'Sup) 75g/kg/day",
+      "Provide supplementary food (CSB++ or Plumpy'Sup): about 75 kcal/kg/day (for example one Plumpy'Sup sachet per day); follow the programme ration table",
       "Screen for and treat underlying infections",
       "Nutrition education for caregiver",
       "Measure MUAC weekly",

@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -143,6 +143,23 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 | Neonates | Contraindicated: premature up to 41 weeks PMA, hyperbilirubinaemia, IV calcium | WHOPAR labelling | ✅ |
 | Gonorrhea | 1 g IM single dose | WHO STI guidelines 2024 | ✅ |
 | Adult dose | 1 g once daily (severe diarrhoea, severe upper UTI) is the calculated default; 2 g once daily (severe CAP, sepsis, bone and joint, intra-abdominal, HAP, severe enteric fever) and meningitis 2 g every 12h are shown as text | AWaRe 2022, Table 49.1, p.633 | ✅ |
+
+## Protocol screens (`protocols.json`)
+
+Checked on 2026-11-19 against the current `drugs.json` and public programme references (FANTA CMAM guidelines 2010; Nutriset product sheets). Two nutrition unit errors were corrected; the other statements that differ from the calculator are queued for review and are not changed yet.
+
+| Protocol | Statement in the protocol screen | Calculator / source | Status |
+|---|---|---|---|
+| SAM | RUTF 92 g/kg/day | Corrected to about 150-200 kcal/kg/day (one 92 g sachet = 500 kcal); FANTA 2010, Nutriset | ✅ corrected 2026-11-19 |
+| MAM | Supplementary food 75 g/kg/day | Corrected to about 75 kcal/kg/day (for example one Plumpy'Sup sachet per day); Nutriset | ✅ corrected 2026-11-19 |
+| ARI | Amoxicillin 25 mg/kg twice daily for 5 days (non-severe); 40 mg/kg twice daily and refer (chest indrawing) | Calculator uses AWaRe 2022 weight bands (p.152); duration 3 or 5 days by HIV prevalence and chest indrawing | ⏳ to reconcile |
+| AWD / cholera | Ciprofloxacin 1 g single dose | Calculator note: doxycycline first-line, ciprofloxacin or azithromycin alternatives (GTFCC 2022) | ⏳ to reconcile |
+| Dysentery | Ceftriaxone 50 mg/kg for 5 days (child) | Calculator: 80 mg/kg, maximum 3 g/day (AWaRe 2022, p.645) | ⏳ to reconcile |
+| Dysentery | Metronidazole 30-50 mg/kg/day in 3 doses for 5 days | Calculator: weight bands; amoebiasis dose is a Phase 2 item | ⏳ to reconcile |
+| SAM | Amoxicillin 25 mg/kg twice daily for 7 days | SAM-specific source needed (FANTA 2010 lists 50-100 mg/kg/day, three times daily, 7 days) | ⏳ to reconcile |
+| SAM | Vitamin A on day 1, 2 and 14 for all SAM | Calculator: 3 doses only with eye signs of deficiency | ⏳ to reconcile |
+| Malaria | AL 6 doses over 3 days | Matches calculator | ✅ |
+| Dysentery | Ciprofloxacin 500 mg twice daily for 3 days (adult) | Matches calculator | ✅ |
 
 ## Patient context and safety rules
 

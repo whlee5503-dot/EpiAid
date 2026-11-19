@@ -669,7 +669,7 @@
         "doseMg": 500
       }
     ],
-    "duration": "Shigellosis: 3 days; cholera: single dose; typhoid: per local resistance",
+    "duration": "Typhoid (enteric fever), low fluoroquinolone resistance: 7 days mild, 10 days severe, if improved and afebrile for 48 h (AWaRe 2022, chapter 15; in high-resistance areas AWaRe uses azithromycin or ceftriaxone instead). Shigellosis: 3 days; cholera: single dose.",
     "indications": [
       "Shigellosis",
       "Cholera (alternative)",

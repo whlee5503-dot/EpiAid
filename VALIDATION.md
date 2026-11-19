@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, and the vitamin A eye-sign schedule checked, on 2026-11-19)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -100,7 +100,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 |---|---|---|---|
 | Age doses | <6 mo 50,000; 6–11 mo 100,000; ≥12 mo 200,000 IU | WHO 2011 | ✅ |
 | Measles | Day 1 and 2 | WHO measles guidance | ✅ |
-| Eye signs | Day 1, 2 and 14 | WHO xerophthalmia guidance | ⏳ (primary document) |
+| Eye signs | Day 1, 2 and again 2 to 4 weeks later (the app uses day 14) | WHO measles guidance (third dose 2 to 4 weeks later if eye signs are present); Community Eye Health 2013 (day 1, 2 and 14); MSF Medical Guidelines (day 1, 2 and 8 or 15). The primary WHO guide on vitamin A supplements (1997) was not retrieved, so the schedule was checked against these WHO-derived sources | ⏳ (primary document) |
 | SAM | No high dose on fortified F-75/F-100/RUTF | WHO SAM guideline 2013, rec. 4.2–4.3 | ✅ |
 | Pregnancy | ≤10,000 IU/day or ≤25,000 IU/week; >25,000 IU single dose contraindicated | WHO 2011 | ✅ |
 | Postpartum | Not recommended (note) | WHO 2011 | ✅ |

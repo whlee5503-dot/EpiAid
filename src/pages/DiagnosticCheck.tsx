@@ -7,7 +7,7 @@ import { Button } from '../components/ui/Button';
 // ── Types ──────────────────────────────────────────────────────────
 type Tab = 'dehydration' | 'pneumonia' | 'malDen' | 'newborn';
 type DHKey = 'diarrhoea' | 'vomiting' | 'reducedUrine' | 'noTears' | 'dryMouth' | 'skinPinch' | 'lethargy' | 'unableDrink';
-type PNKey = 'chestIndrawing' | 'stridor' | 'cyanosis' | 'alteredConsciousness';
+type PNKey = 'chestIndrawing' | 'stridor' | 'cyanosis' | 'alteredConsciousness' | 'unableToDrink' | 'vomitsEverything' | 'convulsions';
 type MalariaKey = 'feverChills' | 'pallor' | 'splenomegaly' | 'cerebral';
 type DengueKey = 'musclePain' | 'rash' | 'bleeding' | 'retroOrbital' | 'tourniquet';
 type NBKey = 'unableToFeed' | 'convulsions' | 'fastBreathing' | 'chestIndrawing' | 'fever' | 'hypothermia' | 'jaundice' | 'decreasedMovement' | 'umbilicalRedness' | 'eyeDischarge';
@@ -15,7 +15,7 @@ type NBKey = 'unableToFeed' | 'convulsions' | 'fastBreathing' | 'chestIndrawing'
 // ── Constants ──────────────────────────────────────────────────────
 const DH_KEYS: DHKey[] = ['diarrhoea', 'vomiting', 'reducedUrine', 'noTears', 'dryMouth', 'skinPinch', 'lethargy', 'unableDrink'];
 const DH_CRITICAL: DHKey[] = ['lethargy', 'unableDrink'];
-const PN_DANGER_KEYS: PNKey[] = ['chestIndrawing', 'stridor', 'cyanosis', 'alteredConsciousness'];
+const PN_DANGER_KEYS: PNKey[] = ['unableToDrink', 'vomitsEverything', 'convulsions', 'stridor', 'cyanosis', 'alteredConsciousness'];
 const MALARIA_KEYS: MalariaKey[] = ['feverChills', 'pallor', 'splenomegaly', 'cerebral'];
 const DENGUE_KEYS: DengueKey[] = ['musclePain', 'rash', 'bleeding', 'retroOrbital', 'tourniquet'];
 const NB_KEYS: NBKey[] = ['unableToFeed', 'convulsions', 'fastBreathing', 'chestIndrawing', 'fever', 'hypothermia', 'jaundice', 'decreasedMovement', 'umbilicalRedness', 'eyeDischarge'];
@@ -141,8 +141,10 @@ export default function DiagnosticCheck() {
     const threshold = rrThreshold(age);
     setPnThresholdVal(threshold);
     if (threshold === null) { setPnResult('outOfRange'); return; }
-    if (PN_DANGER_KEYS.some(k => pnDanger.has(k))) { setPnResult('severe'); return; }
-    setPnResult(rr >= threshold ? 'pneumonia' : 'none');
+    const chest = pnDanger.has('chestIndrawing');
+    const fast = rr >= threshold;
+    if (PN_DANGER_KEYS.some(k => pnDanger.has(k)) || (age < 2 && (chest || fast))) { setPnResult('severe'); return; }
+    setPnResult(chest || fast ? 'pneumonia' : 'none');
   }
   function pnReset() { setPnAge(''); setPnRR(''); setPnDanger(new Set()); setPnResult(null); setPnThresholdVal(null); }
 
@@ -327,13 +329,13 @@ export default function DiagnosticCheck() {
               {t('diagnose.pnDangerTitle')}
             </p>
             <div className="space-y-2">
-              {PN_DANGER_KEYS.map(k => (
+              {[...PN_DANGER_KEYS, 'chestIndrawing' as PNKey].map(k => (
                 <SymRow
                   key={k}
                   label={t(`diagnose.pn_${k}`)}
                   checked={pnDanger.has(k)}
                   onToggle={() => pnToggle(k)}
-                  critical={true}
+                  critical={k !== 'chestIndrawing'}
                 />
               ))}
             </div>

@@ -256,15 +256,13 @@
     ],
     "duration": "5–7 days",
     "indications": [
-      "Amoebic dysentery",
-      "Giardiasis",
       "Anaerobic infections",
       "C. difficile (non-severe, alternative)"
     ],
     "contraindications": [
       "Alcohol consumption"
     ],
-    "notes": "Use with caution in the 1st trimester of pregnancy (follow national formulary). C. difficile: oral vancomycin or fidaxomicin are preferred where available; metronidazole 500mg every 8h for 10 days is an alternative for non-severe disease only. Avoid alcohol during treatment and 48h after. Metallic taste is common.",
+    "notes": "Use with caution in the 1st trimester of pregnancy (follow national formulary). C. difficile: oral vancomycin or fidaxomicin are preferred where available; metronidazole 500mg every 8h for 10 days is an alternative for non-severe disease only. Avoid alcohol during treatment and 48h after. Metallic taste is common. Amoebiasis and giardiasis are not covered by the dose calculated above, which is lower than most published amoebiasis regimens. Paediatric regimens differ between sources: WHO Pocket Book (2013) 10mg/kg three times daily; MSF amoebiasis 15mg/kg three times daily for 5 days (5-10 days if hepatic), giardiasis 30mg/kg once daily for 3 days. Follow the national formulary or specialist guidance.",
     "rules": [
       {
         "level": "block",

@@ -2,7 +2,7 @@
 
 This document records how every dose in `src/data/drugs.json` was checked against current WHO guidance (and, where WHO is silent, other authoritative sources, clearly labelled).
 
-- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked, the ORS nasogastric rate added and the artemether-lumefantrine infant formulation wording corrected and the mebendazole pinworm indication clarified, on 2026-11-19)
+- **Validation date:** 2026-09-25 (amoxicillin weight bands re-validated against AWaRe 2022, p.152, on 2026-11-17; co-trimoxazole, metronidazole, ciprofloxacin and ceftriaxone doses re-validated against AWaRe 2022 on 2026-11-18; co-trimoxazole lower UTI duration, ciprofloxacin typhoid duration and the ceftriaxone gonorrhoea footnote checked, and two nutrition unit errors in the protocol screens corrected, on 2026-11-19; severe malaria and dengue warning-sign alerts added and the pneumonia, dehydration and newborn classifications updated to WHO criteria in the Diagnostic Check, the vitamin A eye-sign schedule checked, the ORS nasogastric rate added and the artemether-lumefantrine infant formulation wording corrected and the mebendazole pinworm indication clarified, on 2026-11-19; metronidazole amoebiasis and giardiasis separated from the calculated dose, on 2026-11-20)
 - **Data version:** Phase 2a/2b (flat schema + age groups, pregnancy status and data-driven safety rules)
 - **Scope:** 10 drugs — amoxicillin, co-trimoxazole, metronidazole, ORS, zinc, vitamin A, mebendazole, artemether-lumefantrine, ciprofloxacin, ceftriaxone
 
@@ -72,7 +72,7 @@ This document records how every dose in `src/data/drugs.json` was checked agains
 |---|---|---|---|
 | Pediatric dose | Weight bands every 8h: 3–<6 kg 30 mg; 6–<10 kg 50 mg; 10–<15 kg 100 mg; 15–<20 kg 150 mg; 20–<30 kg 200 mg; ≥30 kg 500 mg (`weightBands`); blocked below 3 kg; 7.5 mg/kg and max 1 g/day in note | AWaRe 2022, Table 50.1, p.649 | ✅ |
 | Adult dose | 500 mg every 8h (default); 750 mg every 8h amoebic abscess; 500 mg every 12h trichomoniasis; single doses (text) | AWaRe 2022, Table 49.1, p.636 | ✅ |
-| Amoebiasis / giardiasis doses | Same as default | Indication-specific doses | ⏳ (Phase 2) |
+| Amoebiasis / giardiasis doses | Removed from the indication list; the note says the calculated dose does not apply and lists the WHO Pocket Book (2013, 10 mg/kg three times daily) and MSF regimens | WHO Pocket Book 2013, annex 2; MSF Essential Drugs (metronidazole oral); sources differ; AWaRe 2022 not checked for these two indications | ⏳ (Phase 2) |
 | C. difficile | Alternative, non-severe only | IDSA/SHEA 2017/2021 (non-WHO) prefer vancomycin/fidaxomicin | ✅ (non-WHO source) |
 | 1st trimester | Caution (not contraindication) | No WHO absolute contraindication found | ✅ |
 

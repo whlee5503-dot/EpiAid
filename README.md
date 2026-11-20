@@ -74,16 +74,17 @@ Patient records can be optionally protected with on-device encryption (AES-256-G
 
 ## Performance
 
-Optimized for low-bandwidth environments common in field settings:
+Designed for low-bandwidth field use. Measured on 2026-11-20:
 
 | Metric | Value |
 |--------|-------|
+| First visit (simulated 3G) | app opens in about 7 s; the rest of the app finishes caching in about 1 minute (about 530 kB transferred in total) |
+| Repeat visits (simulated 3G) | app opens in about 0.2 s with no data transferred |
+| After the first visit | works without a network connection |
 | App shell (entry script, React and i18n chunks, stylesheet) | about 127 KB (gzip) |
 | Full install (22 precached files) | about 543 KiB (uncompressed) |
-| Repeat visits | served from the service worker cache; works without a network connection |
-| Network needed | first visit only |
 
-Workbox pre-caches the app files on first install (the link-preview image is not cached). Later visits load from the service worker cache. The web fonts (DM Sans) are requested from Google Fonts on the first online visit and cached after that. Figures are from the production build of 2026-11-20 and will change as the app grows.
+Measured in Chrome DevTools on 2026-11-20 (incognito window, empty profile, network throttled with the "3G" preset; the offline check used the "Offline" setting). The first-visit figures include the web fonts (DM Sans), which are requested from Google Fonts on the first online visit and cached after that. Workbox pre-caches the app files on first install (the link-preview image is not cached). App shell and install sizes are from the production build of the same date. Figures will change as the app grows.
 
 ---
 

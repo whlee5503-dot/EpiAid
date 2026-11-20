@@ -18,7 +18,7 @@
 
 ## Overview
 
-**EpiAid** is Module 3 of the [EpiCalc Suite](#epiclac-suite) — a collection of open-source public health tools built for field use. EpiAid provides offline-first clinical decision support for situations where connectivity is unreliable and every second counts.
+**EpiAid** is Module 3 of the [EpiCalc Suite](#epicalc-suite) — a collection of open-source public health tools built for field use. EpiAid provides offline-first clinical decision support for situations where connectivity is unreliable and every second counts.
 
 Designed for **missionaries, NGO field medical workers, and Community Health Workers (CHW)** operating in remote or resource-limited settings. No login. No subscription. No internet required after the first visit.
 
@@ -103,8 +103,8 @@ EpiAid is part of a broader suite of free, open-source epidemiology and field me
 
 ```bash
 # Clone
-git clone https://github.com/whlee5503/epiaid.git
-cd epiaid
+git clone https://github.com/whlee5503-dot/EpiAid.git
+cd EpiAid
 
 # Install
 npm install
@@ -124,7 +124,7 @@ The PWA build outputs to `dist/`. Deploy directly to Cloudflare Pages, Netlify, 
 
 > **EpiAid is a clinical decision-support tool intended to assist — not replace — the judgment of qualified healthcare professionals.**
 >
-> All dosage calculations, diagnostic checklists, and nutritional assessments are based on WHO/MSF protocols and should always be verified with a qualified clinician before acting on the results. This tool is not a substitute for professional medical advice, diagnosis, or treatment.
+> All dosage calculations, diagnostic checklists, and nutritional assessments are based on WHO/MSF protocols and should always be verified with a qualified clinician before acting on the results. This tool is not a substitute for professional medical advice, diagnosis, or treatment. How each dose and checklist was checked against WHO sources is recorded in [VALIDATION.md](VALIDATION.md).
 
 ---
 

@@ -256,6 +256,7 @@
     }
   },
   "patients": {
+    "localOnly": "Rekodi za wagonjwa zinabaki kwenye kifaa hiki pekee na hazitumwi kamwe kwa seva.",
     "title": "Kumbukumbu za Wagonjwa",
     "newPatient": "Mgonjwa Mpya",
     "search": "Tafuta wagonjwa...",

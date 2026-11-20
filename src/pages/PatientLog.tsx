@@ -126,6 +126,7 @@ export default function PatientLog() {
           </Button>
           <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100">{t('patients.newPatient')}</h1>
         </header>
+        <p className="text-xs text-slate-500 dark:text-slate-400 -mt-3 mb-4">{t('patients.localOnly')}</p>
 
         <Card className="p-4 mb-4">
           <div className="space-y-4">
@@ -247,6 +248,7 @@ export default function PatientLog() {
           </Button>
         </div>
       </header>
+      <p className="text-xs text-slate-500 dark:text-slate-400 -mt-3 mb-4">{t('patients.localOnly')}</p>
       {showEncryptionModal && <EncryptionSetupModal onClose={() => setShowEncryptionModal(false)} />}
 
       <div className="relative mb-4">

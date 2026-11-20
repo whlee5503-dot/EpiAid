@@ -256,6 +256,7 @@
     }
   },
   "patients": {
+    "localOnly": "Les dossiers des patients restent uniquement sur cet appareil et ne sont jamais envoyés à un serveur.",
     "title": "Journal des patients",
     "newPatient": "Nouveau patient",
     "search": "Rechercher des patients...",

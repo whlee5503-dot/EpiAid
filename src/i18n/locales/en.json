@@ -256,6 +256,7 @@
     }
   },
   "patients": {
+    "localOnly": "Patient records stay on this device only and are never sent to a server.",
     "title": "Patient Log",
     "newPatient": "New Patient",
     "search": "Search patients...",

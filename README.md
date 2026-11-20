@@ -35,7 +35,7 @@ Designed for **missionaries, NGO field medical workers, and Community Health Wor
 
 | Feature | Description |
 |---------|-------------|
-| 💊 **Dosage Calculator** | Weight-based mg/kg dosing for WHO Essential Medicines |
+| 💊 **Dosage Calculator** | Weight-based dosing (mg/kg or WHO weight bands) for WHO Essential Medicines |
 | 📏 **Nutrition Assessment** | MUAC tape screening + Z-score calculation (SAM/MAM/Normal) |
 | 🩺 **Diagnostic Check** | Symptom checklists for Dehydration, Pneumonia, Malaria, and Newborn danger signs (WHO IMCI protocol) |
 
@@ -44,7 +44,7 @@ Designed for **missionaries, NGO field medical workers, and Community Health Wor
 | Feature | Description |
 |---------|-------------|
 | 🗣️ **Phrase Cards** | Key clinical phrases in English / Korean / French / Swahili |
-| 📋 **Patient Log** | Offline patient records stored in IndexedDB |
+| 📋 **Patient Log** | Offline patient records stored on the device (browser localStorage), with optional password encryption |
 | 🌙 **Dark / Light Mode** | Adaptive display for day and night field conditions |
 | 🌍 **4-Language UI** | Full interface localization (EN / KR / FR / SW) |
 
@@ -66,7 +66,7 @@ Patient records can be optionally protected with on-device encryption (AES-256-G
 | Frontend | React 19 + Vite + TypeScript |
 | Styling | Tailwind CSS v4 |
 | PWA | Vite PWA Plugin + Workbox (2G/3G optimized) |
-| Offline Storage | IndexedDB (patient records) |
+| Offline Storage | Browser localStorage (patient records; optional AES-GCM encryption) |
 | i18n | i18next (EN / KR / FR / SW) |
 | Deployment | Cloudflare Pages |
 

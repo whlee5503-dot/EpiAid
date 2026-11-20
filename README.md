@@ -65,7 +65,7 @@ Patient records can be optionally protected with on-device encryption (AES-256-G
 |-------|-----------|
 | Frontend | React 19 + Vite + TypeScript |
 | Styling | Tailwind CSS v4 |
-| PWA | Vite PWA Plugin + Workbox (2G/3G optimized) |
+| PWA | Vite PWA Plugin + Workbox (offline precaching) |
 | Offline Storage | Browser localStorage (patient records; optional AES-GCM encryption) |
 | i18n | i18next (EN / KR / FR / SW) |
 | Deployment | Cloudflare Pages |
@@ -78,12 +78,12 @@ Optimized for low-bandwidth environments common in field settings:
 
 | Metric | Value |
 |--------|-------|
-| Initial bundle | ~27 KB (gzip) |
-| Repeat visit | 0 KB network (fully cached) |
-| Minimum network | 2G supported |
-| Install size | < 500 KB total |
+| App shell (entry script, React and i18n chunks, stylesheet) | about 127 KB (gzip) |
+| Full install (22 precached files) | about 543 KiB (uncompressed) |
+| Repeat visits | served from the service worker cache; works without a network connection |
+| Network needed | first visit only |
 
-Workbox pre-caches all assets on first install. Subsequent visits load entirely from the service worker cache.
+Workbox pre-caches the app files on first install (the link-preview image is not cached). Later visits load from the service worker cache. The web fonts (DM Sans) are requested from Google Fonts on the first online visit and cached after that. Figures are from the production build of 2026-11-20 and will change as the app grows.
 
 ---
 
